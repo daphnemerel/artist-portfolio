@@ -1,0 +1,18 @@
+# PLACEHOLDER — replace with the artist's details.
+name: Artist Name
+description: Painting and installation. Lives and works in Amsterdam.
+location: Amsterdam, NL
+email: studio@example.com
+instagram: artistname
+representation:
+  - name: Gallery Name
+    city: Rotterdam
+    url: https://example.com
+# Put the PDF in public/ and link it here, e.g. /cv.pdf
+# cv: /cv.pdf
+bio: |
+  Artist Name (b. 1990) works with painting and site-specific installation, looking at how light,
+  surface and architecture shape the way an image is held in attention.
+
+  Their work has been shown at Gallery Name, Rotterdam, and in group exhibitions across Europe.
+  They studied at the Rijksakademie, Amsterdam.

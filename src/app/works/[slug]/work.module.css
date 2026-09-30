@@ -1,0 +1,56 @@
+/* Text column left (sticky), images right — like a catalogue spread. */
+.work {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  row-gap: var(--space-6);
+}
+
+.details {
+  grid-column: 1 / 4;
+  align-self: start;
+  position: sticky;
+  top: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: 400;
+  font-style: italic;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-title);
+}
+
+.meta dd {
+  color: var(--color-muted);
+}
+
+.images {
+  grid-column: 5 / -1;
+}
+
+.pager {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-4);
+  margin-block-start: var(--space-7);
+  padding-block-start: var(--space-3);
+  border-top: 1px solid var(--color-rule);
+  font-size: var(--text-sm);
+}
+
+.pager > :last-child {
+  text-align: end;
+}
+
+@media (max-width: 900px) {
+  .details,
+  .images {
+    grid-column: 1 / -1;
+    position: static;
+  }
+}

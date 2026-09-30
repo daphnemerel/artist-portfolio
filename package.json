@@ -1,0 +1,33 @@
+{
+  "name": "artist-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:images": "node scripts/sync-images.mjs",
+    "predev": "node scripts/sync-images.mjs",
+    "dev": "next dev",
+    "prebuild": "node scripts/sync-images.mjs",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "image-size": "^2.0.4",
+    "js-yaml": "^5.4.2",
+    "marked": "^18.0.14",
+    "next": "^16.3.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

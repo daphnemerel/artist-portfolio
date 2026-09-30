@@ -1,0 +1,85 @@
+.intro {
+  margin-block-end: var(--space-6);
+  display: grid;
+  gap: var(--space-4);
+}
+
+.name {
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+.description {
+  max-width: 32ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--color-muted);
+}
+
+/* Featured work: offset into the right-hand columns, editorial rather than centred. */
+.hero {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  align-items: end;
+}
+
+.heroLink {
+  grid-column: 4 / -1;
+  grid-row: 1;
+}
+
+.heroImage {
+  width: auto;
+  max-width: 100%;
+  max-height: 80svh;
+  margin-inline-start: auto;
+}
+
+.hero > div {
+  grid-column: 1 / 4;
+  grid-row: 1;
+}
+
+@media (max-width: 800px) {
+  .heroLink,
+  .hero > div {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+}
+
+.sectionHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-block-start: var(--space-3);
+  margin-block-end: var(--space-6);
+  border-top: 1px solid var(--color-rule);
+}
+
+.more {
+  font-size: var(--text-sm);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: var(--space-7) var(--space-5);
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}

@@ -1,0 +1,66 @@
+.pageHeader {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-end: var(--space-7);
+}
+
+.pageTitle {
+  font-size: var(--text-xl);
+  font-weight: 400;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-title);
+}
+
+.lead {
+  max-width: 40ch;
+  font-size: var(--text-lg);
+  line-height: var(--leading-snug);
+  color: var(--color-muted);
+}
+
+.label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose > * + * {
+  margin-block-start: 1em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-block-start: 2em;
+  font-size: var(--text-base);
+  font-weight: 500;
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.prose blockquote {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 1px solid var(--color-rule);
+}
+
+.prose ul {
+  list-style: "– ";
+  padding-inline-start: 1.2em;
+}
+
+.serif {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem; /* 19px — serif reads smaller */
+  line-height: 1.6;
+}

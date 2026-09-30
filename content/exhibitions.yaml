@@ -1,0 +1,30 @@
+# PLACEHOLDER exhibitions. type: solo | group | fair | screening
+# `works` optionally links an entry to work slugs in content/works/.
+- year: 2025
+  title: Field Studies
+  venue: Gallery Name
+  city: Rotterdam
+  type: solo
+  works: [2025-field-study-i, 2025-field-study-ii]
+- year: 2024
+  title: Threshold
+  venue: Project Space
+  city: Amsterdam
+  type: solo
+  works: [2024-threshold]
+- year: 2024
+  title: The Quiet Room
+  venue: Kunsthal Example
+  city: Utrecht
+  type: group
+- year: 2023
+  title: Art Fair Example
+  venue: Gallery Name
+  city: Brussels
+  type: fair
+- year: 2023
+  title: Low Light
+  venue: Artist-run Space
+  city: Berlin
+  type: group
+  works: [2023-low-light]

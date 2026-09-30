@@ -1,0 +1,66 @@
+.section {
+  display: grid;
+  gap: var(--space-4);
+  margin-block-end: var(--space-7);
+}
+
+.years {
+  border-top: 1px solid var(--color-rule);
+}
+
+.year {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-rule);
+  font-size: var(--text-sm);
+}
+
+.yearLabel {
+  grid-column: 1 / 3;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.year > ul {
+  grid-column: 3 / -1;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  column-gap: var(--gutter);
+}
+
+.title {
+  grid-column: 1 / 6;
+  font-style: italic;
+}
+
+.title a,
+.venue a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--color-rule);
+}
+
+.venue {
+  grid-column: 6 / -1;
+  color: var(--color-muted);
+}
+
+@media (max-width: 640px) {
+  .yearLabel,
+  .year > ul {
+    grid-column: 1 / -1;
+  }
+
+  .title,
+  .venue {
+    grid-column: 1 / -1;
+  }
+}

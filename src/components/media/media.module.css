@@ -1,0 +1,114 @@
+/* Images sit directly on the page: no radius, no shadow, no crop. */
+.image {
+  width: 100%;
+  height: auto;
+  background: var(--color-image-bg);
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
+}
+
+.image[data-loaded="true"] {
+  opacity: 1;
+  background: none;
+}
+
+/* ---------- caption ---------- */
+
+.caption {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.caption p + p {
+  color: var(--color-muted);
+}
+
+.title {
+  font-style: italic;
+}
+
+/* ---------- tile (index grid) ---------- */
+
+.tile {
+  display: block;
+}
+
+.tile:hover {
+  color: inherit;
+}
+
+.tile:hover .caption {
+  color: var(--color-muted);
+}
+
+/* ---------- sequence (work page) ---------- */
+
+.sequence {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.figure {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.zoom {
+  display: block;
+  width: 100%;
+  cursor: zoom-in;
+}
+
+.imageCaption {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+/* ---------- lightbox ---------- */
+
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100svh;
+  max-height: none;
+  padding: var(--space-3) var(--margin);
+  border: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-size: var(--text-xs);
+}
+
+.lightbox[open] {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--space-3);
+}
+
+.lightbox::backdrop {
+  background: var(--color-paper);
+}
+
+.lightboxBar {
+  display: flex;
+  justify-content: space-between;
+  min-height: 1.5em;
+}
+
+.lightboxBar button:hover {
+  color: var(--color-muted);
+}
+
+.lightboxStage {
+  position: relative;
+  min-height: 0;
+  cursor: e-resize;
+}
+
+.lightboxImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
