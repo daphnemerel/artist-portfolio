@@ -4,8 +4,8 @@
   grid-template-columns: 13fr 8fr;
   align-items: center;
   gap: var(--space-xl);
-  padding-block-end: var(--space-xl);
-  border-bottom: var(--border-hairline);
+  padding-block: var(--space-xl);
+  border-block: var(--border-hairline);
   font-family: var(--font-serif);
   color: var(--color-bordeaux);
 }
