@@ -1,3 +1,35 @@
+/* ---------- experiment: full-bleed studio photo ---------- */
+
+/* A photograph of the studio, not an artwork, so it may be cropped to fill the screen. */
+.studio {
+  position: relative;
+  height: 100svh;
+  margin-inline: calc(-1 * var(--margin));
+}
+
+.studioImage {
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+
+.studioCaption {
+  margin-block: var(--space-xs) var(--space-3xl);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
+
+@media (max-width: 700px) {
+  .studio {
+    height: 72svh;
+  }
+
+  .studioImage {
+    object-position: 50% 50%;
+  }
+}
+
 /* ---------- hero: one large work, never cropped ---------- */
 
 .hero {

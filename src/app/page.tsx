@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Caption } from "@/components/media/Caption";
 import { FadeImage } from "@/components/media/FadeImage";
@@ -16,6 +17,20 @@ export default function HomePage() {
   return (
     <div className="container">
       <h1 className="visually-hidden">{site.name}</h1>
+
+      {/* Experiment: full-bleed studio photograph with the header laid over it. */}
+      <section className={styles.studio} data-hero="bleed" aria-label="Studio">
+        <Image
+          src="/images/studio.jpg"
+          alt="The artist at her easel in a sunlit studio, painting Catching Waves."
+          fill
+          priority
+          sizes="100vw"
+          quality={90}
+          className={styles.studioImage}
+        />
+      </section>
+      <p className={styles.studioCaption}>Studio view with Catching Waves, 2026</p>
 
       {hero && (
         <section className={styles.hero} aria-label="Featured work">

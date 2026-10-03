@@ -11,6 +11,16 @@
 }
 
 /* Wordmark set slightly larger and bold at the artist's request (codebook §10 prefers regular). */
+/* Experiment: on a page with a full-bleed hero, the header lies over the photo (desktop only;
+   on small screens the photo is too busy behind the text, so the header stays above it). */
+@media (min-width: 901px) {
+  :global(body:has([data-hero="bleed"])) .header {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 2;
+  }
+}
+
 .name {
   justify-self: start;
   font-size: clamp(1.625rem, 3.2vw, 2rem);
