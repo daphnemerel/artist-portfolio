@@ -44,11 +44,20 @@
   gap: var(--space-lg);
 }
 
-.active {
+/* Navigation links get a turquoise line on hover; the current page keeps it. */
+.nav a {
   text-decoration: underline;
-  text-decoration-color: var(--color-turquoise);
+  text-decoration-color: transparent;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.45em;
+  transition:
+    color var(--duration) var(--ease),
+    text-decoration-color var(--duration) var(--ease);
+}
+
+.nav a:hover,
+.nav .active {
+  text-decoration-color: var(--color-turquoise);
 }
 
 .actions {
