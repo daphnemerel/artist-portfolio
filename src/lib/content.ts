@@ -15,7 +15,7 @@ const siteSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   location: z.string().optional(),
-  email: z.email(),
+  email: z.union([z.email(), z.literal("")]),
   instagram: z.string().optional(),
   representation: z
     .array(z.object({ name: z.string(), city: z.string(), url: z.url().optional() }))
@@ -33,7 +33,7 @@ const imageEntrySchema = z.object({
 
 const workSchema = z.object({
   title: z.string().min(1),
-  year: z.number().int(),
+  year: z.number().int().optional(),
   medium: z.string().min(1),
   dimensions: z.string().optional(),
   edition: z.string().optional(),
@@ -45,7 +45,7 @@ const workSchema = z.object({
 });
 
 const exhibitionSchema = z.object({
-  year: z.number().int(),
+  year: z.number().int().optional(),
   title: z.string().min(1),
   venue: z.string().min(1),
   city: z.string().min(1),
@@ -59,7 +59,7 @@ const textSchema = z.object({
   kind: z.enum(["statement", "essay", "press", "interview"]),
   author: z.string().optional(),
   publication: z.string().optional(),
-  year: z.number().int(),
+  year: z.number().int().optional(),
   order: z.number().default(0),
 });
 
@@ -141,7 +141,7 @@ export function getWorks(): Work[] {
     .filter((entry) => entry.isDirectory())
     .map((entry) => loadWork(entry.name))
     .filter((work) => !work.draft)
-    .sort((a, b) => b.year - a.year || a.order - b.order);
+    .sort((a, b) => byYearDesc(a, b) || a.order - b.order);
   return worksCache;
 }
 
@@ -158,7 +158,7 @@ export function getFeaturedWorks(): Work[] {
 export function getExhibitions(): Exhibition[] {
   const data = readYaml("exhibitions.yaml");
   return parse(z.array(exhibitionSchema), data, "content/exhibitions.yaml").sort(
-    (a, b) => b.year - a.year,
+    byYearDesc,
   );
 }
 
@@ -175,7 +175,7 @@ export function getTexts(): Text[] {
       const meta = parse(textSchema, data, `content/texts/${file}`);
       return { ...meta, slug, html: renderMarkdown(content) };
     })
-    .sort((a, b) => a.order - b.order || b.year - a.year);
+    .sort((a, b) => a.order - b.order || byYearDesc(a, b));
   return textsCache;
 }
 
@@ -183,12 +183,18 @@ export function getText(slug: string): Text | undefined {
   return getTexts().find((text) => text.slug === slug);
 }
 
-/* ---------- grouping ---------- */
+/* ---------- years ---------- */
 
-export function groupByYear<T extends { year: number }>(items: T[]): [number, T[]][] {
-  const groups = new Map<number, T[]>();
+/** Newest first; items without a year go last. */
+function byYearDesc(a: { year?: number }, b: { year?: number }): number {
+  return (b.year ?? -Infinity) - (a.year ?? -Infinity) || 0;
+}
+
+/** Groups by year, newest first; items without a year are grouped last under `undefined`. */
+export function groupByYear<T extends { year?: number }>(items: T[]): [number | undefined, T[]][] {
+  const groups = new Map<number | undefined, T[]>();
   for (const item of items) {
     groups.set(item.year, [...(groups.get(item.year) ?? []), item]);
   }
-  return [...groups.entries()].sort(([a], [b]) => b - a);
+  return [...groups.entries()].sort(([a], [b]) => byYearDesc({ year: a }, { year: b }));
 }

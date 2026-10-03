@@ -359,10 +359,10 @@ Preferred:
 Example:
 
 ```text
-Untitled (Field)
-2026
-Oil and mixed media on linen
-180 × 140 cm
+Artwork title
+Year
+Medium
+Dimensions
 ```
 
 ## Project pages
@@ -690,16 +690,16 @@ public/
 Example artwork frontmatter:
 
 ```yaml
-title: "Untitled (Field)"
-year: 2026
-medium: "Oil and mixed media on linen"
-dimensions: "180 × 140 cm"
-series: "Field Studies"
+title: "Artwork title"
+year: Year
+medium: "Medium"
+dimensions: "Dimensions"
+series: "Series title"
 featured: true
 order: 3
 images:
   - src: "./images/01.jpg"
-    alt: "Full view of Untitled (Field)"
+    alt: "Description of what is visible in the image"
     caption: ""
     credit: ""
 ```

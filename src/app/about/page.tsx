@@ -21,20 +21,24 @@ export default function AboutPage() {
       </div>
 
       <aside className={styles.side}>
-        <section>
-          <Label as="h2">Contact</Label>
-          <p>
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-          </p>
-          {site.instagram && (
-            <p>
-              <a href={`https://instagram.com/${site.instagram}`} rel="noopener noreferrer">
-                @{site.instagram}
-              </a>
-            </p>
-          )}
-          {site.location && <p className={styles.muted}>{site.location}</p>}
-        </section>
+        {(site.email || site.instagram || site.location) && (
+          <section>
+            <Label as="h2">Contact</Label>
+            {site.email && (
+              <p>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              </p>
+            )}
+            {site.instagram && (
+              <p>
+                <a href={`https://instagram.com/${site.instagram}`} rel="noopener noreferrer">
+                  @{site.instagram}
+                </a>
+              </p>
+            )}
+            {site.location && <p className={styles.muted}>{site.location}</p>}
+          </section>
+        )}
 
         {site.representation.length > 0 && (
           <section>

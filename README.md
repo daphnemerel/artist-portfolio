@@ -27,33 +27,65 @@ content/
 
 ### Adding a work
 
-1. Create `content/works/<year>-<title>/` (the folder name becomes the URL).
+1. Create `content/works/<slug>/` (the folder name becomes the URL, e.g. `<year>-<artwork-title>`).
 2. Put the images in `images/` — full-resolution JPG or PNG, around 2500–3000px on the long side.
    Never crop them for the site; every image is shown at its own proportions.
 3. Add `index.md`:
 
 ```yaml
 ---
-title: Untitled (Field)
-year: 2025
-medium: Oil on linen
-dimensions: 180 × 140 cm   # optional
-edition: Unique            # optional
-series: Field Studies      # optional, used for the filter on /works
+title: Artwork title
+year: Year                 # optional, written as a number
+medium: Medium
+dimensions: Dimensions     # optional
+edition: Edition           # optional
+series: Series title       # optional, used for the filter on /works
 featured: true             # optional, first featured work leads the home page
 order: 1                   # optional, sort within a year (lower first)
 draft: false               # optional, hides the work
 images:
   - src: ./images/01.jpg
-    alt: Describe what is visible in the image   # required
-    caption: Installation view, Gallery, 2025      # optional
-    credit: Photo by Name                          # optional
+    alt: Description of what is visible in the image   # required
+    caption: Image caption                             # optional
+    credit: Photo credit                               # optional
 ---
 
 Optional text about the work (Markdown).
 ```
 
+### Adding an exhibition
+
+Add an entry to `content/exhibitions.yaml`:
+
+```yaml
+- title: Exhibition title
+  venue: Exhibition venue
+  city: City
+  type: solo                # solo | group | fair | screening
+  year: Year                # optional, written as a number
+  works: [work-folder-name] # optional, links the title to a work
+  url: https://…            # optional, links the venue
+```
+
+### Adding a text
+
+Add `content/texts/<slug>.md`:
+
+```yaml
+---
+title: Text title
+kind: essay                 # statement | essay | press | interview
+author: Author              # optional
+publication: Publication    # optional
+year: Year                  # optional, written as a number
+order: 1                    # optional, position in the list (lower first)
+---
+
+Text (Markdown).
+```
+
 The build fails with a clear message if a required field, image file or alt text is missing.
+Entries without a year are listed last.
 
 Images are copied to `public/media/` (gitignored) by `scripts/sync-images.mjs` before `dev`
 and `build`, then served responsively (AVIF/WebP) by `next/image`.

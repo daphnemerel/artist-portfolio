@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!work) return {};
   const image = work.images[0];
   return {
-    title: `${work.title}, ${work.year}`,
+    title: work.year ? `${work.title}, ${work.year}` : work.title,
     description: [work.medium, work.dimensions].filter(Boolean).join(", "),
     openGraph: { images: [{ url: image.url, width: image.width, height: image.height, alt: image.alt }] },
   };
@@ -40,8 +40,12 @@ export default async function WorkPage({ params }: Props) {
       <header className={styles.details}>
         <h1 className={styles.title}>{work.title}</h1>
         <dl className={styles.meta}>
-          <dt className="visually-hidden">Year</dt>
-          <dd>{work.year}</dd>
+          {work.year && (
+            <>
+              <dt className="visually-hidden">Year</dt>
+              <dd>{work.year}</dd>
+            </>
+          )}
           <dt className="visually-hidden">Medium</dt>
           <dd>{work.medium}</dd>
           {work.dimensions && (

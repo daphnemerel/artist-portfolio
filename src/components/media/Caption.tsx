@@ -8,7 +8,8 @@ export function Caption({ work, full = false }: { work: CaptionWork; full?: bool
   return (
     <div className={styles.caption}>
       <p>
-        <cite className={styles.title}>{work.title}</cite>, {work.year}
+        <cite className={styles.title}>{work.title}</cite>
+        {work.year && <>, {work.year}</>}
       </p>
       {full && (
         <>

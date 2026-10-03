@@ -26,8 +26,8 @@ export default function ExhibitionsPage() {
             <Label as="h2">{label}</Label>
             <ol className={styles.years}>
               {groupByYear(items).map(([year, entries]) => (
-                <li key={year} className={styles.year}>
-                  <span className={styles.yearLabel}>{year}</span>
+                <li key={year ?? "undated"} className={styles.year}>
+                  <span className={styles.yearLabel}>{year ?? "Year to be added"}</span>
                   <ul>
                     {entries.map((e) => (
                       <li key={`${e.title}-${e.venue}`} className={styles.entry}>
