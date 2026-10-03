@@ -94,7 +94,19 @@
     grid-template-columns: 1fr;
   }
 
+  .purchase {
+    gap: var(--space-lg);
+  }
+
   .title {
     white-space: normal;
+  }
+
+  .details {
+    max-width: none;
+  }
+
+  .price {
+    margin-block-start: var(--space-xs);
   }
 }

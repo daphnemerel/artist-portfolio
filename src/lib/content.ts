@@ -44,11 +44,6 @@ const layerSchema = z.object({
   alt: z.string().optional(),
   zoom: z.number().min(1).default(1),
   focus: z.string().default("50% 50%"),
-  /** Small-screen story: a layer with a label becomes its own numbered screen. */
-  label: z.string().optional(),
-  caption: z.string().optional(),
-  /** Whether the label sits on the image (light text) or below it on the page (bordeaux). */
-  textOnImage: z.boolean().default(true),
 });
 
 /** "Inside the work": an editorial section of numbered images below the layers strip. */
@@ -122,9 +117,6 @@ export type WorkLayer = {
   image: Pick<WorkImage, "url" | "alt" | "width" | "height">;
   zoom: number;
   focus: string;
-  label?: string;
-  caption?: string;
-  textOnImage: boolean;
 };
 
 export type JourneyItem = Omit<z.infer<typeof journeySchema>["items"][number], "src"> & {

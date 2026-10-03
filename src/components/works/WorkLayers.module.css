@@ -25,18 +25,8 @@
   mask-image: linear-gradient(to right, transparent 0%, transparent 34%, rgba(0, 0, 0, 0.45) 62%, #000 92%);
 }
 
-.media {
-  position: absolute;
-  inset: 0;
-}
-
 .image {
   object-fit: cover;
-}
-
-/* Numbered labels belong to the phone layout only. */
-.caption {
-  display: none;
 }
 
 .intro {
@@ -95,107 +85,39 @@
   }
 }
 
-/* ---------- phones: the layers become full-height numbered screens ---------- */
+/* ---------- phones: the same composition, stacked ----------
+   The first panel becomes a wide image with the title fading out of it; the other panels
+   follow as a row of narrow strips, like the desktop strip in miniature. */
 @media (max-width: 900px) {
   .layers {
-    display: flex;
-    flex-direction: column-reverse;
     height: auto;
-  }
-
-  .intro {
-    position: static;
-    padding: 0 var(--margin) var(--space-md);
-    max-width: none;
-  }
-
-  .heading {
-    font-size: clamp(2.25rem, 11vw, 3rem);
+    margin-block-end: var(--space-sm);
   }
 
   .strip {
-    display: block;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 62svh 34svh;
+    gap: 4px;
     height: auto;
   }
 
-  .unlabelled {
-    display: none;
-  }
-
-  .panel {
-    height: 92svh;
-    animation: none;
-  }
-
-  /* The first screen grows out of the title: it fades in from the top. */
   .panel:first-child {
-    height: 66svh;
-    margin-block-start: calc(-1 * var(--space-lg));
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
+    grid-column: 1 / -1;
+    mask-image: linear-gradient(to right, transparent 0%, transparent 18%, rgba(0, 0, 0, 0.45) 55%, #000 90%);
   }
 
-  /* Text below the image: the picture stops short and dissolves into the page. */
-  .onPage .media {
-    inset-block-end: 26%;
-    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  .intro {
+    inset-block: 0 auto;
+    height: 62svh;
+    max-width: 15rem;
+    gap: var(--space-sm);
   }
 
-  /* Light text on the image gets a soft shade at the bottom so it stays readable. */
-  .onImage .media::after {
-    content: "";
-    position: absolute;
-    inset: 45% 0 0;
-    background: linear-gradient(to bottom, transparent, rgba(28, 23, 24, 0.55));
+  .heading {
+    font-size: clamp(2.25rem, 10.5vw, 3rem);
   }
 
-  .caption {
-    position: absolute;
-    inset-inline: var(--margin);
-    inset-block-end: var(--space-xl);
-    display: grid;
-    justify-items: start;
-    gap: var(--space-xs);
-    padding-inline-start: var(--space-md);
-    font-family: var(--font-serif);
-  }
-
-  /* A thin vertical line runs up from each label. */
-  .caption::before {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block: calc(-1 * var(--space-xl)) 0;
-    border-inline-start: 1px solid currentColor;
-  }
-
-  .onImage .caption {
-    color: var(--color-off-white);
-  }
-
-  .onPage .caption {
-    color: var(--color-bordeaux);
-  }
-
-  .number {
-    font-size: 1.75rem;
-    line-height: 1;
-  }
-
-  .label {
-    font-size: var(--type-nav);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-
-  .captionText {
-    max-width: 24ch;
-    margin-block-start: var(--space-xs);
-    font-size: var(--type-body);
-    line-height: var(--leading-body);
-  }
-
-  .cta {
-    margin-block-start: var(--space-md);
-    margin-inline-start: calc(-1 * var(--space-md));
+  .text {
+    font-size: 0.9375rem;
   }
 }
