@@ -52,7 +52,7 @@ export function WorkLayers({ title, layers }: { title: string; layers: WorkLayer
                   {caption && <p className={styles.captionText}>{caption}</p>}
                   {layer === lastLabelled && (
                     <Link href="/works" className={`button ${styles.cta}`}>
-                      View Works →
+                      See other works →
                     </Link>
                   )}
                 </div>
