@@ -5,13 +5,19 @@
   color: var(--color-off-white);
 }
 
+/* Links behave like the header navigation: a turquoise line appears on hover. */
 .footer a {
   color: var(--color-off-white);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.45em;
+  transition: text-decoration-color var(--duration) var(--ease);
 }
 
-/* Pink is the one small accent on bordeaux (≈ 4.6:1). */
 .footer a:hover {
-  color: var(--color-pink);
+  color: var(--color-off-white);
+  text-decoration-color: var(--color-turquoise);
 }
 
 .footer a:focus-visible {
@@ -20,10 +26,10 @@
 
 .main {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: var(--space-lg);
-  padding-block: var(--space-3xl) var(--space-2xl);
+  grid-template-columns: 5fr 4fr 3fr;
+  align-items: start;
+  gap: var(--space-xl) var(--space-lg);
+  padding-block: var(--space-2xl);
 }
 
 .name {
@@ -32,23 +38,41 @@
   letter-spacing: var(--tracking-heading-lg);
 }
 
-.tagline {
+.role {
   margin-block-start: var(--space-sm);
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
-  line-height: var(--leading-body);
-  opacity: 0.8;
-}
-
-.cta {
-  justify-self: end;
   font-family: var(--font-serif);
   font-size: var(--type-body-lg);
   line-height: var(--leading-body-lg);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.25em;
-  white-space: nowrap;
+  opacity: 0.85;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-lg);
+  padding-block-start: var(--space-xs);
+  font-size: var(--type-nav);
+  line-height: var(--leading-nav);
+  letter-spacing: var(--tracking-nav);
+}
+
+.social {
+  display: grid;
+  gap: var(--space-sm);
+  font-size: var(--type-nav);
+  line-height: var(--leading-nav);
+  letter-spacing: var(--tracking-nav);
+}
+
+.social a,
+.pending {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.pending {
+  opacity: 0.55;
 }
 
 .meta {
@@ -64,18 +88,9 @@
   opacity: 0.8;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .main {
     grid-template-columns: 1fr;
-    justify-items: start;
-    padding-block: var(--space-2xl) var(--space-xl);
-  }
-
-  .social {
-    margin-inline-start: -13px;
-  }
-
-  .cta {
-    justify-self: start;
+    padding-block: var(--space-xl);
   }
 }

@@ -4,7 +4,12 @@ name: Daphne Merel
 description: Artist statement to be added.
 location: ""
 email: ""
-instagram: daphne_merel # from the Instagram post shared in chat — please confirm
+# Social accounts: fill in the account name only (no URL). Empty ones show as "to be added" in the footer.
+instagram: daphne_merel
+facebook: ""
+tiktok: ""
+youtube: ""
+linkedin: ""
 representation: []
 # Put the PDF in public/ and link it here, e.g. /cv.pdf
 # cv: /cv.pdf

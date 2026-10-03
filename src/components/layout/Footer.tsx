@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { getSite } from "@/lib/content";
-import { SocialLinks } from "./SocialLinks";
+import { navLinks } from "./navigation";
+import { SocialIcon, socialAccounts } from "./social";
 import styles from "./Footer.module.css";
 
-/** Full-width bordeaux band closing every page: name, social links and a way into the works. */
+/** Full-width bordeaux band closing every page: name, the main sections and social accounts. */
 export function Footer() {
   const site = getSite();
   return (
@@ -11,15 +12,38 @@ export function Footer() {
       <div className={`${styles.main} container`}>
         <div>
           <p className={styles.name}>{site.name}</p>
-          <p className={styles.tagline}>Selected works, studio practice and exhibitions.</p>
+          <p className={styles.role}>Dutch Mixed Media Artist</p>
         </div>
-        <div className={styles.social}>
-          <SocialLinks site={site} />
-        </div>
-        <Link href="/works" className={styles.cta}>
-          View Works →
-        </Link>
+
+        <nav aria-label="Footer">
+          <ul className={styles.nav}>
+            {navLinks.map(({ href, label }) => (
+              <li key={href}>
+                <Link href={href}>{label}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <ul className={styles.social}>
+          {socialAccounts(site).map(({ platform, label, handle, href, icon }) => (
+            <li key={platform}>
+              {href ? (
+                <a href={href} rel="noopener noreferrer" aria-label={`${label}: ${handle}`}>
+                  <SocialIcon>{icon}</SocialIcon>
+                  <span>{handle}</span>
+                </a>
+              ) : (
+                <span className={styles.pending} aria-label={`${label}: account to be added`}>
+                  <SocialIcon>{icon}</SocialIcon>
+                  <span>account to be added</span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
+
       <div className={`${styles.meta} container`}>
         <p>
           © {new Date().getFullYear()} {site.name}
