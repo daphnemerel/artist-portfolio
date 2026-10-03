@@ -62,7 +62,6 @@ export function Footer() {
         <p>
           © {new Date().getFullYear()} {site.name}
         </p>
-        <Link href="/texts">Texts</Link>
       </div>
     </footer>
   );
