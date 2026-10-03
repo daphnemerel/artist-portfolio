@@ -1,0 +1,58 @@
+.card {
+  display: grid;
+  gap: var(--space-xs);
+  color: inherit;
+}
+
+.card:hover {
+  color: inherit;
+}
+
+/* The "wall": a square, lightly toned field the work hangs in. */
+.wall {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  margin-block-end: var(--space-xs);
+  background: var(--color-image-bg);
+}
+
+/* Inner area the image is fitted into, leaving air on every side. */
+.frame {
+  position: absolute;
+  inset: 12%;
+}
+
+.frame .image {
+  height: 100%;
+  object-fit: contain;
+  transition:
+    opacity 600ms var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.card:hover .image {
+  transform: scale(1.01);
+}
+
+.title {
+  font-size: var(--type-nav);
+  line-height: var(--leading-nav);
+  letter-spacing: var(--tracking-nav);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+.card:hover .title {
+  text-decoration-color: var(--color-turquoise);
+}
+
+.meta {
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
