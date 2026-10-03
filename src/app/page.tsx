@@ -2,17 +2,13 @@ import { getImageProps } from "next/image";
 import Link from "next/link";
 import { Caption } from "@/components/media/Caption";
 import { FadeImage } from "@/components/media/FadeImage";
-import { Plate, plateLayout } from "@/components/media/Plate";
-import { Label } from "@/components/type/Label";
-import { getExhibitions, getFeaturedWorks, getSite, getWorks } from "@/lib/content";
+import { getFeaturedWorks, getSite, getWorks } from "@/lib/content";
 import styles from "./home.module.css";
 
 export default function HomePage() {
   const site = getSite();
   const works = getWorks();
   const hero = getFeaturedWorks()[0] ?? works[0];
-  const selected = works.filter((w) => w.slug !== hero?.slug).slice(0, 4);
-  const exhibitions = getExhibitions().slice(0, 4);
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const studio = {
@@ -76,52 +72,18 @@ export default function HomePage() {
         </section>
       )}
 
-      {selected.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.sectionHead}>
-            <Label as="h2">Selected works</Label>
-          </div>
-          <ul className={styles.works}>
-            {selected.map((work, i) => (
-              <li key={work.slug}>
-                <Plate work={work} layout={plateLayout(work, i)} />
-              </li>
-            ))}
-          </ul>
-          <Link href="/works" className={styles.more}>
-            All works
-          </Link>
-        </section>
-      )}
-
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <Label as="h2">Statement</Label>
+      {/* Closing banner, just above the footer. */}
+      <section className={styles.banner} aria-labelledby="banner-title">
+        <div>
+          <h2 id="banner-title" className={styles.bannerTitle}>
+            {site.name}
+          </h2>
+          <p className={styles.bannerText}>Selected works, studio practice and exhibitions.</p>
         </div>
-        <p className={styles.statement}>{site.description}</p>
+        <Link href="/works" className={styles.bannerLink}>
+          View Works →
+        </Link>
       </section>
-
-      {exhibitions.length > 0 && (
-        <section className={styles.section}>
-          <div className={styles.sectionHead}>
-            <Label as="h2">Exhibitions</Label>
-          </div>
-          <ul className={styles.exhibitions}>
-            {exhibitions.map((e) => (
-              <li key={`${e.title}-${e.venue}`}>
-                <span className={styles.year}>{e.year ?? "Year to be added"}</span>
-                <span>{e.title}</span>
-                <span className={styles.venue}>
-                  {e.venue}, {e.city}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <Link href="/exhibitions" className={styles.more}>
-            All exhibitions
-          </Link>
-        </section>
-      )}
     </div>
   );
 }
