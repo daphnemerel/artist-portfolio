@@ -8,8 +8,12 @@
 }
 
 .studioImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: 62% 50%;
+  object-position: 50% 50%;
 }
 
 .studioCaption {
@@ -18,16 +22,6 @@
   line-height: var(--leading-caption);
   letter-spacing: var(--tracking-caption);
   color: var(--color-muted);
-}
-
-@media (max-width: 700px) {
-  .studio {
-    height: 72svh;
-  }
-
-  .studioImage {
-    object-position: 50% 50%;
-  }
 }
 
 /* ---------- hero: one large work, never cropped ---------- */
