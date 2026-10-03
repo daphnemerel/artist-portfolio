@@ -8,7 +8,17 @@ import styles from "./WorkLayers.module.css";
  * the studio; the first panel fades into the page behind the text. On phones the labelled layers
  * become full-height numbered screens. The full, uncropped work follows further down.
  */
-export function WorkLayers({ title, layers }: { title: string; layers: WorkLayer[] }) {
+export function WorkLayers({
+  title,
+  layers,
+  isPageTitle = false,
+}: {
+  title: string;
+  layers: WorkLayer[];
+  /** Render the title as the page's h1 (when no other heading names the work). */
+  isPageTitle?: boolean;
+}) {
+  const Heading = isPageTitle ? "h1" : "p";
   const labelled = layers.filter((l) => l.label);
   const lastLabelled = labelled.at(-1);
 
@@ -63,11 +73,11 @@ export function WorkLayers({ title, layers }: { title: string; layers: WorkLayer
       </ul>
 
       <div className={styles.intro}>
-        <p className={styles.heading}>
+        <Heading className={styles.heading}>
           {title.split(" ").map((word, i) => (
             <span key={i}>{word}</span>
           ))}
-        </p>
+        </Heading>
         <hr className={styles.rule} />
         <p className={styles.text}>Scroll to move through the layers of {title}.</p>
         <a href="#about" className={styles.arrow} aria-label="Scroll to the work">

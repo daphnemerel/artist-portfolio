@@ -51,6 +51,24 @@ const layerSchema = z.object({
   textOnImage: z.boolean().default(true),
 });
 
+/** "Inside the work": an editorial section of numbered images below the layers strip. */
+const journeySchema = z.object({
+  eyebrow: z.string().default("The journey"),
+  title: z.string(),
+  intro: z.string().optional(),
+  items: z
+    .array(
+      z.object({
+        src: z.string().startsWith("./images/"),
+        alt: z.string().min(1, "Every image needs alt text"),
+        label: z.string(),
+        text: z.string().optional(),
+        focus: z.string().default("50% 50%"),
+      }),
+    )
+    .min(1),
+});
+
 const workSchema = z.object({
   title: z.string().min(1),
   year: z.number().int().optional(),
@@ -63,6 +81,7 @@ const workSchema = z.object({
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
   layers: z.array(layerSchema).optional(),
+  journey: journeySchema.optional(),
 });
 
 const exhibitionSchema = z.object({
@@ -104,10 +123,19 @@ export type WorkLayer = {
   textOnImage: boolean;
 };
 
-export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers"> & {
+export type JourneyItem = Omit<z.infer<typeof journeySchema>["items"][number], "src"> & {
+  url: string;
+  width: number;
+  height: number;
+};
+
+export type WorkJourney = Omit<z.infer<typeof journeySchema>, "items"> & { items: JourneyItem[] };
+
+export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers" | "journey"> & {
   slug: string;
   images: WorkImage[];
   layers?: WorkLayer[];
+  journey?: WorkJourney;
   html: string;
 };
 
@@ -169,7 +197,12 @@ function loadWork(slug: string): Work {
     return { image, ...rest };
   });
 
-  return { ...meta, slug, images, layers, html: renderMarkdown(content) };
+  const journey = meta.journey && {
+    ...meta.journey,
+    items: meta.journey.items.map(({ src, ...item }) => ({ ...item, ...resolve(src) })),
+  };
+
+  return { ...meta, slug, images, layers, journey, html: renderMarkdown(content) };
 }
 
 /** All published works, newest first, then by `order`. */

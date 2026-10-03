@@ -35,6 +35,32 @@ layers:
     label: In the studio
     caption: Where the layers come to life.
     textOnImage: false
+# "Inside the work" section below the layers strip.
+journey:
+  title: Inside Catching Waves
+  intro: A closer look at the layers, the process and the world behind the work.
+  items:
+    - src: ./images/journey-texture.jpg
+      alt: Detail of the thick, ridged turquoise paint of Catching Waves.
+      label: Texture
+      text: Thick paint creates a tactile, layered surface.
+    - src: ./images/layer-02.jpg
+      alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
+      label: Scale
+      text: Miniature swimmers turn texture into a world.
+      focus: 50% 55%
+    - src: ./images/01.jpg
+      alt: Catching Waves seen from above, with tiny swimmers and surfers across the waves.
+      label: Composition
+      text: Movement, texture and stillness come together.
+    - src: ./images/journey-studio.jpg
+      alt: The artist at her easel in a sunlit studio, painting Catching Waves.
+      label: Studio
+      text: The work comes to life in the light of the atelier.
+    - src: ./images/journey-process.jpg
+      alt: A jar of turquoise paint with a brush on a paint-spattered table.
+      label: Process
+      text: Layer by layer, the landscape takes shape.
 ---
 
 ## What

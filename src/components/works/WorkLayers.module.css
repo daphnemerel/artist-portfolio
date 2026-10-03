@@ -58,6 +58,7 @@
 
 .heading {
   display: grid;
+  font-weight: 400;
   font-size: clamp(2.75rem, 4.6vw, 4.25rem);
   line-height: 1;
   letter-spacing: 0.035em;
