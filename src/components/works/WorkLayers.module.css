@@ -1,0 +1,87 @@
+/* Text on the left, a strip of tall panels running off the right edge of the page. */
+.layers {
+  display: grid;
+  grid-template-columns: minmax(14rem, 3fr) 9fr;
+  gap: var(--space-xl);
+  align-items: stretch;
+  min-height: min(82svh, 760px);
+  margin-inline-end: calc(-1 * var(--margin));
+  margin-block-end: var(--space-3xl);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+  font-family: var(--font-serif);
+}
+
+.heading {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.rule {
+  width: 48px;
+  border: 0;
+  border-top: 1px solid var(--color-ink);
+}
+
+.text {
+  max-width: 22ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.arrow {
+  align-self: flex-start;
+  font-size: 1.75rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.arrow:hover {
+  color: var(--color-bordeaux);
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-image-bg);
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .layers {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    min-height: 0;
+    margin-inline: calc(-1 * var(--margin)) calc(-1 * var(--margin));
+  }
+
+  .intro {
+    padding-inline: var(--margin);
+  }
+
+  .panels {
+    height: 62svh;
+  }
+
+  .heading {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+}

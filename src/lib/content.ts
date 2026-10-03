@@ -35,6 +35,13 @@ const imageEntrySchema = z.object({
   credit: z.string().optional(),
 });
 
+/** A panel in a work's opening "layers" strip: one of its images, zoomed in on a point. */
+const layerSchema = z.object({
+  src: z.string().startsWith("./images/"),
+  zoom: z.number().min(1).default(1),
+  focus: z.string().default("50% 50%"),
+});
+
 const workSchema = z.object({
   title: z.string().min(1),
   year: z.number().int().optional(),
@@ -46,6 +53,7 @@ const workSchema = z.object({
   order: z.number().default(0),
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
+  layers: z.array(layerSchema).optional(),
 });
 
 const exhibitionSchema = z.object({
@@ -78,9 +86,12 @@ export type WorkImage = z.infer<typeof imageEntrySchema> & {
   height: number;
 };
 
-export type Work = Omit<z.infer<typeof workSchema>, "images"> & {
+export type WorkLayer = { image: WorkImage; zoom: number; focus: string };
+
+export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers"> & {
   slug: string;
   images: WorkImage[];
+  layers?: WorkLayer[];
   html: string;
 };
 
@@ -136,7 +147,13 @@ function loadWork(slug: string): Work {
     return { ...image, url: `/media/works/${slug}/${name}`, width, height };
   });
 
-  return { ...meta, slug, images, html: renderMarkdown(content) };
+  const layers = meta.layers?.map(({ src, zoom, focus }) => {
+    const image = images.find((i) => i.src === src);
+    if (!image) throw new Error(`Layer ${src} in ${source} must also be listed under images`);
+    return { image, zoom, focus };
+  });
+
+  return { ...meta, slug, images, layers, html: renderMarkdown(content) };
 }
 
 /** All published works, newest first, then by `order`. */

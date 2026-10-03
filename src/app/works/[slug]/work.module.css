@@ -50,10 +50,80 @@
   text-align: end;
 }
 
+/* ---------- story layout (works with layers) ---------- */
+
+.story > :first-child {
+  grid-column: 1 / -1;
+}
+
+.story .details {
+  position: static;
+  scroll-margin-top: var(--space-xl);
+}
+
+.story .title {
+  font-size: var(--type-heading-lg);
+  line-height: var(--leading-heading-lg);
+  letter-spacing: var(--tracking-heading-lg);
+}
+
+/* Markdown sections (## What, ## How, ## Inspiration) set side by side as columns. */
+.about {
+  grid-column: 5 / -1;
+}
+
+.about > div {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-sm) var(--space-lg);
+  max-width: none;
+}
+
+.about > div > h2 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
+
+.about > div > h2::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  margin-inline-end: var(--space-sm);
+  vertical-align: middle;
+  background: var(--color-pink);
+}
+
+.about > div > p {
+  margin: 0;
+}
+
+.story .images {
+  grid-column: 3 / 11;
+  margin-block-start: var(--space-2xl);
+}
+
 @media (max-width: 900px) {
   .details,
-  .images {
+  .images,
+  .about,
+  .story .images {
     grid-column: 1 / -1;
     position: static;
+  }
+
+  .about > div {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+  }
+
+  .about > div > h2:not(:first-child) {
+    margin-block-start: var(--space-md);
   }
 }
