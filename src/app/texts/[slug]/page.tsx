@@ -32,7 +32,7 @@ export default async function TextPage({ params }: Props) {
         </p>
       </header>
       <div className={styles.body}>
-        <Prose html={text.html} serif />
+        <Prose html={text.html} />
       </div>
     </article>
   );

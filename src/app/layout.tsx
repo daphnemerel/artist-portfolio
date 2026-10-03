@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Inter_Tight, Newsreader } from "next/font/google";
+import { Manrope, Newsreader } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getSite } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
-const sans = Inter_Tight({
+const sans = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter-tight",
+  variable: "--font-manrope",
   display: "swap",
 });
 

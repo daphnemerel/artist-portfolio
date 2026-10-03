@@ -1,57 +1,94 @@
 import Link from "next/link";
-import { ArtworkTile } from "@/components/media/ArtworkTile";
 import { Caption } from "@/components/media/Caption";
 import { FadeImage } from "@/components/media/FadeImage";
+import { Plate, plateLayout } from "@/components/media/Plate";
 import { Label } from "@/components/type/Label";
-import { getFeaturedWorks, getSite, getWorks } from "@/lib/content";
+import { getExhibitions, getFeaturedWorks, getSite, getWorks } from "@/lib/content";
 import styles from "./home.module.css";
 
 export default function HomePage() {
   const site = getSite();
   const works = getWorks();
   const hero = getFeaturedWorks()[0] ?? works[0];
-  const recent = works.filter((w) => w.slug !== hero?.slug).slice(0, 6);
+  const selected = works.filter((w) => w.slug !== hero?.slug).slice(0, 4);
+  const exhibitions = getExhibitions().slice(0, 4);
 
   return (
     <div className="container">
-      <section className={styles.intro}>
-        <h1 className={styles.name}>{site.name}</h1>
-        <p className={styles.description}>{site.description}</p>
-      </section>
+      <h1 className="visually-hidden">{site.name}</h1>
 
       {hero && (
-        <section className={`${styles.hero} section`} aria-label="Featured work">
-          <Link href={`/works/${hero.slug}`} className={styles.heroLink}>
-            <FadeImage
-              src={hero.images[0].url}
-              alt={hero.images[0].alt}
-              width={hero.images[0].width}
-              height={hero.images[0].height}
-              sizes="(max-width: 1024px) 100vw, 75vw"
-              quality={90}
-              priority
-              className={styles.heroImage}
-            />
-          </Link>
-          <Caption work={hero} full />
+        <section className={styles.hero} aria-label="Featured work">
+          <figure
+            className={styles.heroFigure}
+            // Fill the first screen's height (or the page width), whichever comes first.
+            style={{
+              width: `min(100%, calc((100svh - 200px) * ${hero.images[0].width / hero.images[0].height}))`,
+            }}
+          >
+            <Link href={`/works/${hero.slug}`}>
+              <FadeImage
+                src={hero.images[0].url}
+                alt={hero.images[0].alt}
+                width={hero.images[0].width}
+                height={hero.images[0].height}
+                sizes="100vw"
+                quality={90}
+                priority
+                className={styles.heroImage}
+              />
+            </Link>
+            <figcaption>
+              <Caption work={hero} full />
+            </figcaption>
+          </figure>
         </section>
       )}
 
-      {recent.length > 0 && (
-        <section className="section">
+      {selected.length > 0 && (
+        <section className={styles.section}>
           <div className={styles.sectionHead}>
-            <Label as="h2">Recent works</Label>
-            <Link href="/works" className={styles.more}>
-              All works
-            </Link>
+            <Label as="h2">Selected works</Label>
           </div>
-          <ul className={styles.grid}>
-            {recent.map((work) => (
+          <ul className={styles.works}>
+            {selected.map((work, i) => (
               <li key={work.slug}>
-                <ArtworkTile work={work} />
+                <Plate work={work} layout={plateLayout(work, i)} />
               </li>
             ))}
           </ul>
+          <Link href="/works" className={styles.more}>
+            All works
+          </Link>
+        </section>
+      )}
+
+      <section className={styles.section}>
+        <div className={styles.sectionHead}>
+          <Label as="h2">Statement</Label>
+        </div>
+        <p className={styles.statement}>{site.description}</p>
+      </section>
+
+      {exhibitions.length > 0 && (
+        <section className={styles.section}>
+          <div className={styles.sectionHead}>
+            <Label as="h2">Exhibitions</Label>
+          </div>
+          <ul className={styles.exhibitions}>
+            {exhibitions.map((e) => (
+              <li key={`${e.title}-${e.venue}`}>
+                <span className={styles.year}>{e.year ?? "Year to be added"}</span>
+                <span>{e.title}</span>
+                <span className={styles.venue}>
+                  {e.venue}, {e.city}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <Link href="/exhibitions" className={styles.more}>
+            All exhibitions
+          </Link>
         </section>
       )}
     </div>

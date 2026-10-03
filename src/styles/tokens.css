@@ -1,47 +1,76 @@
+/* Design tokens — see DAPHNE_MEREL_DESIGN_CODEBOOK.md (§21). */
 :root {
-  /* Colour — paper, ink, one grey. The artworks supply all other colour. */
-  --color-paper: #f7f6f3;
-  --color-ink: #111111;
-  --color-muted: #6f6d68;
-  --color-rule: #d9d7d2;
-  --color-image-bg: #ecebe7;
+  /* Colour — fixed brand palette. The artworks supply most of the colour. */
+  --color-bordeaux: #6a2e3b;
+  --color-pink: #d79a9a;
+  --color-turquoise: #5faead;
+  --color-off-white: #f6f1ec;
+  --color-ink: #1c1718;
 
-  /* Type families (variables set by next/font in layout.tsx) */
-  --font-sans: var(--font-inter-tight), "Helvetica Neue", Arial, sans-serif;
+  /* Derived from Ink — secondary text, hairlines, image placeholder. Not new brand colours. */
+  --color-muted: rgba(28, 23, 24, 0.68); /* ≈ 5.7:1 on off-white */
+  --color-rule: rgba(28, 23, 24, 0.22);
+  --color-image-bg: rgba(28, 23, 24, 0.05);
+
+  /* Font families (variables set by next/font in layout.tsx) */
+  --font-sans: var(--font-manrope), Arial, Helvetica, sans-serif;
   --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
 
   /* Type scale */
-  --text-xs: 0.8125rem; /* 13px — captions, metadata */
-  --text-sm: 0.9375rem; /* 15px — nav, lists */
-  --text-base: 1.0625rem; /* 17px — body */
-  --text-lg: 1.375rem; /* 22px — lead */
-  --text-xl: clamp(1.75rem, 1.2rem + 2vw, 2.75rem); /* page titles */
-  --text-display: clamp(3rem, 1.5rem + 7vw, 7.5rem); /* artist name */
+  --type-display-xl: clamp(3.5rem, 8vw, 5.5rem); /* 88px — artist name */
+  --type-heading-lg: clamp(2.25rem, 5vw, 3rem); /* 48px — page headings */
+  --type-heading-md: clamp(1.5rem, 3vw, 1.75rem); /* 28px — artwork titles, section headings */
+  --type-body-lg: clamp(1.375rem, 2.5vw, 1.75rem); /* 28px — statement, introduction */
+  --type-body: 1.0625rem; /* 17px — bio, project text, long-form */
+  --type-nav: 0.875rem; /* 14px — navigation */
+  --type-caption: 0.8125rem; /* 13px — captions, metadata */
 
-  --leading-tight: 1.02;
-  --leading-snug: 1.25;
+  --leading-display-xl: 0.95;
+  --leading-heading-lg: 1.05;
+  --leading-heading-md: 1.15;
+  --leading-body-lg: 1.35;
   --leading-body: 1.55;
-  --tracking-display: -0.035em;
-  --tracking-title: -0.02em;
-  --tracking-label: 0.04em;
+  --leading-nav: 1.2;
+  --leading-caption: 1.4;
+
+  --tracking-display-xl: -0.035em;
+  --tracking-heading-lg: -0.025em;
+  --tracking-heading-md: -0.015em;
+  --tracking-nav: 0.02em;
+  --tracking-caption: 0.02em;
 
   /* Spacing scale */
-  --space-1: 0.25rem; /* 4 */
-  --space-2: 0.5rem; /* 8 */
-  --space-3: 1rem; /* 16 */
-  --space-4: 1.5rem; /* 24 */
-  --space-5: 2.5rem; /* 40 */
-  --space-6: 4rem; /* 64 */
-  --space-7: 6.5rem; /* 104 */
-  --space-8: 10.5rem; /* 168 */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 104px;
+  --space-3xl: 168px;
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+
+  /* Lines / elevation */
+  --border-hairline: 1px solid var(--color-rule);
+  --shadow-overlay: 0 2px 12px rgba(28, 23, 24, 0.06);
 
   /* Layout */
-  --margin: max(1rem, 6vw);
-  --gutter: clamp(1rem, 2vw, 1.5rem);
+  --margin: max(20px, 6vw);
+  --gutter: clamp(16px, 2vw, 32px);
   --measure: 65ch;
-  --section-gap: clamp(var(--space-6), 10vw, var(--space-8));
+  --section-gap: clamp(var(--space-xl), 10vw, var(--space-3xl));
 
   /* Motion */
-  --ease: cubic-bezier(0.2, 0, 0, 1);
-  --duration: 400ms;
+  --ease: ease;
+  --duration: 180ms;
+}
+
+@media (max-width: 700px) {
+  :root {
+    --space-xl: 48px;
+    --space-2xl: 72px;
+    --space-3xl: 104px;
+  }
 }

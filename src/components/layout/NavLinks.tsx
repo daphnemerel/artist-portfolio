@@ -2,35 +2,54 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, type ReactNode } from "react";
 import styles from "./Header.module.css";
 
 const links = [
   { href: "/works", label: "Works" },
   { href: "/exhibitions", label: "Exhibitions" },
-  { href: "/texts", label: "Texts" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
-export function NavLinks() {
+/** Centred navigation, right-hand actions, and a text Menu toggle that folds both away on mobile. */
+export function NavLinks({ actions }: { actions: ReactNode }) {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
   return (
-    <nav aria-label="Main">
-      <ul className={styles.nav}>
-        {links.map(({ href, label }) => {
-          const active = pathname === href || pathname.startsWith(`${href}/`);
-          return (
-            <li key={href}>
-              <Link
-                href={href}
-                className={active ? styles.active : undefined}
-                aria-current={active ? "page" : undefined}
-              >
-                {label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <>
+      <button
+        type="button"
+        className={styles.toggle}
+        aria-expanded={open}
+        aria-controls="main-nav header-actions"
+        onClick={() => setOpen((o) => !o)}
+      >
+        {open ? "Close" : "Menu"}
+      </button>
+      <nav id="main-nav" aria-label="Main" className={styles.nav} data-open={open}>
+        <ul>
+          {links.map(({ href, label }) => {
+            const active = pathname === href || pathname.startsWith(`${href}/`);
+            return (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className={active ? styles.active : undefined}
+                  aria-current={active ? "page" : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+      <div id="header-actions" className={styles.actions} data-open={open}>
+        {actions}
+      </div>
+    </>
   );
 }

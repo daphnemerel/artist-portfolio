@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSite } from "@/lib/content";
 import { NavLinks } from "./NavLinks";
+import { SocialLinks } from "./SocialLinks";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -10,7 +11,16 @@ export function Header() {
       <Link href="/" className={styles.name}>
         {site.name}
       </Link>
-      <NavLinks />
+      <NavLinks
+        actions={
+          <>
+            <SocialLinks site={site} />
+            <Link href="/works" className="button">
+              View Works
+            </Link>
+          </>
+        }
+      />
     </header>
   );
 }

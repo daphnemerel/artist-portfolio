@@ -2,7 +2,7 @@
 @import "./tokens.css";
 
 html {
-  background: var(--color-paper);
+  background: var(--color-off-white);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 100%;
@@ -14,10 +14,9 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  background: var(--color-paper);
-  font-size: var(--text-base);
+  background: var(--color-off-white);
+  font-size: var(--type-body);
   line-height: var(--leading-body);
-  font-feature-settings: "ss01", "cv11";
 }
 
 main {
@@ -30,18 +29,45 @@ a {
   transition: color var(--duration) var(--ease);
 }
 
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
 a:hover {
-  color: var(--color-muted);
+  color: var(--color-bordeaux);
 }
 
 :focus-visible {
-  outline: 1px solid var(--color-ink);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-turquoise);
+  outline-offset: 4px;
 }
 
 ::selection {
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+/* The one button style (codebook §13): rectangular, no shadow, bordeaux for the primary action. */
+.button {
+  display: inline-block;
+  padding: 12px 18px;
+  border: 1px solid var(--color-bordeaux);
+  border-radius: var(--radius-none);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font: 400 var(--type-nav) / var(--leading-nav) var(--font-sans);
+  letter-spacing: var(--tracking-nav);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease);
+}
+
+.button:hover {
+  border-color: var(--color-ink);
   background: var(--color-ink);
-  color: var(--color-paper);
+  color: var(--color-off-white);
 }
 
 /* Shared layout primitives */

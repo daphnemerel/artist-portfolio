@@ -3,25 +3,27 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  row-gap: var(--space-6);
+  row-gap: var(--space-xl);
 }
 
 .details {
   grid-column: 1 / 4;
   align-self: start;
   position: sticky;
-  top: var(--space-4);
+  top: var(--space-md);
   display: grid;
-  gap: var(--space-4);
-  font-size: var(--text-sm);
+  gap: var(--space-md);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
 }
 
 .title {
-  font-size: var(--text-xl);
+  font-size: var(--type-heading-md);
   font-weight: 400;
-  font-style: italic;
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-title);
+  line-height: var(--leading-heading-md);
+  letter-spacing: var(--tracking-heading-md);
+  color: var(--color-bordeaux);
 }
 
 .meta dd {
@@ -36,11 +38,12 @@
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  gap: var(--space-4);
-  margin-block-start: var(--space-7);
-  padding-block-start: var(--space-3);
-  border-top: 1px solid var(--color-rule);
-  font-size: var(--text-sm);
+  gap: var(--space-md);
+  margin-block-start: var(--space-2xl);
+  padding-block-start: var(--space-sm);
+  border-top: var(--border-hairline);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
 }
 
 .pager > :last-child {

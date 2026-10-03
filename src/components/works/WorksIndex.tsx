@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { WorkSummary } from "@/lib/content";
-import { ArtworkTile } from "@/components/media/ArtworkTile";
+import { Plate, plateLayout } from "@/components/media/Plate";
 import styles from "./WorksIndex.module.css";
 
 type View = "images" | "list";
@@ -48,13 +48,13 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
       </div>
 
       {view === "images" ? (
-        <ul className={styles.grid}>
+        <ol className={styles.plates}>
           {visible.map((work, i) => (
             <li key={work.slug}>
-              <ArtworkTile work={work} priority={i < 3} />
+              <Plate work={work} layout={plateLayout(work, i)} priority={i === 0} />
             </li>
           ))}
-        </ul>
+        </ol>
       ) : (
         <table className={styles.list}>
           <thead className="visually-hidden">
@@ -70,7 +70,7 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
               <tr key={work.slug}>
                 <td className={styles.year}>{work.year}</td>
                 <td>
-                  <Link href={`/works/${work.slug}`} className={styles.title}>
+                  <Link href={`/works/${work.slug}`}>
                     {work.title}
                   </Link>
                 </td>

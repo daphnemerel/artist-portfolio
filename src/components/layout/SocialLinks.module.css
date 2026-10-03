@@ -1,0 +1,18 @@
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* 44px touch target around an 18px line icon. */
+.link {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--color-ink);
+}
+
+.link:hover {
+  color: var(--color-turquoise);
+}

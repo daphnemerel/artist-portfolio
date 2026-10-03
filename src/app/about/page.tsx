@@ -15,9 +15,7 @@ export default function AboutPage() {
     <div className={`${styles.about} container`}>
       <div className={styles.bio}>
         <h1 className="visually-hidden">About</h1>
-        <div className={styles.lead}>
-          <Prose html={bio} />
-        </div>
+        <Prose html={bio} />
       </div>
 
       <aside className={styles.side}>

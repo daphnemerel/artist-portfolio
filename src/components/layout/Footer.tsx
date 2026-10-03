@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getSite } from "@/lib/content";
 import styles from "./Footer.module.css";
 
@@ -9,6 +10,9 @@ export function Footer() {
         © {new Date().getFullYear()} {site.name}
       </p>
       <ul className={styles.links}>
+        <li>
+          <Link href="/texts">Texts</Link>
+        </li>
         {site.email && (
           <li>
             <a href={`mailto:${site.email}`}>{site.email}</a>

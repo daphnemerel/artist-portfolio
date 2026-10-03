@@ -92,6 +92,9 @@ and `build`, then served responsively (AVIF/WebP) by `next/image`.
 
 ## Design system
 
-- Tokens: `src/styles/tokens.css` — colour (paper, ink, one grey), type scale, spacing scale, layout margins.
-- Type: Inter Tight (interface, headings, captions) and Newsreader (long-form texts), self-hosted via `next/font`.
-- No border radius, shadows, gradients or accent colours — the artworks carry the colour.
+See `DAPHNE_MEREL_DESIGN_CODEBOOK.md` for the full rules.
+
+- Tokens: `src/styles/tokens.css` — brand palette, type scale, spacing scale, hairline, layout margins.
+- Type: Manrope (name, navigation, headings, artwork titles, captions, metadata) and Newsreader
+  (statement, biography, project text, essays), self-hosted via `next/font`.
+- No border radius, shadows or gradients — the artworks carry most of the colour.

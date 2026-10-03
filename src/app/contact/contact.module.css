@@ -1,0 +1,19 @@
+.contact {
+  display: grid;
+  gap: var(--space-lg);
+  max-width: var(--measure);
+  font-size: var(--type-body);
+}
+
+.contact h2 {
+  margin-block-end: var(--space-xs);
+}
+
+.contact a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+}
+
+.muted {
+  color: var(--color-muted);
+}
