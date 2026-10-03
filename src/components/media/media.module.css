@@ -15,17 +15,19 @@
 /* ---------- caption ---------- */
 
 .caption {
-  margin-block-start: var(--space-2);
-  font-size: var(--text-xs);
-  line-height: 1.45;
+  margin-block-start: var(--space-xs);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
 }
 
 .caption p + p {
   color: var(--color-muted);
 }
 
+/* Manrope has no italic, so titles are set upright rather than slanted by the browser. */
 .title {
-  font-style: italic;
+  font-style: normal;
 }
 
 /* ---------- tile (index grid) ---------- */
@@ -46,12 +48,12 @@
 
 .sequence {
   display: grid;
-  gap: var(--space-7);
+  gap: var(--space-2xl);
 }
 
 .figure {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-xs);
 }
 
 .zoom {
@@ -61,7 +63,9 @@
 }
 
 .imageCaption {
-  font-size: var(--text-xs);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
   color: var(--color-muted);
 }
 
@@ -72,21 +76,22 @@
   max-width: none;
   height: 100svh;
   max-height: none;
-  padding: var(--space-3) var(--margin);
+  padding: var(--space-sm) var(--margin);
   border: 0;
-  background: var(--color-paper);
+  background: var(--color-off-white);
   color: var(--color-ink);
-  font-size: var(--text-xs);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
 }
 
 .lightbox[open] {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: var(--space-3);
+  gap: var(--space-sm);
 }
 
 .lightbox::backdrop {
-  background: var(--color-paper);
+  background: var(--color-off-white);
 }
 
 .lightboxBar {

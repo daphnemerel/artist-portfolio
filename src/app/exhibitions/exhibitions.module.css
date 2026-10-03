@@ -1,20 +1,21 @@
 .section {
   display: grid;
-  gap: var(--space-4);
-  margin-block-end: var(--space-7);
+  gap: var(--space-md);
+  margin-block-end: var(--space-2xl);
 }
 
 .years {
-  border-top: 1px solid var(--color-rule);
+  border-top: var(--border-hairline);
 }
 
 .year {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  padding-block: var(--space-3);
-  border-bottom: 1px solid var(--color-rule);
-  font-size: var(--text-sm);
+  padding-block: var(--space-sm);
+  border-bottom: var(--border-hairline);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
 }
 
 .yearLabel {
@@ -26,7 +27,7 @@
 .year > ul {
   grid-column: 3 / -1;
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-xs);
 }
 
 .entry {
@@ -37,7 +38,6 @@
 
 .title {
   grid-column: 1 / 6;
-  font-style: italic;
 }
 
 .title a,

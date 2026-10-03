@@ -1,14 +1,15 @@
 .list {
-  border-top: 1px solid var(--color-rule);
+  border-top: var(--border-hairline);
 }
 
 .row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  padding-block: var(--space-3);
-  border-bottom: 1px solid var(--color-rule);
-  font-size: var(--text-sm);
+  padding-block: var(--space-sm);
+  border-bottom: var(--border-hairline);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
 }
 
 .kind {
@@ -43,16 +44,17 @@
 .articleHeader {
   grid-column: 1 / -1;
   display: grid;
-  gap: var(--space-3);
-  margin-block-end: var(--space-7);
+  gap: var(--space-sm);
+  margin-block-end: var(--space-2xl);
 }
 
 .articleTitle {
   max-width: 22ch;
-  font-size: var(--text-xl);
+  font-size: var(--type-heading-lg);
   font-weight: 400;
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-title);
+  line-height: var(--leading-heading-lg);
+  letter-spacing: var(--tracking-heading-lg);
+  color: var(--color-bordeaux);
 }
 
 .body {

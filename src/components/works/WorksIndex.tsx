@@ -70,7 +70,7 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
               <tr key={work.slug}>
                 <td className={styles.year}>{work.year}</td>
                 <td>
-                  <Link href={`/works/${work.slug}`} className={styles.title}>
+                  <Link href={`/works/${work.slug}`}>
                     {work.title}
                   </Link>
                 </td>

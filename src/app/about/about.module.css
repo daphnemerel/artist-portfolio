@@ -2,29 +2,24 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  row-gap: var(--space-7);
+  row-gap: var(--space-2xl);
 }
 
 .bio {
   grid-column: 1 / 8;
 }
 
-.lead {
-  font-size: var(--text-lg);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-}
-
 .side {
   grid-column: 9 / -1;
   display: grid;
   align-content: start;
-  gap: var(--space-5);
-  font-size: var(--text-sm);
+  gap: var(--space-lg);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
 }
 
 .side h2 {
-  margin-block-end: var(--space-2);
+  margin-block-end: var(--space-xs);
 }
 
 .side a {
