@@ -3,14 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
+import { navLinks } from "./navigation";
 import styles from "./Header.module.css";
 
-const links = [
-  { href: "/works", label: "Works" },
-  { href: "/exhibitions", label: "Exhibitions" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
 
 /** Centred navigation, right-hand actions, and a text Menu toggle that folds both away on mobile. */
 export function NavLinks({ actions }: { actions: ReactNode }) {
@@ -30,7 +25,7 @@ export function NavLinks({ actions }: { actions: ReactNode }) {
       </button>
       <nav id="main-nav" aria-label="Main" className={styles.nav} data-open={open}>
         <ul>
-          {links.map(({ href, label }) => {
+          {navLinks.map(({ href, label }) => {
             const active = pathname === href || pathname.startsWith(`${href}/`);
             return (
               <li key={href}>

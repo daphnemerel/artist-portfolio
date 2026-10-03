@@ -17,6 +17,10 @@ const siteSchema = z.object({
   location: z.string().optional(),
   email: z.union([z.email(), z.literal("")]),
   instagram: z.string().optional(),
+  facebook: z.string().optional(),
+  tiktok: z.string().optional(),
+  youtube: z.string().optional(),
+  linkedin: z.string().optional(),
   representation: z
     .array(z.object({ name: z.string(), city: z.string(), url: z.url().optional() }))
     .default([]),

@@ -1,18 +1,118 @@
+/* Bordeaux band, edge to edge, set in the serif with off-white type. No radius, no shadow. */
 .footer {
+  margin-block-start: var(--section-gap);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-serif);
+}
+
+/* Links behave like the header navigation: a turquoise line appears on hover. */
+.footer a {
+  color: var(--color-off-white);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+.footer a:hover {
+  color: var(--color-off-white);
+  text-decoration-color: var(--color-turquoise);
+}
+
+.footer a:focus-visible {
+  outline-color: var(--color-off-white);
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 7fr 3fr 3fr;
+  align-items: center;
+  gap: var(--space-xl) var(--space-lg);
+  padding-block: var(--space-2xl);
+}
+
+.name {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: var(--leading-heading-lg);
+  letter-spacing: -0.01em;
+}
+
+.role {
+  margin-block-start: var(--space-xs);
+  font-size: var(--type-body-lg);
+  line-height: var(--leading-body-lg);
+}
+
+.nav {
+  display: grid;
+  gap: var(--space-sm);
+  font-size: 1.25rem;
+  line-height: var(--leading-nav);
+}
+
+.contact {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.label {
+  margin-block-end: var(--space-xs);
+  font-size: var(--type-body);
+  opacity: 0.8;
+}
+
+/* The email address carries a thin rule underneath, like a signed line. */
+.footer .email {
+  display: inline-block;
+  padding-block-end: var(--space-xs);
+  border-bottom: 1px solid var(--color-off-white);
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+.footer .email:hover {
+  border-bottom-color: var(--color-turquoise);
+}
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-inline-start: -9px;
+}
+
+.social a,
+.pending {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.social a:hover {
+  color: var(--color-turquoise);
+}
+
+.pending {
+  opacity: 0.45;
+}
+
+.meta {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm);
-  margin-block-start: var(--section-gap);
   padding-block: var(--space-md);
-  border-top: var(--border-hairline);
-  font-size: var(--type-caption);
-  line-height: var(--leading-caption);
-  letter-spacing: var(--tracking-caption);
-  color: var(--color-muted);
+  border-top: 1px solid rgba(246, 241, 236, 0.25);
+  font-size: var(--type-body);
 }
 
-.links {
-  display: flex;
-  gap: var(--space-md);
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding-block: var(--space-xl);
+  }
 }
