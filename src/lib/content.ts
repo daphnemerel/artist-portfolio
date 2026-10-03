@@ -43,7 +43,6 @@ const workSchema = z.object({
   edition: z.string().optional(),
   series: z.string().optional(),
   featured: z.boolean().default(false),
-  size: z.enum(["large", "medium", "small"]).optional(),
   order: z.number().default(0),
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
