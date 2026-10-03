@@ -82,6 +82,10 @@ const workSchema = z.object({
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
   layers: z.array(layerSchema).optional(),
   journey: journeySchema.optional(),
+  /** One-sentence description used beside the work and its price. */
+  summary: z.string().optional(),
+  /** Price as shown, e.g. "€1.200". Leave out while the work is not for sale. */
+  price: z.string().optional(),
 });
 
 const exhibitionSchema = z.object({

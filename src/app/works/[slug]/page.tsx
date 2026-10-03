@@ -3,9 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ImageSequence } from "@/components/media/ImageSequence";
 import { Prose } from "@/components/type/Prose";
+import { OtherWorks } from "@/components/works/OtherWorks";
 import { WorkJourney } from "@/components/works/WorkJourney";
+import { WorkPurchase } from "@/components/works/WorkPurchase";
 import { WorkLayers } from "@/components/works/WorkLayers";
-import { getWork, getWorks } from "@/lib/content";
+import { getSite, getWork, getWorks } from "@/lib/content";
 import styles from "./work.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -46,7 +48,13 @@ export default async function WorkPage({ params }: Props) {
       )}
 
       {/* With a journey section, that section replaces the text-and-images layout below. */}
-      {work.journey && <WorkJourney journey={work.journey} />}
+      {work.journey && (
+        <>
+          <WorkJourney journey={work.journey} />
+          <WorkPurchase work={work} email={getSite().email} />
+          <OtherWorks works={works.filter((w) => w.slug !== work.slug).slice(0, 3)} />
+        </>
+      )}
 
       {!work.journey && (
         <>

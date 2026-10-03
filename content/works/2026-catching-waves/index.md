@@ -4,6 +4,9 @@ title: Catching Waves
 year: 2026
 medium: Medium to be added
 featured: true
+summary: A playful scene of tiny swimmers and surfers on a textured sea of layered paint.
+# PLACEHOLDER price taken from the design mock-up — replace with the real price.
+price: €999,99
 order: 0
 images:
   - src: ./images/01.jpg
