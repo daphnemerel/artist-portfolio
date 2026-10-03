@@ -3,7 +3,7 @@ import type { WorkLayer } from "@/lib/content";
 import styles from "./WorkLayers.module.css";
 
 /**
- * Opening of a work page: "Dive into the work". A strip of tall panels runs from close up out to
+ * Opening of a work page: the title beside a strip of tall panels runs from close up out to
  * the studio; the first one fades into the page behind the text. The full, uncropped work follows
  * further down.
  */
@@ -33,11 +33,9 @@ export function WorkLayers({ title, layers }: { title: string; layers: WorkLayer
 
       <div className={styles.intro}>
         <p className={styles.heading}>
-          Dive
-          <br />
-          into
-          <br />
-          the work
+          {title.split(" ").map((word, i) => (
+            <span key={i}>{word}</span>
+          ))}
         </p>
         <hr className={styles.rule} />
         <p className={styles.text}>Scroll to move through the layers of {title}.</p>

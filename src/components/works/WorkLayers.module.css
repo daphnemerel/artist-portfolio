@@ -41,36 +41,41 @@
   font-family: var(--font-serif);
 }
 
+/* Title, rule, line and arrow all in bordeaux. */
+.intro {
+  color: var(--color-bordeaux);
+}
+
 .heading {
+  display: grid;
   font-size: clamp(2.75rem, 4.6vw, 4.25rem);
   line-height: 1;
   letter-spacing: 0.035em;
   text-transform: uppercase;
-  color: var(--color-ink);
 }
 
 .rule {
   width: 56px;
   border: 0;
-  border-top: 1px solid var(--color-ink);
+  border-top: 1px solid var(--color-bordeaux);
 }
 
 .text {
   max-width: 22ch;
   font-size: var(--type-body);
   line-height: var(--leading-body);
-  color: var(--color-ink);
 }
 
 .arrow {
   align-self: flex-start;
   font-size: 1.75rem;
   line-height: 1;
+  color: var(--color-bordeaux);
   text-decoration: none;
 }
 
 .arrow:hover {
-  color: var(--color-bordeaux);
+  color: var(--color-ink);
 }
 
 @keyframes reveal {
