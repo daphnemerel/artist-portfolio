@@ -30,20 +30,6 @@
   font-style: normal;
 }
 
-/* ---------- tile (index grid) ---------- */
-
-.tile {
-  display: block;
-}
-
-.tile:hover {
-  color: inherit;
-}
-
-.tile:hover .caption {
-  color: var(--color-muted);
-}
-
 /* ---------- sequence (work page) ---------- */
 
 .sequence {

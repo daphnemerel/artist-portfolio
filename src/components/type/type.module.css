@@ -30,6 +30,17 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The one small pink detail: a short rule before each section label. */
+.label::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  margin-inline-end: var(--space-sm);
+  vertical-align: middle;
+  background: var(--color-pink);
+}
+
 /* Long-form text: bio, project text, statements, essays. */
 .prose {
   max-width: var(--measure);

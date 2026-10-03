@@ -34,25 +34,10 @@
   text-underline-offset: 0.3em;
 }
 
-/* Mixed aspect ratios, bottom-aligned like works hung on a common line. */
-.grid {
+/* Works in a large–small–medium–small rhythm instead of a uniform grid. */
+.plates {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: end;
-  gap: var(--space-2xl) var(--space-lg);
-}
-
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-  }
+  row-gap: var(--space-3xl);
 }
 
 /* Checklist view */
@@ -86,7 +71,11 @@
 }
 
 @media (max-width: 640px) {
-  .meta {
-    display: none;
+  .list td {
+    padding-inline-end: var(--space-sm);
+  }
+
+  .year {
+    width: auto;
   }
 }

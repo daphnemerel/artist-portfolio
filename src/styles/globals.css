@@ -48,6 +48,28 @@ a:hover {
   color: var(--color-off-white);
 }
 
+/* The one button style (codebook §13): rectangular, no shadow, bordeaux for the primary action. */
+.button {
+  display: inline-block;
+  padding: 12px 18px;
+  border: 1px solid var(--color-bordeaux);
+  border-radius: var(--radius-none);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font: 400 var(--type-nav) / var(--leading-nav) var(--font-sans);
+  letter-spacing: var(--tracking-nav);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease);
+}
+
+.button:hover {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-off-white);
+}
+
 /* Shared layout primitives */
 .container {
   padding-inline: var(--margin);
