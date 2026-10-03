@@ -14,17 +14,27 @@ images:
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
 # Opening strip on the work page: from close up out to the studio.
+# On phones, layers with a label become their own numbered screens.
 layers:
   - src: ./images/layer-01.jpg
     alt: Close-up impression of thick turquoise paint shaped like a breaking wave.
+    label: Material
   - src: ./images/layer-02.jpg
     alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
+    label: Scale
+    caption: Miniature figures drift through a painted sea.
   - src: ./images/layer-03.jpg
     alt: Impression of several tiny surfers on the turquoise paint.
   - src: ./images/layer-04.jpg
     alt: Impression of tiny surfers spread across the turquoise surface.
+    label: The work
+    caption: Gesture, texture, movement.
+    textOnImage: false
   - src: ./images/layer-05.jpg
     alt: The artist at her easel in a sunlit studio, painting the work.
+    label: In the studio
+    caption: Where the layers come to life.
+    textOnImage: false
 ---
 
 ## What

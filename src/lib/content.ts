@@ -44,6 +44,11 @@ const layerSchema = z.object({
   alt: z.string().optional(),
   zoom: z.number().min(1).default(1),
   focus: z.string().default("50% 50%"),
+  /** Small-screen story: a layer with a label becomes its own numbered screen. */
+  label: z.string().optional(),
+  caption: z.string().optional(),
+  /** Whether the label sits on the image (light text) or below it on the page (bordeaux). */
+  textOnImage: z.boolean().default(true),
 });
 
 const workSchema = z.object({
@@ -94,6 +99,9 @@ export type WorkLayer = {
   image: Pick<WorkImage, "url" | "alt" | "width" | "height">;
   zoom: number;
   focus: string;
+  label?: string;
+  caption?: string;
+  textOnImage: boolean;
 };
 
 export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers"> & {
@@ -154,10 +162,11 @@ function loadWork(slug: string): Work {
 
   const images = meta.images.map((image) => ({ ...image, ...resolve(image.src) }));
 
-  const layers = meta.layers?.map(({ src, alt, zoom, focus }) => {
+  const layers = meta.layers?.map(({ src, alt, ...rest }) => {
     const listed = images.find((i) => i.src === src);
     if (!listed && !alt) throw new Error(`Layer ${src} in ${source} needs alt text`);
-    return { image: listed ? { ...listed, alt: alt ?? listed.alt } : { ...resolve(src), alt: alt! }, zoom, focus };
+    const image = listed ? { ...listed, alt: alt ?? listed.alt } : { ...resolve(src), alt: alt! };
+    return { image, ...rest };
   });
 
   return { ...meta, slug, images, layers, html: renderMarkdown(content) };
