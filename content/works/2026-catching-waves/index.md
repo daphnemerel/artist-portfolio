@@ -13,19 +13,18 @@ images:
   - src: ./images/02.jpg
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
-# Opening strip on the work page: from close detail out to the studio.
+# Opening strip on the work page: from close up out to the studio.
 layers:
-  - src: ./images/01.jpg
-    zoom: 3
-    focus: 36% 56%
-  - src: ./images/01.jpg
-    zoom: 2.2
-    focus: 72% 62%
-  - src: ./images/01.jpg
-    zoom: 1
-  - src: ./images/02.jpg
-    zoom: 1
-    focus: 60% 50%
+  - src: ./images/layer-01.jpg
+    alt: Close-up impression of thick turquoise paint shaped like a breaking wave.
+  - src: ./images/layer-02.jpg
+    alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
+  - src: ./images/layer-03.jpg
+    alt: Impression of several tiny surfers on the turquoise paint.
+  - src: ./images/layer-04.jpg
+    alt: Impression of tiny surfers spread across the turquoise surface.
+  - src: ./images/layer-05.jpg
+    alt: The artist at her easel in a sunlit studio, painting the work.
 ---
 
 ## What
