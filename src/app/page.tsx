@@ -19,7 +19,13 @@ export default function HomePage() {
 
       {hero && (
         <section className={styles.hero} aria-label="Featured work">
-          <figure className={styles.heroFigure}>
+          <figure
+            className={styles.heroFigure}
+            // Fill the first screen's height (or the page width), whichever comes first.
+            style={{
+              width: `min(100%, calc((100svh - 200px) * ${hero.images[0].width / hero.images[0].height}))`,
+            }}
+          >
             <Link href={`/works/${hero.slug}`}>
               <FadeImage
                 src={hero.images[0].url}

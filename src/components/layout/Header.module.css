@@ -10,9 +10,11 @@
   letter-spacing: var(--tracking-nav);
 }
 
+/* Wordmark set slightly larger and bold at the artist's request (codebook §10 prefers regular). */
 .name {
   justify-self: start;
-  font-size: var(--type-heading-md);
+  font-size: clamp(1.625rem, 3.2vw, 2rem);
+  font-weight: 700;
   line-height: var(--leading-heading-md);
   letter-spacing: var(--tracking-heading-md);
 }

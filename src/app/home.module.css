@@ -4,17 +4,14 @@
   margin-block-end: var(--space-3xl);
 }
 
-/* The figure shrinks to the image, so the caption lines up with the work's left edge. */
+/* The figure is sized to the work, so the caption lines up with the work's left edge. */
 .heroFigure {
-  width: fit-content;
-  max-width: 100%;
   margin-inline: auto;
 }
 
 .heroImage {
-  width: auto;
-  max-width: 100%;
-  max-height: calc(100svh - 200px);
+  width: 100%;
+  height: auto;
 }
 
 /* ---------- sections ---------- */
@@ -91,10 +88,6 @@
 }
 
 @media (max-width: 700px) {
-  .heroImage {
-    max-height: none;
-  }
-
   .section {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
