@@ -1,8 +1,9 @@
-/* Bordeaux band, edge to edge, with off-white type. No radius, no shadow. */
+/* Bordeaux band, edge to edge, set in the serif with off-white type. No radius, no shadow. */
 .footer {
   margin-block-start: var(--section-gap);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
+  font-family: var(--font-serif);
 }
 
 /* Links behave like the header navigation: a turquoise line appears on hover. */
@@ -11,7 +12,7 @@
   text-decoration: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 2px;
-  text-underline-offset: 0.45em;
+  text-underline-offset: 0.35em;
   transition: text-decoration-color var(--duration) var(--ease);
 }
 
@@ -26,53 +27,76 @@
 
 .main {
   display: grid;
-  grid-template-columns: 5fr 4fr 3fr;
-  align-items: start;
+  grid-template-columns: 7fr 3fr 3fr;
+  align-items: center;
   gap: var(--space-xl) var(--space-lg);
   padding-block: var(--space-2xl);
 }
 
 .name {
-  font-size: var(--type-heading-lg);
+  font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: var(--leading-heading-lg);
-  letter-spacing: var(--tracking-heading-lg);
+  letter-spacing: -0.01em;
 }
 
 .role {
-  margin-block-start: var(--space-sm);
-  font-family: var(--font-serif);
+  margin-block-start: var(--space-xs);
   font-size: var(--type-body-lg);
   line-height: var(--leading-body-lg);
-  opacity: 0.85;
 }
 
 .nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm) var(--space-lg);
-  padding-block-start: var(--space-xs);
-  font-size: var(--type-nav);
+  display: grid;
+  gap: var(--space-sm);
+  font-size: 1.25rem;
   line-height: var(--leading-nav);
-  letter-spacing: var(--tracking-nav);
+}
+
+.contact {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.label {
+  margin-block-end: var(--space-xs);
+  font-size: var(--type-body);
+  opacity: 0.8;
+}
+
+/* The email address carries a thin rule underneath, like a signed line. */
+.footer .email {
+  display: inline-block;
+  padding-block-end: var(--space-xs);
+  border-bottom: 1px solid var(--color-off-white);
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+.footer .email:hover {
+  border-bottom-color: var(--color-turquoise);
 }
 
 .social {
-  display: grid;
-  gap: var(--space-sm);
-  font-size: var(--type-nav);
-  line-height: var(--leading-nav);
-  letter-spacing: var(--tracking-nav);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-inline-start: -9px;
 }
 
 .social a,
 .pending {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.social a:hover {
+  color: var(--color-turquoise);
 }
 
 .pending {
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
 .meta {
@@ -81,16 +105,14 @@
   justify-content: space-between;
   gap: var(--space-sm);
   padding-block: var(--space-md);
-  border-top: 1px solid rgba(246, 241, 236, 0.2);
-  font-size: var(--type-caption);
-  line-height: var(--leading-caption);
-  letter-spacing: var(--tracking-caption);
-  opacity: 0.8;
+  border-top: 1px solid rgba(246, 241, 236, 0.25);
+  font-size: var(--type-body);
 }
 
 @media (max-width: 900px) {
   .main {
     grid-template-columns: 1fr;
+    align-items: start;
     padding-block: var(--space-xl);
   }
 }

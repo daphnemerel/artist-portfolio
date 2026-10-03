@@ -91,12 +91,12 @@ export function socialAccounts(site: Pick<Site, SocialPlatform>): SocialAccount[
   });
 }
 
-export function SocialIcon({ children }: { children: ReactNode }) {
+export function SocialIcon({ children, size = 18 }: { children: ReactNode; size?: number }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="18"
-      height="18"
+      width={size}
+      height={size}
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"

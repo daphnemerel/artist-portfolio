@@ -4,9 +4,12 @@ import { navLinks } from "./navigation";
 import { SocialIcon, socialAccounts } from "./social";
 import styles from "./Footer.module.css";
 
-/** Full-width bordeaux band closing every page: name, the main sections and social accounts. */
+/** Full-width bordeaux band closing every page: name, the main sections, email and social links. */
 export function Footer() {
   const site = getSite();
+  // Facebook only appears once an account is filled in; the others are always shown.
+  const social = socialAccounts(site).filter((a) => a.href || a.platform !== "facebook");
+
   return (
     <footer className={styles.footer}>
       <div className={`${styles.main} container`}>
@@ -25,23 +28,34 @@ export function Footer() {
           </ul>
         </nav>
 
-        <ul className={styles.social}>
-          {socialAccounts(site).map(({ platform, label, handle, href, icon }) => (
-            <li key={platform}>
-              {href ? (
-                <a href={href} rel="noopener noreferrer" aria-label={`${label}: ${handle}`}>
-                  <SocialIcon>{icon}</SocialIcon>
-                  <span>{handle}</span>
-                </a>
-              ) : (
-                <span className={styles.pending} aria-label={`${label}: account to be added`}>
-                  <SocialIcon>{icon}</SocialIcon>
-                  <span>account to be added</span>
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
+        <div className={styles.contact}>
+          {site.email && (
+            <div>
+              <p className={styles.label}>Email</p>
+              <a href={`mailto:${site.email}`} className={styles.email}>
+                {site.email}
+              </a>
+            </div>
+          )}
+          <div>
+            <p className={styles.label}>Follow</p>
+            <ul className={styles.social}>
+              {social.map(({ platform, label, href, icon }) => (
+                <li key={platform}>
+                  {href ? (
+                    <a href={href} rel="noopener noreferrer" aria-label={label}>
+                      <SocialIcon size={26}>{icon}</SocialIcon>
+                    </a>
+                  ) : (
+                    <span className={styles.pending} title={`${label}: account to be added`}>
+                      <SocialIcon size={26}>{icon}</SocialIcon>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className={`${styles.meta} container`}>
