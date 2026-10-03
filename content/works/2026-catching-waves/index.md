@@ -20,12 +20,15 @@ images:
 layers:
   - src: ./images/layer-01.jpg
     alt: Close-up impression of thick turquoise paint shaped like a breaking wave.
+    phone: side
   - src: ./images/layer-02.jpg
     alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
   - src: ./images/layer-03.jpg
     alt: Impression of several tiny surfers on the turquoise paint.
+    phone: main
   - src: ./images/layer-04.jpg
     alt: Impression of tiny surfers spread across the turquoise surface.
+    phone: side
   - src: ./images/layer-05.jpg
     alt: The artist at her easel in a sunlit studio, painting the work.
 # "Inside the work" section below the layers strip.

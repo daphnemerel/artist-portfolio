@@ -44,6 +44,8 @@ const layerSchema = z.object({
   alt: z.string().optional(),
   zoom: z.number().min(1).default(1),
   focus: z.string().default("50% 50%"),
+  /** On phones: the large image beside the title, one of the small ones next to it, or hidden. */
+  phone: z.enum(["main", "side"]).optional(),
 });
 
 /** "Inside the work": an editorial section of numbered images below the layers strip. */
@@ -117,6 +119,7 @@ export type WorkLayer = {
   image: Pick<WorkImage, "url" | "alt" | "width" | "height">;
   zoom: number;
   focus: string;
+  phone?: "main" | "side";
 };
 
 export type JourneyItem = Omit<z.infer<typeof journeySchema>["items"][number], "src"> & {

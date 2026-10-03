@@ -85,39 +85,70 @@
   }
 }
 
-/* ---------- phones: the same composition, stacked ----------
-   The first panel becomes a wide image with the title fading out of it; the other panels
-   follow as a row of narrow strips, like the desktop strip in miniature. */
+/* ---------- phones: one large panel with the title fading out of it, two small ones beside ---------- */
 @media (max-width: 900px) {
   .layers {
     height: auto;
+    margin-inline: 0;
     margin-block-end: var(--space-sm);
   }
 
   .strip {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-rows: 62svh 34svh;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(2, 36vw);
     gap: 4px;
     height: auto;
   }
 
-  .panel:first-child {
-    grid-column: 1 / -1;
-    mask-image: linear-gradient(to right, transparent 0%, transparent 18%, rgba(0, 0, 0, 0.45) 55%, #000 90%);
+  .panel[data-phone="hidden"] {
+    display: none;
+  }
+
+  .panel[data-phone="main"] {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    order: -1;
+    mask-image: linear-gradient(160deg, transparent 0%, transparent 42%, rgba(0, 0, 0, 0.55) 62%, #000 80%);
+  }
+
+  /* The later side panel goes on top, the earlier one below. */
+  .panel[data-phone="side"] {
+    grid-column: 2;
+    order: 2;
+  }
+
+  .panel[data-phone="side"] ~ .panel[data-phone="side"] {
+    order: 1;
+  }
+
+  /* On phones the first desktop panel is not the faded one. */
+  .panel:first-child:not([data-phone="main"]) {
+    mask-image: none;
   }
 
   .intro {
     inset-block: 0 auto;
-    height: 62svh;
-    max-width: 15rem;
+    inset-inline-start: 0;
+    max-width: 62%;
     gap: var(--space-sm);
+    justify-content: flex-start;
   }
 
   .heading {
-    font-size: clamp(2.25rem, 10.5vw, 3rem);
+    font-size: clamp(2.25rem, 10vw, 2.75rem);
+  }
+
+  .rule {
+    width: 40px;
   }
 
   .text {
+    max-width: 24ch;
     font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .arrow {
+    font-size: 1.25rem;
   }
 }

@@ -115,55 +115,76 @@
   line-height: 1.2;
 }
 
-/* Phones: two columns, the last image across the full width — the 3 + 2 grid, folded. */
+/* Phones: a list — small image left, number and text right, hairlines between the rows. */
 @media (max-width: 900px) {
   .head {
     grid-template-columns: 1fr;
     gap: var(--space-xs);
-    margin-block: var(--space-xs) var(--space-lg);
+    margin-block: var(--space-xs) var(--space-md);
+  }
+
+  .title {
+    font-size: clamp(2rem, 8.5vw, 2.5rem);
+  }
+
+  .intro {
+    max-width: none;
+    font-size: 0.9375rem;
   }
 
   .items {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-lg) var(--space-sm);
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 
   .item,
   .item:nth-child(4),
   .item:nth-child(5) {
-    grid-column: auto;
+    grid-column: 1 / -1;
+    grid-template-columns: 42% 1fr;
+    gap: var(--space-md);
+    align-items: start;
     margin-inline: 0;
-    gap: var(--space-sm);
+    padding-block: var(--space-xs);
   }
 
-  .item:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
+  .item + .item .caption {
+    border-top: var(--border-hairline);
   }
 
   .media,
-  .item:nth-child(4) .media {
-    aspect-ratio: 1;
-  }
-
-  .item:last-child:nth-child(odd) .media {
-    aspect-ratio: 1.6;
+  .item:nth-child(4) .media,
+  .item:nth-child(5) .media {
+    aspect-ratio: 2.3;
   }
 
   .caption {
-    grid-template-columns: 1fr;
-    gap: var(--space-xs);
+    grid-template-columns: auto 1fr;
+    gap: var(--space-sm);
+    padding-block-start: var(--space-xs);
   }
 
   .number {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .text {
+    border-top: 0;
     padding-block-start: var(--space-xs);
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  /* Short bordeaux rule above each label. */
+  .text::before {
+    content: "";
+    display: block;
+    width: 40px;
+    margin-block-end: var(--space-xs);
+    border-top: 1px solid var(--color-bordeaux);
   }
 
   .label {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 }

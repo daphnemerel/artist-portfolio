@@ -4,8 +4,8 @@ import styles from "./WorkLayers.module.css";
 
 /**
  * Opening of a work page: the title beside a strip of tall panels that runs from close up out to
- * the studio; the first panel fades into the page behind the text. On phones the same strip sits
- * below the first panel. The full, uncropped work follows further down.
+ * the studio; the first panel fades into the page behind the text. On phones one large panel
+ * carries the title, with two small ones beside it (chosen per layer with `phone`). The full, uncropped work follows further down.
  */
 export function WorkLayers({
   title,
@@ -22,14 +22,19 @@ export function WorkLayers({
   return (
     <section className={styles.layers} aria-label={`${title}: layers`}>
       <ul className={styles.strip}>
-        {layers.map(({ image, zoom, focus }, i) => (
-          <li key={image.url + i} className={styles.panel} style={{ animationDelay: `${i * 120}ms` }}>
+        {layers.map(({ image, zoom, focus, phone }, i) => (
+          <li
+            key={image.url + i}
+            className={styles.panel}
+            data-phone={phone ?? "hidden"}
+            style={{ animationDelay: `${i * 120}ms` }}
+          >
             <Image
               src={image.url}
               alt={image.alt}
               fill
               // A zoomed panel shows a fraction of the image, so it needs a larger file.
-              sizes={`(max-width: 900px) ${Math.round((i === 0 ? 100 : 25) * zoom)}vw, ${Math.round(30 * zoom)}vw`}
+              sizes={`(max-width: 900px) ${Math.round((phone === "main" ? 75 : 25) * zoom)}vw, ${Math.round(30 * zoom)}vw`}
               quality={90}
               priority
               className={styles.image}
