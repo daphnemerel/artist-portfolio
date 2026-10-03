@@ -4,7 +4,7 @@
   position: relative;
   height: min(84svh, 780px);
   margin-inline: calc(-1 * var(--margin));
-  margin-block-end: var(--space-3xl);
+  margin-block-end: var(--space-md);
 }
 
 .strip {

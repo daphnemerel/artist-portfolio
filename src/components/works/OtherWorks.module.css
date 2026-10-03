@@ -24,7 +24,7 @@
 
 .head {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-lg);
   margin-block: var(--space-sm) var(--space-md);
@@ -84,7 +84,7 @@
 .media {
   position: relative;
   aspect-ratio: 1.05;
-  margin-block-end: var(--space-sm);
+  margin-block-end: var(--space-xs);
   overflow: hidden;
   background: var(--color-image-bg);
 }
@@ -115,7 +115,7 @@
 /* Spaced capitals with a short rule underneath. */
 .kind {
   display: grid;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   font-family: var(--font-sans);
   font-size: 0.6875rem;
   letter-spacing: 0.3em;

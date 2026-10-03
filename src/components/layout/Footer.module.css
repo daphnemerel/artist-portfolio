@@ -1,6 +1,6 @@
 /* Bordeaux band, edge to edge, set in the serif with off-white type. No radius, no shadow. */
 .footer {
-  margin-block-start: var(--section-gap);
+  margin-block-start: var(--space-xl);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
   font-family: var(--font-serif);
@@ -28,13 +28,13 @@
 .main {
   display: grid;
   grid-template-columns: 7fr 3fr 3fr;
-  align-items: center;
+  align-items: start;
   gap: var(--space-xl) var(--space-lg);
-  padding-block: var(--space-2xl);
+  padding-block: var(--space-xl) var(--space-lg);
 }
 
 .name {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
   line-height: var(--leading-heading-lg);
   letter-spacing: -0.01em;
 }
@@ -47,8 +47,8 @@
 
 .nav {
   display: grid;
-  gap: var(--space-sm);
-  font-size: 1.25rem;
+  gap: var(--space-xs);
+  font-size: 1.125rem;
   line-height: var(--leading-nav);
 }
 
@@ -104,9 +104,11 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-block: var(--space-md);
+  padding-block: var(--space-sm);
   border-top: 1px solid rgba(246, 241, 236, 0.25);
-  font-size: var(--type-body);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+  opacity: 0.85;
 }
 
 @media (max-width: 900px) {
