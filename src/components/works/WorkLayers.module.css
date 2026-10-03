@@ -90,7 +90,7 @@
   .layers {
     height: auto;
     margin-inline: 0;
-    margin-block-end: var(--space-sm);
+    margin-block-end: var(--space-lg);
   }
 
   .strip {
