@@ -35,6 +35,22 @@ const imageEntrySchema = z.object({
   credit: z.string().optional(),
 });
 
+/**
+ * A panel in a work's opening "layers" strip. Either one of the work's images (optionally zoomed
+ * in on a point), or a separate picture in images/ that needs its own alt text.
+ */
+const layerSchema = z.object({
+  src: z.string().startsWith("./images/"),
+  alt: z.string().optional(),
+  zoom: z.number().min(1).default(1),
+  focus: z.string().default("50% 50%"),
+  /** Small-screen story: a layer with a label becomes its own numbered screen. */
+  label: z.string().optional(),
+  caption: z.string().optional(),
+  /** Whether the label sits on the image (light text) or below it on the page (bordeaux). */
+  textOnImage: z.boolean().default(true),
+});
+
 const workSchema = z.object({
   title: z.string().min(1),
   year: z.number().int().optional(),
@@ -43,10 +59,10 @@ const workSchema = z.object({
   edition: z.string().optional(),
   series: z.string().optional(),
   featured: z.boolean().default(false),
-  size: z.enum(["large", "medium", "small"]).optional(),
   order: z.number().default(0),
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
+  layers: z.array(layerSchema).optional(),
 });
 
 const exhibitionSchema = z.object({
@@ -79,9 +95,19 @@ export type WorkImage = z.infer<typeof imageEntrySchema> & {
   height: number;
 };
 
-export type Work = Omit<z.infer<typeof workSchema>, "images"> & {
+export type WorkLayer = {
+  image: Pick<WorkImage, "url" | "alt" | "width" | "height">;
+  zoom: number;
+  focus: string;
+  label?: string;
+  caption?: string;
+  textOnImage: boolean;
+};
+
+export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers"> & {
   slug: string;
   images: WorkImage[];
+  layers?: WorkLayer[];
   html: string;
 };
 
@@ -126,18 +152,24 @@ function loadWork(slug: string): Work {
   const { data, content } = matter(readFileSync(path.join(dir, "index.md"), "utf8"));
   const meta = parse(workSchema, data, source);
 
-  const images = meta.images.map((image) => {
-    const file = path.join(dir, image.src);
-    if (!existsSync(file)) {
-      throw new Error(`Missing image ${image.src} referenced in ${source}`);
-    }
+  const resolve = (src: string) => {
+    const file = path.join(dir, src);
+    if (!existsSync(file)) throw new Error(`Missing image ${src} referenced in ${source}`);
     const { width, height } = imageSize(readFileSync(file));
-    if (!width || !height) throw new Error(`Could not read dimensions of ${image.src} in ${source}`);
-    const name = image.src.replace("./images/", "");
-    return { ...image, url: `/media/works/${slug}/${name}`, width, height };
+    if (!width || !height) throw new Error(`Could not read dimensions of ${src} in ${source}`);
+    return { url: `/media/works/${slug}/${src.replace("./images/", "")}`, width, height };
+  };
+
+  const images = meta.images.map((image) => ({ ...image, ...resolve(image.src) }));
+
+  const layers = meta.layers?.map(({ src, alt, ...rest }) => {
+    const listed = images.find((i) => i.src === src);
+    if (!listed && !alt) throw new Error(`Layer ${src} in ${source} needs alt text`);
+    const image = listed ? { ...listed, alt: alt ?? listed.alt } : { ...resolve(src), alt: alt! };
+    return { image, ...rest };
   });
 
-  return { ...meta, slug, images, html: renderMarkdown(content) };
+  return { ...meta, slug, images, layers, html: renderMarkdown(content) };
 }
 
 /** All published works, newest first, then by `order`. */

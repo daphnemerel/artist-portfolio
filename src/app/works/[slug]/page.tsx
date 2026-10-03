@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ImageSequence } from "@/components/media/ImageSequence";
 import { Prose } from "@/components/type/Prose";
+import { WorkLayers } from "@/components/works/WorkLayers";
 import { getWork, getWorks } from "@/lib/content";
 import styles from "./work.module.css";
 
@@ -35,9 +36,13 @@ export default async function WorkPage({ params }: Props) {
   const prev = works[index - 1];
   const next = works[index + 1];
 
+  const story = Boolean(work.layers?.length);
+
   return (
-    <article className={`${styles.work} container`}>
-      <header className={styles.details}>
+    <article className={`${styles.work} ${story ? styles.story : ""} container`}>
+      {story && <WorkLayers title={work.title} layers={work.layers!} />}
+
+      <header className={styles.details} id="about">
         <h1 className={styles.title}>{work.title}</h1>
         <dl className={styles.meta}>
           {work.year && (
@@ -67,8 +72,15 @@ export default async function WorkPage({ params }: Props) {
             </>
           )}
         </dl>
-        <Prose html={work.html} />
+        {!story && <Prose html={work.html} />}
       </header>
+
+      {/* Story layout: the text (What / How / Inspiration) gets its own columns next to the title. */}
+      {story && (
+        <div className={styles.about}>
+          <Prose html={work.html} />
+        </div>
+      )}
 
       <div className={styles.images}>
         <ImageSequence images={work.images} />

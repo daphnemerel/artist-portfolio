@@ -1,0 +1,200 @@
+/* Full-bleed strip of tall panels; the text sits on the left, over the first panel, which
+   dissolves into the page so the words seem to float out of the image. */
+.layers {
+  position: relative;
+  height: min(84svh, 780px);
+  margin-inline: calc(-1 * var(--margin));
+  margin-block-end: var(--space-3xl);
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: 2.7fr 1fr 1fr 1fr 1.15fr;
+  gap: 6px;
+  height: 100%;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  animation: reveal 900ms var(--ease) both;
+}
+
+/* The first panel fades out to the left, under the text. */
+.panel:first-child {
+  mask-image: linear-gradient(to right, transparent 0%, transparent 34%, rgba(0, 0, 0, 0.45) 62%, #000 92%);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+/* Numbered labels belong to the phone layout only. */
+.caption {
+  display: none;
+}
+
+.intro {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--margin);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-md);
+  max-width: 20rem;
+  font-family: var(--font-serif);
+}
+
+/* Title, rule, line and arrow all in bordeaux. */
+.intro {
+  color: var(--color-bordeaux);
+}
+
+.heading {
+  display: grid;
+  font-size: clamp(2.75rem, 4.6vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.rule {
+  width: 56px;
+  border: 0;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.text {
+  max-width: 22ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+}
+
+.arrow {
+  align-self: flex-start;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--color-bordeaux);
+  text-decoration: none;
+}
+
+.arrow:hover {
+  color: var(--color-ink);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ---------- phones: the layers become full-height numbered screens ---------- */
+@media (max-width: 900px) {
+  .layers {
+    display: flex;
+    flex-direction: column-reverse;
+    height: auto;
+  }
+
+  .intro {
+    position: static;
+    padding: 0 var(--margin) var(--space-md);
+    max-width: none;
+  }
+
+  .heading {
+    font-size: clamp(2.25rem, 11vw, 3rem);
+  }
+
+  .strip {
+    display: block;
+    height: auto;
+  }
+
+  .unlabelled {
+    display: none;
+  }
+
+  .panel {
+    height: 92svh;
+    animation: none;
+  }
+
+  /* The first screen grows out of the title: it fades in from the top. */
+  .panel:first-child {
+    height: 66svh;
+    margin-block-start: calc(-1 * var(--space-lg));
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
+  }
+
+  /* Text below the image: the picture stops short and dissolves into the page. */
+  .onPage .media {
+    inset-block-end: 26%;
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  }
+
+  /* Light text on the image gets a soft shade at the bottom so it stays readable. */
+  .onImage .media::after {
+    content: "";
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(to bottom, transparent, rgba(28, 23, 24, 0.55));
+  }
+
+  .caption {
+    position: absolute;
+    inset-inline: var(--margin);
+    inset-block-end: var(--space-xl);
+    display: grid;
+    justify-items: start;
+    gap: var(--space-xs);
+    padding-inline-start: var(--space-md);
+    font-family: var(--font-serif);
+  }
+
+  /* A thin vertical line runs up from each label. */
+  .caption::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: calc(-1 * var(--space-xl)) 0;
+    border-inline-start: 1px solid currentColor;
+  }
+
+  .onImage .caption {
+    color: var(--color-off-white);
+  }
+
+  .onPage .caption {
+    color: var(--color-bordeaux);
+  }
+
+  .number {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .label {
+    font-size: var(--type-nav);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .captionText {
+    max-width: 24ch;
+    margin-block-start: var(--space-xs);
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+  }
+
+  .cta {
+    margin-block-start: var(--space-md);
+    margin-inline-start: calc(-1 * var(--space-md));
+  }
+}
