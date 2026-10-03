@@ -1,11 +1,11 @@
 .purchase {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 11fr 6fr;
+  grid-template-columns: 13fr 8fr;
   align-items: center;
   gap: var(--space-xl);
-  margin-block-start: var(--space-2xl);
-  padding-block-end: var(--space-2xl);
+  margin-block-start: var(--space-xl);
+  padding-block-end: var(--space-xl);
   border-bottom: var(--border-hairline);
   font-family: var(--font-serif);
   color: var(--color-bordeaux);
@@ -20,6 +20,7 @@
   display: grid;
   justify-items: start;
   gap: var(--space-md);
+  max-width: 28rem;
 }
 
 /* Short rule, then spaced small capitals. */
@@ -41,7 +42,8 @@
 }
 
 .title {
-  font-size: clamp(2.5rem, 4.4vw, 3.75rem);
+  font-size: clamp(2.5rem, 4.1vw, 3.75rem);
+  white-space: nowrap;
   font-weight: 400;
   line-height: 1.05;
 }
@@ -54,8 +56,8 @@
 }
 
 .price {
-  margin-block-start: var(--space-md);
-  font-size: clamp(2.25rem, 3.6vw, 3rem);
+  margin-block-start: var(--space-lg);
+  font-size: clamp(2.5rem, 4.2vw, 3.5rem);
   line-height: 1;
 }
 
@@ -67,15 +69,17 @@
 
 .buy {
   justify-self: stretch;
-  max-width: 22rem;
-  padding: 18px 28px;
+  margin-block-start: var(--space-xs);
+  padding: 22px 32px;
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  letter-spacing: 0;
   text-align: center;
 }
 
 .more {
-  font-size: var(--type-body);
+  margin-block-start: var(--space-sm);
+  font-size: 1.125rem;
   color: var(--color-bordeaux);
   text-decoration: underline;
   text-decoration-thickness: 1px;
@@ -89,5 +93,9 @@
 @media (max-width: 900px) {
   .purchase {
     grid-template-columns: 1fr;
+  }
+
+  .title {
+    white-space: normal;
   }
 }
