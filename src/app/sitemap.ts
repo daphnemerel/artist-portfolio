@@ -3,7 +3,7 @@ import { getTexts, getWorks } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/works", "/exhibitions", "/texts", "/about", "/contact"];
+  const pages = ["", "/works", "/exhibitions", "/texts", "/commissions", "/about", "/contact"];
   return [
     ...pages.map((path) => ({ url: `${siteUrl}${path}` })),
     ...getWorks().map((work) => ({ url: `${siteUrl}/works/${work.slug}` })),

@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm) var(--space-lg);
-  margin-block-end: var(--space-xl);
+  margin-block-end: var(--space-md);
   font-size: var(--type-nav);
   letter-spacing: var(--tracking-nav);
 }
@@ -38,7 +38,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-xl) var(--space-lg);
+  gap: var(--space-lg) var(--space-md);
 }
 
 @media (max-width: 1100px) {
@@ -50,7 +50,7 @@
 @media (max-width: 700px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-lg) var(--space-sm);
+    gap: var(--space-md) var(--space-sm);
   }
 }
 
