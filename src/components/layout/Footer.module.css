@@ -114,7 +114,7 @@
 /* Phones: the same three columns, compact, with a hairline before the contact column. */
 @media (max-width: 900px) {
   .footer {
-    margin-block-start: var(--space-2xl);
+    margin-block-start: var(--space-lg);
   }
 
   .main {

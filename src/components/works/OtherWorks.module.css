@@ -131,6 +131,10 @@
 
 /* Phones: the three works stay side by side, small; the round arrow is left out. */
 @media (max-width: 900px) {
+  .other {
+    margin-block-start: 0;
+  }
+
   .head {
     margin-block: var(--space-xs) var(--space-sm);
   }

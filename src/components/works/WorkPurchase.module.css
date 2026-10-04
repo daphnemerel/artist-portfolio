@@ -95,8 +95,7 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
     align-items: start;
-    margin-block-start: var(--space-lg);
-    padding-block: var(--space-xl) var(--space-lg);
+    padding-block: var(--space-md);
   }
 
   .details {
