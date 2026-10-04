@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm) var(--space-lg);
-  margin-block-end: var(--space-xl);
+  margin-block-end: var(--space-md);
   font-size: var(--type-nav);
   letter-spacing: var(--tracking-nav);
 }
