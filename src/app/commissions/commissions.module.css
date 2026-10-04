@@ -1,0 +1,12 @@
+.commissions {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-lg);
+  max-width: var(--measure);
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+}
+
+.muted {
+  color: var(--color-muted);
+}
