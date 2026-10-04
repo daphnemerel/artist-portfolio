@@ -22,6 +22,13 @@ export function NavLinks({ actions }: { actions: ReactNode }) {
         onClick={() => setOpen((o) => !o)}
       >
         {open ? "Close" : "Menu"}
+        <svg viewBox="0 0 24 16" width="22" height="15" aria-hidden="true">
+          {open ? (
+            <path d="M5 1l14 14M19 1L5 15" stroke="currentColor" strokeWidth="1.25" />
+          ) : (
+            <path d="M0 1h24M0 8h24M0 15h24" stroke="currentColor" strokeWidth="1.25" />
+          )}
+        </svg>
       </button>
       <nav id="main-nav" aria-label="Main" className={styles.nav} data-open={open}>
         <ul>

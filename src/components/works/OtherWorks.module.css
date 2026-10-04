@@ -1,0 +1,176 @@
+.other {
+  grid-column: 1 / -1;
+  margin-block-start: calc(var(--space-sm) - var(--space-xl));
+  font-family: var(--font-serif);
+  color: var(--color-bordeaux);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-block: var(--space-sm) var(--space-md);
+}
+
+.title {
+  font-size: clamp(2.5rem, 4.6vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.intro {
+  max-width: 40ch;
+  margin-block-start: var(--space-xs);
+  font-size: 1.125rem;
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+/* The one round element: a functional "all works" arrow. */
+.all {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--color-bordeaux);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: var(--color-bordeaux);
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.all:hover {
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-xs);
+  color: inherit;
+}
+
+.card:hover {
+  color: inherit;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1.05;
+  margin-block-end: var(--space-xs);
+  overflow: hidden;
+  background: var(--color-image-bg);
+}
+
+.image {
+  object-fit: cover;
+  transition: transform var(--duration) var(--ease);
+}
+
+.card:hover .image {
+  transform: scale(1.01);
+}
+
+.name {
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+.card:hover .name {
+  text-decoration-color: var(--color-turquoise);
+}
+
+/* Spaced capitals with a short rule underneath. */
+.kind {
+  display: grid;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.kind::after {
+  content: "";
+  width: 40px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+/* Phones: the three works stay side by side, small; the round arrow is left out. */
+@media (max-width: 900px) {
+  .other {
+    margin-block-start: 0;
+  }
+
+  .head {
+    margin-block: var(--space-xs) var(--space-sm);
+  }
+
+  .title {
+    font-size: clamp(2rem, 8.5vw, 2.5rem);
+  }
+
+  .intro {
+    font-size: 0.9375rem;
+  }
+
+  .all {
+    display: none;
+  }
+
+  .grid {
+    gap: var(--space-xs);
+  }
+
+  .media {
+    aspect-ratio: 1.45;
+    margin-block-end: 2px;
+  }
+
+  .name {
+    font-size: 1rem;
+  }
+
+  .kind {
+    gap: var(--space-xs);
+    font-size: 0.4375rem;
+    letter-spacing: 0.2em;
+  }
+
+  .kind::after {
+    width: 20px;
+  }
+}

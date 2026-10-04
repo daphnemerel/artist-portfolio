@@ -4,6 +4,9 @@ title: Catching Waves
 year: 2026
 medium: Medium to be added
 featured: true
+summary: A playful scene of tiny swimmers and surfers on a textured sea of layered paint.
+# PLACEHOLDER price taken from the design mock-up — replace with the real price.
+price: €999,99
 order: 0
 images:
   - src: ./images/01.jpg
@@ -14,27 +17,46 @@ images:
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
 # Opening strip on the work page: from close up out to the studio.
-# On phones, layers with a label become their own numbered screens.
 layers:
   - src: ./images/layer-01.jpg
     alt: Close-up impression of thick turquoise paint shaped like a breaking wave.
-    label: Material
+    phone: side
   - src: ./images/layer-02.jpg
     alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
-    label: Scale
-    caption: Miniature figures drift through a painted sea.
   - src: ./images/layer-03.jpg
     alt: Impression of several tiny surfers on the turquoise paint.
+    phone: main
   - src: ./images/layer-04.jpg
     alt: Impression of tiny surfers spread across the turquoise surface.
-    label: The work
-    caption: Gesture, texture, movement.
-    textOnImage: false
+    phone: side
   - src: ./images/layer-05.jpg
     alt: The artist at her easel in a sunlit studio, painting the work.
-    label: In the studio
-    caption: Where the layers come to life.
-    textOnImage: false
+# "Inside the work" section below the layers strip.
+journey:
+  title: Inside Catching Waves
+  intro: A closer look at the layers, the process and the world behind the work.
+  items:
+    - src: ./images/journey-texture.jpg
+      alt: Detail of the thick, ridged turquoise paint of Catching Waves.
+      label: Texture
+      text: Thick paint creates a tactile, layered surface.
+    - src: ./images/layer-02.jpg
+      alt: Close-up impression of a tiny surfer riding a ridge of turquoise paint.
+      label: Scale
+      text: Miniature swimmers turn texture into a world.
+      focus: 50% 55%
+    - src: ./images/01.jpg
+      alt: Catching Waves seen from above, with tiny swimmers and surfers across the waves.
+      label: Composition
+      text: Movement, texture and stillness come together.
+    - src: ./images/journey-studio.jpg
+      alt: The artist at her easel in a sunlit studio, painting Catching Waves.
+      label: Studio
+      text: The work comes to life in the light of the atelier.
+    - src: ./images/journey-process.jpg
+      alt: A jar of turquoise paint with a brush on a paint-spattered table.
+      label: Process
+      text: Layer by layer, the landscape takes shape.
 ---
 
 ## What

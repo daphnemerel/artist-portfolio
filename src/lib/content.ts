@@ -44,11 +44,26 @@ const layerSchema = z.object({
   alt: z.string().optional(),
   zoom: z.number().min(1).default(1),
   focus: z.string().default("50% 50%"),
-  /** Small-screen story: a layer with a label becomes its own numbered screen. */
-  label: z.string().optional(),
-  caption: z.string().optional(),
-  /** Whether the label sits on the image (light text) or below it on the page (bordeaux). */
-  textOnImage: z.boolean().default(true),
+  /** On phones: the large image beside the title, one of the small ones next to it, or hidden. */
+  phone: z.enum(["main", "side"]).optional(),
+});
+
+/** "Inside the work": an editorial section of numbered images below the layers strip. */
+const journeySchema = z.object({
+  eyebrow: z.string().default("The journey"),
+  title: z.string(),
+  intro: z.string().optional(),
+  items: z
+    .array(
+      z.object({
+        src: z.string().startsWith("./images/"),
+        alt: z.string().min(1, "Every image needs alt text"),
+        label: z.string(),
+        text: z.string().optional(),
+        focus: z.string().default("50% 50%"),
+      }),
+    )
+    .min(1),
 });
 
 const workSchema = z.object({
@@ -63,6 +78,11 @@ const workSchema = z.object({
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
   layers: z.array(layerSchema).optional(),
+  journey: journeySchema.optional(),
+  /** One-sentence description used beside the work and its price. */
+  summary: z.string().optional(),
+  /** Price as shown, e.g. "€1.200". Leave out while the work is not for sale. */
+  price: z.string().optional(),
 });
 
 const exhibitionSchema = z.object({
@@ -99,15 +119,22 @@ export type WorkLayer = {
   image: Pick<WorkImage, "url" | "alt" | "width" | "height">;
   zoom: number;
   focus: string;
-  label?: string;
-  caption?: string;
-  textOnImage: boolean;
+  phone?: "main" | "side";
 };
 
-export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers"> & {
+export type JourneyItem = Omit<z.infer<typeof journeySchema>["items"][number], "src"> & {
+  url: string;
+  width: number;
+  height: number;
+};
+
+export type WorkJourney = Omit<z.infer<typeof journeySchema>, "items"> & { items: JourneyItem[] };
+
+export type Work = Omit<z.infer<typeof workSchema>, "images" | "layers" | "journey"> & {
   slug: string;
   images: WorkImage[];
   layers?: WorkLayer[];
+  journey?: WorkJourney;
   html: string;
 };
 
@@ -169,7 +196,12 @@ function loadWork(slug: string): Work {
     return { image, ...rest };
   });
 
-  return { ...meta, slug, images, layers, html: renderMarkdown(content) };
+  const journey = meta.journey && {
+    ...meta.journey,
+    items: meta.journey.items.map(({ src, ...item }) => ({ ...item, ...resolve(src) })),
+  };
+
+  return { ...meta, slug, images, layers, journey, html: renderMarkdown(content) };
 }
 
 /** All published works, newest first, then by `order`. */

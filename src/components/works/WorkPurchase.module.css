@@ -1,0 +1,143 @@
+.purchase {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 13fr 8fr;
+  align-items: center;
+  gap: var(--space-xl);
+  padding-block: var(--space-xl);
+  border-block: var(--border-hairline);
+  font-family: var(--font-serif);
+  color: var(--color-bordeaux);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.details {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  max-width: 28rem;
+}
+
+/* Short rule, then spaced small capitals. */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  font-size: clamp(2.5rem, 4.1vw, 3.75rem);
+  white-space: nowrap;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.summary {
+  max-width: 34ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.price {
+  margin-block-start: var(--space-lg);
+  font-size: clamp(2.5rem, 4.2vw, 3.5rem);
+  line-height: 1;
+}
+
+.rule {
+  width: 56px;
+  border: 0;
+  border-top: var(--border-hairline);
+}
+
+.buy {
+  justify-self: stretch;
+  margin-block-start: var(--space-xs);
+  padding: 22px 32px;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.more {
+  margin-block-start: var(--space-sm);
+  font-size: 1.125rem;
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.more:hover {
+  text-decoration-color: var(--color-turquoise);
+}
+
+/* Phones: still side by side, smaller. */
+@media (max-width: 900px) {
+  .purchase {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    align-items: start;
+    padding-block: var(--space-md);
+  }
+
+  .details {
+    gap: var(--space-xs);
+    max-width: none;
+  }
+
+  .eyebrow {
+    font-size: 0.5625rem;
+    gap: var(--space-xs);
+  }
+
+  .eyebrow::before {
+    width: 16px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    white-space: normal;
+  }
+
+  .summary {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .price {
+    margin-block-start: 0;
+    font-size: 1.625rem;
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .buy {
+    padding: 10px 12px;
+    font-size: 0.9375rem;
+  }
+
+  .more {
+    margin-block-start: var(--space-xs);
+    font-size: 0.875rem;
+  }
+}

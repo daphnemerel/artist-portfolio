@@ -110,6 +110,11 @@
 }
 
 @media (max-width: 900px) {
+  /* Phones: sections sit close together. */
+  .story {
+    row-gap: var(--space-md);
+  }
+
   .details,
   .images,
   .about,

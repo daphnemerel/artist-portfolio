@@ -4,7 +4,7 @@
   position: relative;
   height: min(84svh, 780px);
   margin-inline: calc(-1 * var(--margin));
-  margin-block-end: var(--space-3xl);
+  margin-block-end: var(--space-md);
 }
 
 .strip {
@@ -25,18 +25,8 @@
   mask-image: linear-gradient(to right, transparent 0%, transparent 34%, rgba(0, 0, 0, 0.45) 62%, #000 92%);
 }
 
-.media {
-  position: absolute;
-  inset: 0;
-}
-
 .image {
   object-fit: cover;
-}
-
-/* Numbered labels belong to the phone layout only. */
-.caption {
-  display: none;
 }
 
 .intro {
@@ -58,6 +48,7 @@
 
 .heading {
   display: grid;
+  font-weight: 400;
   font-size: clamp(2.75rem, 4.6vw, 4.25rem);
   line-height: 1;
   letter-spacing: 0.035em;
@@ -94,107 +85,70 @@
   }
 }
 
-/* ---------- phones: the layers become full-height numbered screens ---------- */
+/* ---------- phones: one large panel with the title fading out of it, two small ones beside ---------- */
 @media (max-width: 900px) {
   .layers {
-    display: flex;
-    flex-direction: column-reverse;
     height: auto;
-  }
-
-  .intro {
-    position: static;
-    padding: 0 var(--margin) var(--space-md);
-    max-width: none;
-  }
-
-  .heading {
-    font-size: clamp(2.25rem, 11vw, 3rem);
+    margin-inline: 0;
+    margin-block-end: 0;
   }
 
   .strip {
-    display: block;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(2, 36vw);
+    gap: 4px;
     height: auto;
   }
 
-  .unlabelled {
+  .panel[data-phone="hidden"] {
     display: none;
   }
 
-  .panel {
-    height: 92svh;
-    animation: none;
+  .panel[data-phone="main"] {
+    grid-row: 1 / -1;
+    grid-column: 1;
+    order: -1;
+    mask-image: linear-gradient(160deg, transparent 0%, transparent 42%, rgba(0, 0, 0, 0.55) 62%, #000 80%);
   }
 
-  /* The first screen grows out of the title: it fades in from the top. */
-  .panel:first-child {
-    height: 66svh;
-    margin-block-start: calc(-1 * var(--space-lg));
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 26%);
+  /* The later side panel goes on top, the earlier one below. */
+  .panel[data-phone="side"] {
+    grid-column: 2;
+    order: 2;
   }
 
-  /* Text below the image: the picture stops short and dissolves into the page. */
-  .onPage .media {
-    inset-block-end: 26%;
-    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  .panel[data-phone="side"] ~ .panel[data-phone="side"] {
+    order: 1;
   }
 
-  /* Light text on the image gets a soft shade at the bottom so it stays readable. */
-  .onImage .media::after {
-    content: "";
-    position: absolute;
-    inset: 45% 0 0;
-    background: linear-gradient(to bottom, transparent, rgba(28, 23, 24, 0.55));
+  /* On phones the first desktop panel is not the faded one. */
+  .panel:first-child:not([data-phone="main"]) {
+    mask-image: none;
   }
 
-  .caption {
-    position: absolute;
-    inset-inline: var(--margin);
-    inset-block-end: var(--space-xl);
-    display: grid;
-    justify-items: start;
-    gap: var(--space-xs);
-    padding-inline-start: var(--space-md);
-    font-family: var(--font-serif);
-  }
-
-  /* A thin vertical line runs up from each label. */
-  .caption::before {
-    content: "";
-    position: absolute;
+  .intro {
+    inset-block: 0 auto;
     inset-inline-start: 0;
-    inset-block: calc(-1 * var(--space-xl)) 0;
-    border-inline-start: 1px solid currentColor;
+    max-width: 62%;
+    gap: var(--space-sm);
+    justify-content: flex-start;
   }
 
-  .onImage .caption {
-    color: var(--color-off-white);
+  .heading {
+    font-size: clamp(2.25rem, 10vw, 2.75rem);
   }
 
-  .onPage .caption {
-    color: var(--color-bordeaux);
+  .rule {
+    width: 40px;
   }
 
-  .number {
-    font-size: 1.75rem;
-    line-height: 1;
-  }
-
-  .label {
-    font-size: var(--type-nav);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-
-  .captionText {
+  .text {
     max-width: 24ch;
-    margin-block-start: var(--space-xs);
-    font-size: var(--type-body);
-    line-height: var(--leading-body);
+    font-size: 0.9375rem;
+    line-height: 1.4;
   }
 
-  .cta {
-    margin-block-start: var(--space-md);
-    margin-inline-start: calc(-1 * var(--space-md));
+  .arrow {
+    font-size: 1.25rem;
   }
 }

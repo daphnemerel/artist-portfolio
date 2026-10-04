@@ -1,0 +1,190 @@
+/* Editorial section in the serif, bordeaux on off-white. */
+.journey {
+  grid-column: 1 / -1;
+  font-family: var(--font-serif);
+  color: var(--color-bordeaux);
+}
+
+/* Small spaced capitals followed by a hairline that runs to the edge. */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+.eyebrow::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--color-bordeaux);
+  opacity: 0.5;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: end;
+  gap: var(--space-lg);
+  margin-block: var(--space-md) var(--space-xl);
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.intro {
+  max-width: 30ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+/* Three across, then two — the first of the pair wider, both set in from the edges. */
+.items {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-xl) var(--space-lg);
+}
+
+.item {
+  grid-column: span 2;
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+
+.item:nth-child(4) {
+  grid-column: 1 / 4;
+  margin-inline-start: 10%;
+}
+
+.item:nth-child(5) {
+  grid-column: 4 / 7;
+  margin-inline: 10% 6%;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 1.1;
+  overflow: hidden;
+  background: var(--color-image-bg);
+}
+
+.item:nth-child(4) .media,
+.item:nth-child(5) .media {
+  aspect-ratio: 1.5;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.caption {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-md);
+}
+
+.number {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+
+/* A short bordeaux rule above each label. */
+.text {
+  padding-block-start: var(--space-md);
+  border-top: 1px solid var(--color-bordeaux);
+  max-width: 26ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+}
+
+.text > p {
+  color: var(--color-muted);
+}
+
+.label {
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* Phones: a list — small image left, number and text right, hairlines between the rows. */
+@media (max-width: 900px) {
+  .head {
+    grid-template-columns: 1fr;
+    gap: var(--space-xs);
+    margin-block: var(--space-xs) var(--space-md);
+  }
+
+  .title {
+    font-size: clamp(2rem, 8.5vw, 2.5rem);
+  }
+
+  .intro {
+    max-width: none;
+    font-size: 0.9375rem;
+  }
+
+  .items {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .item,
+  .item:nth-child(4),
+  .item:nth-child(5) {
+    grid-column: 1 / -1;
+    grid-template-columns: 42% 1fr;
+    gap: var(--space-md);
+    align-items: start;
+    margin-inline: 0;
+    padding-block: var(--space-xs);
+  }
+
+  .item + .item .caption {
+    border-top: var(--border-hairline);
+  }
+
+  .media,
+  .item:nth-child(4) .media,
+  .item:nth-child(5) .media {
+    aspect-ratio: 2.3;
+  }
+
+  .caption {
+    grid-template-columns: auto 1fr;
+    gap: var(--space-sm);
+    padding-block-start: var(--space-xs);
+  }
+
+  .number {
+    font-size: 1.75rem;
+  }
+
+  .text {
+    border-top: 0;
+    padding-block-start: var(--space-xs);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  /* Short bordeaux rule above each label. */
+  .text::before {
+    content: "";
+    display: block;
+    width: 40px;
+    margin-block-end: var(--space-xs);
+    border-top: 1px solid var(--color-bordeaux);
+  }
+
+  .label {
+    font-size: 1rem;
+  }
+}

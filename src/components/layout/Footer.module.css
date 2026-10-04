@@ -1,6 +1,6 @@
 /* Bordeaux band, edge to edge, set in the serif with off-white type. No radius, no shadow. */
 .footer {
-  margin-block-start: var(--section-gap);
+  margin-block-start: var(--space-xl);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
   font-family: var(--font-serif);
@@ -28,13 +28,13 @@
 .main {
   display: grid;
   grid-template-columns: 7fr 3fr 3fr;
-  align-items: center;
+  align-items: start;
   gap: var(--space-xl) var(--space-lg);
-  padding-block: var(--space-2xl);
+  padding-block: var(--space-xl) var(--space-lg);
 }
 
 .name {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
   line-height: var(--leading-heading-lg);
   letter-spacing: -0.01em;
 }
@@ -47,8 +47,8 @@
 
 .nav {
   display: grid;
-  gap: var(--space-sm);
-  font-size: 1.25rem;
+  gap: var(--space-xs);
+  font-size: 1.125rem;
   line-height: var(--leading-nav);
 }
 
@@ -104,15 +104,75 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-sm);
-  padding-block: var(--space-md);
+  padding-block: var(--space-sm);
   border-top: 1px solid rgba(246, 241, 236, 0.25);
-  font-size: var(--type-body);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+  opacity: 0.85;
 }
 
+/* Phones: the same three columns, compact, with a hairline before the contact column. */
 @media (max-width: 900px) {
+  .footer {
+    margin-block-start: var(--space-lg);
+  }
+
   .main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.35fr 0.8fr 1.25fr;
     align-items: start;
-    padding-block: var(--space-xl);
+    gap: var(--space-sm);
+    padding-block: var(--space-md);
+  }
+
+  .name {
+    font-size: 1.375rem;
+    line-height: 1.15;
+  }
+
+  .role {
+    margin-block-start: 2px;
+    font-size: 0.8125rem;
+  }
+
+  .nav {
+    gap: 2px;
+    font-size: 0.75rem;
+  }
+
+  .contact {
+    gap: var(--space-sm);
+    padding-inline-start: var(--space-sm);
+    border-inline-start: 1px solid rgba(246, 241, 236, 0.25);
+  }
+
+  .label {
+    margin-block-end: 2px;
+    font-size: 0.6875rem;
+  }
+
+  .footer .email {
+    padding-block-end: 4px;
+    font-size: 0.6875rem;
+  }
+
+  .social {
+    gap: 0;
+    margin-inline-start: -12px;
+  }
+
+  .social a,
+  .pending {
+    width: 34px;
+    height: 34px;
+  }
+
+  .social svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .meta {
+    padding-block: var(--space-xs);
+    font-size: 0.625rem;
   }
 }

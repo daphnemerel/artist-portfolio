@@ -75,8 +75,13 @@
   }
 
   .toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
     min-height: 44px;
+    font-family: var(--font-serif);
+    font-size: 0.9375rem;
+    letter-spacing: 0;
   }
 
   .toggle:hover {
