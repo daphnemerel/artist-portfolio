@@ -1,0 +1,277 @@
+/*
+ * Catching Waves — experimental scroll preview.
+ * Deviates from the codebook (pinning, parallax, larger motion) for this route only, with the
+ * artist's approval. Colours, type, spacing and artwork rules still come from tokens.css.
+ *
+ * Three layouts share one set of markup:
+ *  - default (phones, and anyone who prefers reduced motion): studio, work and details stacked;
+ *  - desktop + reduced motion: the same, with the work and its details side by side;
+ *  - desktop + motion: one pinned screen that the camera moves through (driven by GSAP).
+ */
+
+.preview {
+  /* The pinned scene runs edge to edge; text sections use .container. */
+}
+
+/* ---------- default: stacked ---------- */
+
+.viewport {
+  display: grid;
+  gap: var(--space-xl);
+  padding-inline: var(--margin);
+}
+
+.studio {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-image-bg);
+}
+
+.studioImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.art {
+  position: relative;
+  /* Never cropped: the image keeps its own proportions. */
+}
+
+.artImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The figure is the artwork's own surfer, cut from 01.jpg (104 of 1254 px wide). */
+.surfer {
+  display: none;
+  position: absolute;
+  width: 8.3%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.surferImage {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* A soft contact shadow so the figure reads as standing on the paint, not pasted on it. */
+.surferShadow {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  filter: brightness(0) blur(2px);
+  opacity: 0.28;
+}
+
+.hint {
+  display: none;
+}
+
+/* ---------- details (shared) ---------- */
+
+.info {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  max-width: 28rem;
+  font-family: var(--font-serif);
+  color: var(--color-bordeaux);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  font-size: clamp(2.5rem, 4.1vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.meta {
+  display: grid;
+  gap: 2px;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
+
+.summary {
+  max-width: 34ch;
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.price {
+  font-size: clamp(2.5rem, 4.2vw, 3.5rem);
+  line-height: 1;
+}
+
+.buy {
+  justify-self: stretch;
+  padding: 22px 32px;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.more {
+  font-size: 1.125rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.more:hover {
+  text-decoration-color: var(--color-turquoise);
+}
+
+.about {
+  display: grid;
+  gap: var(--space-lg);
+  max-width: calc(var(--measure) + 2 * var(--margin));
+  padding-block: var(--section-gap);
+}
+
+.back {
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+}
+
+.back a {
+  text-decoration: underline;
+}
+
+/* ---------- phones with motion: the surfer rides the work as it scrolls past ---------- */
+
+@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
+  .surfer {
+    display: block;
+  }
+
+  .studioImage {
+    transform-origin: 50% 60%;
+    will-change: transform;
+  }
+}
+
+@media (max-width: 899px) {
+  .buy {
+    padding: 14px 20px;
+    font-size: 1.125rem;
+  }
+}
+
+/* ---------- desktop, reduced motion: still, side by side ---------- */
+
+@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+  .viewport {
+    grid-template-columns: 13fr 8fr;
+    align-items: center;
+    column-gap: var(--space-xl);
+    row-gap: var(--section-gap);
+  }
+
+  .studio {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ---------- desktop with motion: one pinned screen, moved through by the camera ---------- */
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .viewport {
+    position: relative;
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    background: var(--color-off-white);
+  }
+
+  /* Sized and moved by script; until then it simply covers the screen. */
+  .studio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    transform-origin: 0 0;
+    will-change: transform, opacity;
+  }
+
+  .art {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vh;
+    height: 100vh;
+    opacity: 0;
+    transform-origin: 50% 50%;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+
+  .artImage {
+    height: 100%;
+  }
+
+  .surfer {
+    display: block;
+    opacity: 0;
+  }
+
+  .hint {
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: var(--space-lg);
+    translate: -50% 0;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-off-white);
+    font-size: var(--type-caption);
+    line-height: var(--leading-caption);
+    letter-spacing: var(--tracking-caption);
+    color: var(--color-ink);
+  }
+
+  .info {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--info-left, 60%);
+    right: var(--margin);
+    align-content: center;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
