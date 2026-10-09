@@ -1,15 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getSite, getWork } from "@/lib/content";
+import { OtherWorks } from "@/components/works/OtherWorks";
+import { WorkJourney } from "@/components/works/WorkJourney";
+import { WorkPurchase } from "@/components/works/WorkPurchase";
+import { getSite, getWork, getWorks } from "@/lib/content";
 import { CatchingWavesExperience } from "./CatchingWavesExperience";
+import styles from "./preview.module.css";
 
 /*
- * EXPERIMENTAL PREVIEW — not linked from the site, not in the sitemap, not indexed.
+ * EXPERIMENTAL PREVIEW (V2, "Beyond the Canvas") — not linked from the site, not in the sitemap,
+ * not indexed. The live work page /works/2026-catching-waves is unchanged.
  *
  * For this route only, the artist has explicitly approved deviating from the codebook's limits on
  * parallax, pinned scrolling and heavier animation (CLAUDE.md / DAPHNE_MEREL_DESIGN_CODEBOOK.md
- * §2 and §12). Everything else on the site keeps following the codebook. Colours, type, spacing
- * and artwork rules (uncropped, unfiltered, real images only) still apply here.
+ * §2 and §12). Colours, type, spacing and the artwork rules (real photos, uncropped and
+ * unfiltered in the reveal) still apply.
  */
 
 const SLUG = "2026-catching-waves";
@@ -23,40 +28,51 @@ export default function CatchingWavesPreviewPage() {
   const work = getWork(SLUG);
   if (!work) notFound();
 
-  // Images come from the work's own content folder (content/works/2026-catching-waves/images).
+  const pick = <T extends { url: string }>(list: T[] | undefined, file: string) => list?.find((i) => i.url.endsWith(`/${file}`));
   const artwork = work.images[0];
-  const studioWide = work.journey?.items.find((item) => item.url.endsWith("/journey-studio.jpg"));
-  const studioTall = work.images.find((image) => image.url.endsWith("/02.jpg"));
+  const studioWide = pick(work.journey?.items, "journey-studio.jpg");
+  const studioTall = pick(work.images, "02.jpg");
   if (!studioWide || !studioTall) {
-    throw new Error("Catching Waves preview: studio images journey-studio.jpg and 02.jpg are required");
+    throw new Error("Catching Waves preview needs journey-studio.jpg and 02.jpg in the work's content folder");
   }
+  const toImg = (i: { url: string; width: number; height: number; alt: string }) => ({
+    url: i.url,
+    width: i.width,
+    height: i.height,
+    alt: i.alt,
+  });
+  const site = getSite();
+  const others = getWorks().filter((w) => w.slug !== work.slug).slice(0, 3);
 
   return (
-    <CatchingWavesExperience
-      work={{
-        slug: work.slug,
-        title: work.title,
-        year: work.year,
-        medium: work.medium,
-        dimensions: work.dimensions,
-        summary: work.summary,
-        price: work.price,
-        html: work.html,
-      }}
-      email={getSite().email}
-      artwork={{ url: artwork.url, width: artwork.width, height: artwork.height, alt: artwork.alt }}
-      studioWide={{
-        url: studioWide.url,
-        width: studioWide.width,
-        height: studioWide.height,
-        alt: studioWide.alt,
-      }}
-      studioTall={{
-        url: studioTall.url,
-        width: studioTall.width,
-        height: studioTall.height,
-        alt: studioTall.alt,
-      }}
-    />
+    <article>
+      <CatchingWavesExperience
+        work={{
+          title: work.title,
+          year: work.year,
+          medium: work.medium,
+          dimensions: work.dimensions,
+          summary: work.summary,
+          price: work.price,
+        }}
+        email={site.email}
+        artwork={toImg(artwork)}
+        studioWide={toImg(studioWide)}
+        studioTall={toImg(studioTall)}
+      />
+
+      {/* On large screens the scene ends with these details beside the work; elsewhere they follow here. */}
+      <div id="details" tabIndex={-1} className={`${styles.details} container`}>
+        <div className={styles.after}>
+          <WorkPurchase work={work} email={site.email} />
+        </div>
+      </div>
+
+      {/* The rest of the normal work page. */}
+      <div className={`${styles.after} container`}>
+        {work.journey && <WorkJourney journey={work.journey} />}
+        <OtherWorks works={others} />
+      </div>
+    </article>
   );
 }

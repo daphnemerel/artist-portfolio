@@ -1,11 +1,23 @@
 "use client";
 
-import Image, { getImageProps } from "next/image";
-import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Prose } from "@/components/type/Prose";
+import {
+  applyH,
+  buildRide,
+  clamp,
+  homography,
+  lerp,
+  lerpPt,
+  lerpQuad,
+  matrix3d,
+  smoothstep,
+  tiltedRect,
+  type Pt,
+} from "./geometry";
+import { CAMERA, CLEANPLATE, MEASURED_ON, RIDE, SURFER, WORLDS, type World } from "./scene";
 import styles from "./preview.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,14 +26,12 @@ type Img = { url: string; width: number; height: number; alt: string };
 
 type Props = {
   work: {
-    slug: string;
     title: string;
     year?: number;
     medium: string;
     dimensions?: string;
     summary?: string;
     price?: string;
-    html: string;
   };
   email?: string;
   artwork: Img;
@@ -29,366 +39,379 @@ type Props = {
   studioTall: Img;
 };
 
-/* ---------- scene geometry ---------- */
+/* Media queries shared with preview.module.css — keep them identical. */
+const MOTION = "(prefers-reduced-motion: no-preference)";
+const WIDE = "(min-aspect-ratio: 1/1)";
+const INFO_BESIDE = "(min-aspect-ratio: 1/1) and (min-width: 900px)";
 
-/** Where the canvas sits in journey-studio.jpg, in that image's own pixels (measured by hand). */
-const STUDIO_CANVAS = { cx: 1173, cy: 467, height: 640 };
-/** The canvas in the studio photo is turned slightly away on its left side. */
-const STUDIO_TILT = { y: -10, z: -1.5 };
-
-/** The surfer cut-out, taken from the artwork photo itself (01.jpg, box 919,155 → 1023,248). */
-const SURFER = { src: "/images/preview/catching-waves-surfer.png", width: 104, height: 93 };
-/** Direction the board points in the cut-out, in degrees (tail upper left → nose lower right). */
-const SURFER_BOARD_ANGLE = 22;
+const ride = buildRide(RIDE);
+const HOME = { u: RIDE[0][0], v: RIDE[0][1] };
+const logLerp = (a: number, b: number, t: number) => Math.exp(lerp(Math.log(a), Math.log(b), t));
 
 /**
- * The ride, in artwork coordinates (0–1). It follows the diagonal strokes in the lower left of the
- * painting, an area without painted figures, passing below the swimmer on the long stroke.
+ * Catching Waves — Beyond the Canvas (experimental preview).
+ *
+ * One camera moves through one world: the studio photo, with the real artwork photo laid onto the
+ * canvas in perspective (a homography) and the artist's arm in front of it. The camera pushes in,
+ * the canvas turns to face it, the camera dives into the paint, follows one of the work's own
+ * surfers along his stroke and back, and pulls back to the whole, uncropped work.
+ * Everything is scrubbed by scroll, so it plays backwards too.
  */
-const RIDE: [number, number][] = [
-  [0.08, 0.6],
-  [0.17, 0.66],
-  [0.27, 0.71],
-  [0.37, 0.78],
-  [0.47, 0.84],
-];
-
-/**
- * How far the camera goes into the paint (1 = the painting just covers the screen). Limited by
- * the resolution of 01.jpg (1254 px): higher values look soft. Raise once a larger file is in.
- */
-const MAX_DIVE = 1.8;
-
-/** Scroll length of the pinned scene, in screen heights. */
-const SCROLL_SCREENS = 7;
-
-const DESKTOP = "(min-width: 900px) and (prefers-reduced-motion: no-preference)";
-const MOBILE = "(max-width: 899px) and (prefers-reduced-motion: no-preference)";
-
-/* ---------- small maths helpers ---------- */
-
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const clamp = (v: number, min: number, max: number) =>
-  min > max ? (min + max) / 2 : Math.min(Math.max(v, min), max);
-
-/** Catmull-Rom point and tangent angle on the ride path, p in 0–1. */
-function ridePoint(p: number) {
-  const n = RIDE.length - 1;
-  const t = clamp(p, 0, 1) * n;
-  const i = Math.min(Math.floor(t), n - 1);
-  const f = t - i;
-  const p0 = RIDE[Math.max(i - 1, 0)];
-  const p1 = RIDE[i];
-  const p2 = RIDE[i + 1];
-  const p3 = RIDE[Math.min(i + 2, n)];
-  const cr = (a: number, b: number, c: number, d: number, s: number) =>
-    0.5 * (2 * b + (-a + c) * s + (2 * a - 5 * b + 4 * c - d) * s * s + (-a + 3 * b - 3 * c + d) * s * s * s);
-  const dcr = (a: number, b: number, c: number, d: number, s: number) =>
-    0.5 * (-a + c + 2 * (2 * a - 5 * b + 4 * c - d) * s + 3 * (-a + 3 * b - 3 * c + d) * s * s);
-  const u = cr(p0[0], p1[0], p2[0], p3[0], f);
-  const v = cr(p0[1], p1[1], p2[1], p3[1], f);
-  const du = dcr(p0[0], p1[0], p2[0], p3[0], f);
-  const dv = dcr(p0[1], p1[1], p2[1], p3[1], f);
-  return { u, v, angle: (Math.atan2(dv, du) * 180) / Math.PI };
-}
-
 export function CatchingWavesExperience({ work, email, artwork, studioWide, studioTall }: Props) {
-  const root = useRef<HTMLElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
-  const studio = useRef<HTMLDivElement>(null);
-  const art = useRef<HTMLDivElement>(null);
-  const surfer = useRef<HTMLDivElement>(null);
-  const hint = useRef<HTMLParagraphElement>(null);
-  const info = useRef<HTMLDivElement>(null);
-
+  const trigger = useRef<ScrollTrigger | null>(null);
   const subject = encodeURIComponent(`${work.title}${work.year ? `, ${work.year}` : ""}`);
-  const artAspect = artwork.width / artwork.height;
-
-  const studioWideSrcSet = getImageProps({
-    src: studioWide.url,
-    alt: studioWide.alt,
-    width: studioWide.width,
-    height: studioWide.height,
-    quality: 90,
-    sizes: "200vw",
-  }).props.srcSet;
-  const { props: studioTallProps } = getImageProps({
-    src: studioTall.url,
-    alt: studioTall.alt,
-    width: studioTall.width,
-    height: studioTall.height,
-    quality: 90,
-    sizes: "100vw",
-    fetchPriority: "high",
-  });
 
   useEffect(() => {
     const mm = gsap.matchMedia();
 
-    /* ---------- desktop: one pinned, scroll-scrubbed camera move ---------- */
-    mm.add(DESKTOP, () => {
-      const vp = viewport.current!;
-      const studioEl = studio.current!;
-      const artEl = art.current!;
-      const surferEl = surfer.current!;
-      const surferImg = surferEl.querySelector<HTMLElement>("[data-surfer]")!;
-      const shadowImg = surferEl.querySelector<HTMLElement>("[data-shadow]")!;
+    mm.add({ motion: MOTION, wide: WIDE, beside: INFO_BESIDE }, (ctx) => {
+      const { motion, wide, beside } = ctx.conditions as Record<string, boolean>;
+      if (!motion) return;
 
-      // Everything the timeline animates; render() turns it into transforms.
+      const vp = viewport.current!;
+      const world: World = WORLDS[wide ? "wide" : "tall"];
+      const cam = CAMERA[world.key];
+      const q = <T extends HTMLElement>(sel: string) => vp.querySelector<T>(`[data-world="${world.key}"] ${sel}`)!;
+      const worldEl = vp.querySelector<HTMLElement>(`[data-world="${world.key}"]`)!;
+      const studioEl = q<HTMLElement>("[data-studio]");
+      const frontEl = q<HTMLElement>("[data-front]");
+      const planeEl = q<HTMLElement>("[data-plane]");
+      const plateEl = q<HTMLElement>("[data-plate]");
+      const surferEl = q<HTMLElement>("[data-surfer]");
+      const shadowEl = q<HTMLElement>("[data-surfer-shadow]");
+      const label = vp.querySelector<HTMLElement>("[data-label]")!;
+      const info = vp.querySelector<HTMLElement>(beside ? "[data-info]" : "[data-reveal-label]")!;
+
+      const aw = artwork.width;
+      const ah = artwork.height;
+      const aspect = aw / ah;
+      const unit = aw / MEASURED_ON; // artwork px per measured px
+
+      // Canvas in the studio photo: centre and size of the flat (face-on) artwork in world px.
+      const Q = world.canvas;
+      const Qc: Pt = { x: (Q[0].x + Q[1].x + Q[2].x + Q[3].x) / 4, y: (Q[0].y + Q[1].y + Q[2].y + Q[3].y) / 4 };
+      const Qh = (Math.hypot(Q[3].x - Q[0].x, Q[3].y - Q[0].y) + Math.hypot(Q[2].x - Q[1].x, Q[2].y - Q[1].y)) / 2;
+      const Qw = (Math.hypot(Q[1].x - Q[0].x, Q[1].y - Q[0].y) + Math.hypot(Q[2].x - Q[3].x, Q[2].y - Q[3].y)) / 2;
+      const Fh = Qh; // flat artwork height in world px
+      const Fw = Fh * aspect;
+
+      // Everything the timeline animates. render() turns it into transforms.
       const s = {
-        zoom: 0, // studio camera: 0 = whole room, 1 = canvas fills the screen height
-        studioOpacity: 1,
-        artOpacity: 0,
-        detach: 0, // 0 = painting sits on the easel, 1 = free camera over the painting
-        tilt: 1, // 1 = turned like the canvas in the photo, 0 = facing the camera
-        dive: 1, // painting size relative to "just covers the screen"
-        u: 0.5, // camera target on the painting (0–1)
-        v: 0.5,
-        follow: 0, // 0 = camera on (u, v), 1 = camera follows the surfer
-        roll: 0, // slight camera roll in degrees
-        ride: 0, // surfer position on the path (0–1)
-        surferOpacity: 0,
-        surferScale: 0.7,
-        settle: 0, // 1 = whole painting, uncropped, beside the details
+        ambient: 0, // a very light push when the page opens
+        push: 0, // slow start towards the easel
+        approach: 0, // canvas fills the frame
+        flat: 0, // canvas turns to face the camera
+        deep: 0, // dive into the paint, onto the surfer
+        studio: 1, // studio photo + arm visible
+        tilt: 0, // the paint plane leans back (2.5D)
+        roll: 0, // camera roll in degrees
+        ride: 0, // surfer along his loop
+        follow: 0, // camera follows the surfer
+        breathe: 0, // slight zoom breathing during the ride
+        reveal: 0, // back to the whole work
       };
+
+      surferEl.style.width = `${SURFER.box.width * unit}px`;
+      surferEl.style.height = `${SURFER.box.height * unit}px`;
+      plateEl.style.left = `${CLEANPLATE.box.x * unit}px`;
+      plateEl.style.top = `${CLEANPLATE.box.y * unit}px`;
+      plateEl.style.width = `${CLEANPLATE.box.width * unit}px`;
+      plateEl.style.height = `${CLEANPLATE.box.height * unit}px`;
 
       const render = () => {
         const W = vp.clientWidth;
         const H = vp.clientHeight;
         const margin = Math.max(20, W * 0.06);
+        const k = Math.max(W / world.width, H / world.height); // studio photo cover-fit
 
-        /* Studio photo, cover-fitted, zooming towards the canvas without showing its edges. */
-        const k = Math.max(W / studioWide.width, H / studioWide.height);
-        const zEnd = (H * 1.18) / (STUDIO_CANVAS.height * k);
-        const z = 1 + (zEnd - 1) * s.zoom;
-        const toward = Math.min(s.zoom, 1);
-        const fx = lerp(studioWide.width / 2, STUDIO_CANVAS.cx, toward);
-        const fy = lerp(studioWide.height / 2, STUDIO_CANVAS.cy, toward);
-        const sx = clamp(W / 2 - fx * k * z, W - studioWide.width * k * z, 0);
-        const sy = clamp(H / 2 - fy * k * z, H - studioWide.height * k * z, 0);
-        studioEl.style.width = `${studioWide.width * k}px`;
-        studioEl.style.height = `${studioWide.height * k}px`;
-        studioEl.style.transform = `translate3d(${sx}px, ${sy}px, 0) scale(${z})`;
-        studioEl.style.opacity = String(s.studioOpacity);
+        /* The artwork plane: from the canvas in the photo to face-on, leaning back a little. */
+        const flatQuad = tiltedRect(Qc, Fw, Fh, cam.tilt * s.tilt, cam.tilt * 0.3 * s.tilt);
+        const quad = lerpQuad(Q, flatQuad, s.flat);
+        const Hm = homography(aw, ah, quad);
 
-        /* Painting on the easel: tracks the canvas in the photo. */
-        const easel = {
-          cx: sx + STUDIO_CANVAS.cx * k * z,
-          cy: sy + STUDIO_CANVAS.cy * k * z,
-          h: STUDIO_CANVAS.height * k * z,
+        const r = ride(s.ride);
+        const surferW = applyH(Hm, r.u * aw, r.v * ah);
+        const homeW = applyH(Hm, HOME.u * aw, HOME.v * ah);
+        const lag = ride(Math.max(0, s.ride - 0.035));
+        const lagW = applyH(Hm, lag.u * aw, lag.v * ah);
+
+        /* Zoom (multiplier on cover-fit), interpolated in log space so every step feels even. */
+        const zCanvas = (0.95 * Math.min(H / Qh, W / Qw)) / k;
+        const zDeep = (cam.dive * Math.max(W, H)) / (Fh * k);
+        const revealPx = beside ? Math.min(H * 0.76, W * 0.5) : Math.min(W - 2 * margin, H * 0.6);
+        const zReveal = revealPx / (Fh * k);
+        vp.style.setProperty("--info-left", `${margin + revealPx * aspect + 64}px`);
+        vp.style.setProperty("--reveal-bottom", `${H * 0.42 + revealPx / 2}px`);
+        let z = 1 + 0.025 * s.ambient;
+        z = logLerp(z, 1.35, s.push);
+        z = logLerp(z, zCanvas, s.approach);
+        z = logLerp(z, zDeep, s.deep) * (1 + 0.07 * s.breathe);
+        z = logLerp(z, zReveal, s.reveal);
+        const scale = k * z;
+
+        /* Where the camera looks (world px). */
+        let f: Pt = { x: world.width / 2, y: world.height / 2 };
+        f = lerpPt(f, Qc, s.push * 0.3);
+        f = lerpPt(f, Qc, s.approach);
+        f = lerpPt(f, homeW, s.deep);
+        f = lerpPt(f, lagW, s.follow);
+        const target = beside ? { x: margin + (revealPx * aspect) / 2, y: H / 2 } : { x: W / 2, y: H * 0.42 };
+        f = lerpPt(f, { x: Qc.x + (W / 2 - target.x) / scale, y: Qc.y + (H / 2 - target.y) / scale }, s.reveal);
+
+        /* Keep the frame filled: inside the studio photo first, inside the artwork while close. */
+        const rr = (Math.abs(s.roll) * Math.PI) / 180;
+        const hw = ((W / 2) * Math.cos(rr) + (H / 2) * Math.sin(rr)) / scale;
+        const hh = ((W / 2) * Math.sin(rr) + (H / 2) * Math.cos(rr)) / scale;
+        const inStudio = 1 - smoothstep(0.4, 0.8, s.deep);
+        const inArt = smoothstep(0.5, 0.85, s.deep) * (1 - s.reveal);
+        const inset = 0.04 * Fh * s.tilt; // the leaning plane is a little smaller at the top
+        f = {
+          x: lerp(f.x, clamp(f.x, hw, world.width - hw), inStudio),
+          y: lerp(f.y, clamp(f.y, hh, world.height - hh), inStudio),
+        };
+        f = {
+          x: lerp(f.x, clamp(f.x, Qc.x - Fw / 2 + hw + inset, Qc.x + Fw / 2 - hw - inset), inArt),
+          y: lerp(f.y, clamp(f.y, Qc.y - Fh / 2 + hh + inset, Qc.y + Fh / 2 - hh - inset), inArt),
         };
 
-        /* Free camera over the painting. */
-        const cover = Math.max(H, W / artAspect);
-        const camH = s.dive * cover;
-        const camW = camH * artAspect;
-        const pos = ridePoint(s.ride);
-        const lag = ridePoint(s.ride - 0.06); // the camera trails the surfer a little
-        const u = clamp(lerp(s.u, lag.u, s.follow), W / (2 * camW), 1 - W / (2 * camW));
-        const v = clamp(lerp(s.v, lag.v, s.follow), H / (2 * camH), 1 - H / (2 * camH));
-        const cam = { cx: W / 2 - (u - 0.5) * camW, cy: H / 2 - (v - 0.5) * camH, h: camH };
+        worldEl.style.transform = `translate(${W / 2}px, ${H / 2}px) rotate(${s.roll}deg) scale(${scale}) translate(${-f.x}px, ${-f.y}px)`;
+        studioEl.style.opacity = frontEl.style.opacity = String(s.studio);
+        planeEl.style.transform = matrix3d(Hm);
 
-        /* Final: the whole work, uncropped, on the left. */
-        const finalH = Math.min(H * 0.76, (W * 0.5) / artAspect);
-        const final = { cx: margin + (finalH * artAspect) / 2, cy: H / 2, h: finalH };
-        vp.style.setProperty("--info-left", `${margin + finalH * artAspect + 64}px`);
-
-        const mix = (key: "cx" | "cy" | "h") =>
-          lerp(lerp(easel[key], cam[key], s.detach), final[key], s.settle);
-        const cx = mix("cx");
-        const cy = mix("cy");
-        const h = mix("h");
-
-        const baseH = H; // the element is laid out at screen height and scaled from there
-        artEl.style.width = `${baseH * artAspect}px`;
-        artEl.style.height = `${baseH}px`;
-        artEl.style.opacity = String(s.artOpacity);
-        artEl.style.transform =
-          `translate3d(${cx - (baseH * artAspect) / 2}px, ${cy - baseH / 2}px, 0) ` +
-          `perspective(${baseH * 2}px) rotateY(${STUDIO_TILT.y * s.tilt}deg) ` +
-          `rotateZ(${STUDIO_TILT.z * s.tilt + s.roll}deg) scale(${h / baseH})`;
-
-        /* Surfer: rides the path, leans into it, bobs, and floats a touch above the paint. */
-        const scale = h / baseH;
-        const screenX = cx + (pos.u - 0.5) * h * artAspect;
-        const screenY = cy + (pos.v - 0.5) * h;
-        const depth = 0.12; // parallax: the figure sits on a nearer plane than the paint
-        const px = ((screenX - W / 2) * depth) / scale;
-        const py = ((screenY - H / 2) * depth) / scale;
-        const swell = Math.sin(s.ride * Math.PI * 7);
-        const lean = (pos.angle - SURFER_BOARD_ANGLE) * 0.6 + Math.sin(s.ride * Math.PI * 5) * 4;
-        surferEl.style.left = `${pos.u * 100}%`;
-        surferEl.style.top = `${pos.v * 100}%`;
-        surferEl.style.opacity = String(s.surferOpacity);
+        /* The surfer: lifts off his spot, leans into the turns, floats on a nearer plane. */
+        const active = smoothstep(0, 0.05, s.ride) * (1 - smoothstep(0.95, 1, s.ride));
+        const away = smoothstep(0.003, 0.018, Math.hypot(r.u - HOME.u, r.v - HOME.v));
+        const swell = Math.sin(s.ride * Math.PI * 6);
+        const lift = active * (0.5 + 0.5 * swell);
+        const ahead = ride(Math.min(1, s.ride + 0.01));
+        const bank = clamp((ahead.turn - r.turn) * 0.9, -9, 9) * active;
+        // parallax: offset from the frame centre, a little more than the paint moves
+        const rad = (s.roll * Math.PI) / 180;
+        const dx = surferW.x - f.x;
+        const dy = surferW.y - f.y;
+        const sx = (dx * Math.cos(rad) - dy * Math.sin(rad)) * scale;
+        const sy = (dx * Math.sin(rad) + dy * Math.cos(rad)) * scale;
+        const pxPerArt = scale * (Fh / ah);
+        const depth = 0.1 * active;
         surferEl.style.transform =
-          `translate(-50%, -50%) translate(${px}px, ${py - swell * 3}px) ` +
-          `rotate(${lean}deg) scale(${s.surferScale})`;
-        const lift = 0.5 + 0.5 * swell;
-        surferImg.style.transform = `translateY(${-lift * 4}px)`;
-        shadowImg.style.transform = `translate(${4 + lift * 5}px, ${6 + lift * 6}px)`;
+          `translate(${r.u * aw - (SURFER.box.width * unit) / 2}px, ${r.v * ah - (SURFER.box.height * unit) / 2}px) ` +
+          `translate(${(sx * depth) / pxPerArt}px, ${(sy * depth) / pxPerArt - lift * 3 * unit}px) ` +
+          `rotate(${r.turn + bank}deg) scale(${1 + 0.07 * lift})`;
+        // light falls from the upper left in the photo: shadow down and to the right, longer when lifted
+        shadowEl.style.opacity = String(0.32 * active);
+        shadowEl.style.transform = `translate(${(3 + 7 * lift) * unit}px, ${(4 + 9 * lift) * unit}px)`;
+        plateEl.style.opacity = String(away);
       };
 
-      gsap.set(hint.current, { autoAlpha: 1 });
-      gsap.set(info.current, { autoAlpha: 0, y: 24 });
+      gsap.set(label, { autoAlpha: 1, y: 0 });
+      gsap.set(info, { autoAlpha: 0, y: 24 });
 
+      const R = cam.roll;
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         onUpdate: render,
         scrollTrigger: {
-          trigger: root.current,
+          trigger: vp,
           start: "top top",
-          end: () => `+=${vp.clientHeight * SCROLL_SCREENS}`,
-          pin: vp,
-          scrub: 0.8,
+          end: () => `+=${vp.clientHeight * cam.screens}`,
+          pin: true,
+          scrub: 0.9,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: render,
         },
       });
+      trigger.current = tl.scrollTrigger ?? null;
 
       tl
-        // 1. The studio, then a slow move in on the easel.
-        .to(hint.current, { autoAlpha: 0, duration: 0.4 }, 0.1)
-        .to(s, { zoom: 1, duration: 3, ease: "power1.inOut" }, 0.3)
-        // 2. The photographed canvas gives way to the painting itself, which turns to face us.
-        .to(s, { artOpacity: 1, duration: 0.45, ease: "sine.inOut" }, 2.75)
-        .to(s, { detach: 1, tilt: 0, duration: 1.1, ease: "power2.inOut" }, 3.2)
-        .to(s, { zoom: 1.25, duration: 1.1, ease: "power1.out" }, 3.3)
-        .to(s, { studioOpacity: 0, duration: 0.4 }, 3.9)
-        // 3. Into the paint: closer, drifting down to where the ride begins.
-        .to(s, { dive: MAX_DIVE, u: RIDE[0][0], v: RIDE[0][1], duration: 1.4, ease: "power2.inOut" }, 4.3)
-        .to(s, { roll: -2, duration: 1.4, ease: "sine.inOut" }, 4.3)
-        // 4. A surfer appears and rides the strokes; the camera follows.
-        .to(s, { surferOpacity: 1, surferScale: 1, duration: 0.5, ease: "power2.out" }, 5.3)
-        .to(s, { follow: 1, duration: 0.6, ease: "sine.inOut" }, 5.5)
-        .to(s, { ride: 1, duration: 3.2, ease: "sine.inOut" }, 5.5)
-        .to(s, { roll: 1.5, duration: 1.6, ease: "sine.inOut" }, 5.7)
-        .to(s, { roll: -1, duration: 1.6, ease: "sine.inOut" }, 7.3)
-        .to(s, { dive: MAX_DIVE * 0.88, duration: 1.6, ease: "sine.inOut" }, 6.5)
-        // 5. The surfer rides off; the camera pulls back to the whole work and its details.
-        .to(s, { surferOpacity: 0, surferScale: 0.85, duration: 0.5 }, 8.5)
-        .to(s, { follow: 0, u: 0.5, v: 0.5, roll: 0, duration: 1.4, ease: "power2.inOut" }, 8.7)
-        .to(s, { settle: 1, dive: 1, duration: 1.4, ease: "power2.inOut" }, 8.8)
-        .to(info.current, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" }, 9.9)
-        .to({}, { duration: 0.6 }); // hold on the final view before the page continues
+        // Scene 1 — The Gallery
+        .to(label, { autoAlpha: 0, y: -16, duration: 0.5, ease: "power1.in" }, 0.15)
+        // Scene 2 — Enter the Canvas: slow, then a subtle acceleration, then deep into the paint
+        .to(s, { push: 1, duration: 1.5, ease: "power1.in" }, 0.3)
+        .to(s, { approach: 1, duration: 1.6, ease: "power2.inOut" }, 1.6)
+        .to(s, { flat: 1, duration: 1.7, ease: "power2.inOut" }, 2.1)
+        .to(s, { roll: -1.2, duration: 1, ease: "sine.inOut" }, 1.8)
+        .to(s, { roll: 0, duration: 1, ease: "sine.inOut" }, 2.8)
+        .to(s, { deep: 1, duration: 1.9, ease: "power2.inOut" }, 3.4)
+        .to(s, { studio: 0, duration: 0.5 }, 4.45)
+        .to(s, { tilt: 1, duration: 1.4, ease: "sine.inOut" }, 4.4)
+        // Scene 3 — Ride the Wave
+        .to(s, { follow: 1, duration: 0.5, ease: "sine.inOut" }, 5.3)
+        .to(s, { ride: 1, duration: 3, ease: "sine.inOut" }, 5.3)
+        .to(s, { breathe: 1, duration: 1.5, ease: "sine.inOut" }, 5.3)
+        .to(s, { breathe: 0, duration: 1.5, ease: "sine.inOut" }, 6.8)
+        .to(s, { roll: R, duration: 1, ease: "sine.inOut" }, 5.4)
+        .to(s, { roll: -R * 0.7, duration: 1.2, ease: "sine.inOut" }, 6.4)
+        .to(s, { roll: 0, duration: 0.8, ease: "sine.inOut" }, 7.6)
+        .to(s, { follow: 0, duration: 0.6, ease: "sine.inOut" }, 8.1)
+        // Scene 4 — The Reveal
+        .to(s, { reveal: 1, tilt: 0, duration: 1.5, ease: "power2.inOut" }, 8.2)
+        .to(info, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, 9.2)
+        .to({}, { duration: 0.6 });
+
+      gsap.to(s, { ambient: 1, duration: 6, ease: "sine.out", onUpdate: render });
 
       render();
-      ScrollTrigger.addEventListener("refresh", render);
       return () => {
-        ScrollTrigger.removeEventListener("refresh", render);
-        for (const el of [studioEl, artEl, surferEl, surferImg, shadowImg]) el.removeAttribute("style");
+        trigger.current = null;
+        for (const el of [studioEl, frontEl, plateEl, surferEl, shadowEl]) el.removeAttribute("style");
+        // these carry their layout size inline; only reset what render() set
+        worldEl.style.transform = planeEl.style.transform = "";
+        frontEl.style.left = `${world.front.x}px`;
+        frontEl.style.top = `${world.front.y}px`;
+        frontEl.style.width = `${world.front.width}px`;
+        frontEl.style.height = `${world.front.height}px`;
         vp.style.removeProperty("--info-left");
+        vp.style.removeProperty("--reveal-bottom");
       };
-    });
-
-    /* ---------- phones: no pinning, a few light scroll-linked moves ---------- */
-    mm.add(MOBILE, () => {
-      const surferEl = surfer.current!;
-      const place = (p: number) => {
-        const pos = ridePoint(p);
-        surferEl.style.left = `${pos.u * 100}%`;
-        surferEl.style.top = `${pos.v * 100}%`;
-        const lean = (pos.angle - SURFER_BOARD_ANGLE) * 0.6 + Math.sin(p * Math.PI * 5) * 3;
-        surferEl.style.transform = `translate(-50%, -50%) rotate(${lean}deg)`;
-      };
-      place(0);
-
-      gsap.fromTo(
-        studio.current!.querySelector("[data-studio-image]"),
-        { scale: 1 },
-        {
-          scale: 1.12,
-          ease: "none",
-          scrollTrigger: { trigger: studio.current, start: "top bottom", end: "bottom top", scrub: true },
-        },
-      );
-
-      const ride = { p: 0 };
-      gsap.to(ride, {
-        p: 1,
-        ease: "none",
-        onUpdate: () => place(ride.p),
-        scrollTrigger: { trigger: art.current, start: "top 85%", end: "bottom 25%", scrub: 0.5 },
-      });
-
-      return () => surferEl.removeAttribute("style");
     });
 
     return () => mm.revert();
-  }, [artAspect, studioWide.width, studioWide.height]);
+  }, [artwork.width, artwork.height]);
+
+  /** Keyboard / screen reader: jump straight to the end of the scene. */
+  const skip = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const st = trigger.current;
+    if (!st) return; // no animation running: the plain anchor link does the job
+    e.preventDefault();
+    window.scrollTo({ top: st.end, behavior: "auto" });
+    // The smoothed scrub needs a moment to reach the end; focus once the details are visible.
+    const target = document.querySelector<HTMLElement>(
+      window.matchMedia(INFO_BESIDE).matches ? "[data-info] h1" : "#details",
+    );
+    let tries = 0;
+    const tryFocus = () => {
+      st.getTween()?.progress(1);
+      target?.focus({ preventScroll: true });
+      if (document.activeElement !== target && ++tries < 40) setTimeout(tryFocus, 50);
+    };
+    requestAnimationFrame(tryFocus);
+  };
+
+  const surferSrc = SURFER.src;
+  const worlds = [
+    { world: WORLDS.wide, image: studioWide },
+    { world: WORLDS.tall, image: studioTall },
+  ];
 
   return (
-    <article ref={root} className={styles.preview}>
-      <section className={styles.stage} aria-label={`${work.title}: from the studio into the paint`}>
-        <div ref={viewport} className={styles.viewport}>
-          <div ref={studio} className={styles.studio}>
-            {/* Wide studio photo on desktop (the camera moves through it), the tall one on phones. */}
-            <picture>
-              <source media="(min-width: 900px)" srcSet={studioWideSrcSet} sizes="200vw" />
-              <img {...studioTallProps} className={styles.studioImage} data-studio-image />
-            </picture>
-          </div>
+    <section className={styles.experience} aria-label={`${work.title}: from the studio into the paint`}>
+      <a href="#details" className={styles.skip} onClick={skip}>
+        Skip the animation
+      </a>
 
-          <div ref={art} className={styles.art}>
+      <div ref={viewport} className={styles.viewport} data-hero="bleed">
+        {worlds.map(({ world, image }) => (
+          <div
+            key={world.key}
+            className={styles.world}
+            data-world={world.key}
+            style={{ width: world.width, height: world.height }}
+          >
             <Image
-              src={artwork.url}
-              alt={artwork.alt}
-              width={artwork.width}
-              height={artwork.height}
-              // Zoomed far in on desktop, so always fetch the largest file there is.
-              sizes="(max-width: 899px) 100vw, 3000px"
+              src={image.url}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              sizes={`${image.width}px`}
               quality={90}
-              className={styles.artImage}
+              className={styles.studio}
+              data-studio
             />
-            <div ref={surfer} className={styles.surfer} aria-hidden="true">
-              <img src={SURFER.src} alt="" width={SURFER.width} height={SURFER.height} className={styles.surferShadow} data-shadow />
-              <img src={SURFER.src} alt="" width={SURFER.width} height={SURFER.height} className={styles.surferImage} data-surfer />
+
+            {/* The real artwork photo, laid onto the canvas */}
+            <div className={styles.plane} style={{ width: artwork.width, height: artwork.height }} data-plane>
+              <Image
+                src={artwork.url}
+                alt={artwork.alt}
+                width={artwork.width}
+                height={artwork.height}
+                sizes={`${artwork.width}px`}
+                quality={90}
+                className={styles.artwork}
+              />
+              <img src={CLEANPLATE.src} alt="" className={styles.plate} data-plate />
+              <div className={styles.surfer} data-surfer>
+                <img src={surferSrc} alt="" className={styles.surferShadow} data-surfer-shadow />
+                <img src={surferSrc} alt="" className={styles.surferImage} />
+              </div>
             </div>
-          </div>
 
-          <p ref={hint} className={styles.hint} aria-hidden="true">
-            Scroll
+            {/* The artist's arm and brush, in front of the canvas */}
+            <img
+              src={world.front.src}
+              alt=""
+              className={styles.front}
+              style={{ left: world.front.x, top: world.front.y, width: world.front.width, height: world.front.height }}
+              data-front
+            />
+          </div>
+        ))}
+
+        {/* Scene 1 label, like a gallery wall label */}
+        <div className={styles.label} data-label>
+          <p className={styles.labelTitle}>{work.title}</p>
+          <p className={styles.labelMeta}>Daphne Merel{work.year ? `, ${work.year}` : ""}</p>
+          <p className={styles.scroll} aria-hidden="true">
+            <span className={styles.scrollLine} />
+            Scroll to explore
           </p>
-
-          <div ref={info} className={styles.info}>
-            <p className={styles.eyebrow}>Original artwork</p>
-            <h1 className={styles.title}>{work.title}</h1>
-            <dl className={styles.meta}>
-              {work.year && (
-                <>
-                  <dt className="visually-hidden">Year</dt>
-                  <dd>{work.year}</dd>
-                </>
-              )}
-              <dt className="visually-hidden">Medium</dt>
-              <dd>{work.medium}</dd>
-              {work.dimensions && (
-                <>
-                  <dt className="visually-hidden">Dimensions</dt>
-                  <dd>{work.dimensions}</dd>
-                </>
-              )}
-            </dl>
-            {work.summary && <p className={styles.summary}>{work.summary}</p>}
-            {work.price && <p className={styles.price}>{work.price}</p>}
-            {email && (
-              <a href={`mailto:${email}?subject=${subject}`} className={`button ${styles.buy}`}>
-                Buy this work <span aria-hidden="true">→</span>
-              </a>
-            )}
-            <a href="#about" className={styles.more}>
-              More details
-            </a>
-          </div>
         </div>
-      </section>
 
-      <section id="about" className={`${styles.about} container`} aria-label={`About ${work.title}`}>
-        <Prose html={work.html} />
-        <p className={styles.back}>
-          <Link href={`/works/${work.slug}`}>View the work page</Link>
-        </p>
-      </section>
-    </article>
+        {/* Scene 4, beside the work (large screens) */}
+        <div className={styles.info} data-info>
+          <p className={styles.eyebrow}>Original artwork</p>
+          <h1 className={styles.title} tabIndex={-1}>
+            {work.title}
+          </h1>
+          <dl className={styles.meta}>
+            {work.year && (
+              <>
+                <dt className="visually-hidden">Year</dt>
+                <dd>{work.year}</dd>
+              </>
+            )}
+            <dt className="visually-hidden">Medium</dt>
+            <dd>{work.medium}</dd>
+            {work.dimensions && (
+              <>
+                <dt className="visually-hidden">Dimensions</dt>
+                <dd>{work.dimensions}</dd>
+              </>
+            )}
+          </dl>
+          {work.summary && <p className={styles.summary}>{work.summary}</p>}
+          {work.price && <p className={styles.price}>{work.price}</p>}
+          {email && (
+            <a href={`mailto:${email}?subject=${subject}`} className={`button ${styles.buy}`}>
+              Buy this work <span aria-hidden="true">→</span>
+            </a>
+          )}
+          <a href="#about" className={styles.more}>
+            More details
+          </a>
+        </div>
+
+        {/* Scene 4 on smaller screens: a short label; the details follow below */}
+        <div className={styles.revealLabel} data-reveal-label aria-hidden="true">
+          <p className={styles.labelTitle}>{work.title}</p>
+          <p className={styles.labelMeta}>Daphne Merel{work.year ? `, ${work.year}` : ""}</p>
+        </div>
+      </div>
+
+      {/* Without motion: the studio photo, still */}
+      <div className={styles.still}>
+        <Image
+          src={studioWide.url}
+          alt={studioWide.alt}
+          width={studioWide.width}
+          height={studioWide.height}
+          sizes="100vw"
+          quality={90}
+          className={styles.stillImage}
+        />
+      </div>
+    </section>
   );
 }
