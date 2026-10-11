@@ -21,12 +21,19 @@ export function LivingArtwork({ artwork, work }: Props) {
   const camera = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // ?capture: no scroll control; a video renderer sets the position frame by frame
+    // (no scroll smoothing, no timing noise). Has no effect on normal visits.
+    const capture = new URLSearchParams(window.location.search).has("capture");
     const engine = createLivingArtwork(
       { root: root.current!, stage: stage.current!, camera: camera.current! },
       catchingWavesLiving(artwork),
       gsap,
       ScrollTrigger,
+      { controlled: capture },
     );
+    if (capture) {
+      (window as unknown as { __livingArtwork?: typeof engine }).__livingArtwork = engine;
+    }
     return () => engine.destroy();
   }, [artwork]);
 

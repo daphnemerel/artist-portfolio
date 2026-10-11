@@ -54,6 +54,7 @@ export type LivingArtworkConfig = {
   timing: {
     aliveStart: number;
     aliveEnd: number;
+    followInDuration?: number;
     followOut?: number;
     followOutDuration?: number;
     restore?: [number, number];
@@ -104,6 +105,8 @@ export function createLivingArtwork(
   config: LivingArtworkConfig,
   gsap: typeof GSAP,
   ScrollTrigger: typeof ST,
+  /** controlled: no scroll control; the caller sets the position (used to render videos) */
+  options: { controlled?: boolean } = {},
 ) {
   const { root, stage, camera } = parts;
   const base = config.artwork;
@@ -174,6 +177,8 @@ export function createLivingArtwork(
 
   /* ---------- state ---------- */
   const s = { fx: 0, fy: 0, logZ: 0, alive: 0, follow: 0, restore: 0 };
+  // how much of the object's movement the camera may follow per axis (set in build)
+  const followCap = { x: 1, y: 1 };
   const motion = config.motion;
 
   function motionAt(p: number) {
@@ -247,24 +252,25 @@ export function createLivingArtwork(
       trailEl.style.opacity = String(shown * smoothstep(0.5, 3, -m.dy));
     }
 
-    let fx = s.fx + m.dx * unit * (config.follow ?? 0.6) * s.follow;
-    let fy = s.fy + m.dy * unit * (config.follow ?? 0.6) * s.follow;
+    let fx = s.fx + m.dx * unit * (config.follow ?? 0.6) * s.follow * followCap.x;
+    let fy = s.fy + m.dy * unit * (config.follow ?? 0.6) * s.follow * followCap.y;
 
-    // Keep the view inside the image once it fits there: the sharp detail photo if there is one
-    // (never show the small file enlarged), otherwise the artwork photo itself.
-    const f = detail ? (detail.feather ?? 0.05) * 1.1 : 0;
-    const rect = detail
-      ? { x: detail.x, y: detail.y, w: detail.width * detail.scale, h: detail.height * detail.scale }
-      : { x: 0, y: 0, w: base.width, h: base.height };
-    const x0 = rect.x + rect.w * f, x1 = rect.x + rect.w * (1 - f);
-    const y0 = rect.y + rect.h * f, y1 = rect.y + rect.h * (1 - f);
-    const fitsX = W / (x1 - x0), fitsY = H / (y1 - y0);
-    const gate = detail ? smoothstep(baseCap, baseCap * 1.5, zoom) : 1;
-    const inX = smoothstep(fitsX * 0.8, fitsX, zoom) * gate;
-    const inY = smoothstep(fitsY * 0.8, fitsY, zoom) * gate;
-    const hw = W / 2 / zoom, hh = H / 2 / zoom;
-    fx = lerp(fx, clamp(fx, x0 + hw, x1 - hw), inX);
-    fy = lerp(fy, clamp(fy, y0 + hh, y1 - hh), inY);
+    // With a sharper detail photo: keep the view inside it once it fits there (never show the
+    // small file enlarged). Without one, the camera path is checked in advance (build), so no
+    // per-frame correction is needed — that keeps every movement on its eased curve.
+    if (detail) {
+      const f = (detail.feather ?? 0.05) * 1.1;
+      const rect = { x: detail.x, y: detail.y, w: detail.width * detail.scale, h: detail.height * detail.scale };
+      const x0 = rect.x + rect.w * f, x1 = rect.x + rect.w * (1 - f);
+      const y0 = rect.y + rect.h * f, y1 = rect.y + rect.h * (1 - f);
+      const fitsX = W / (x1 - x0), fitsY = H / (y1 - y0);
+      const gate = smoothstep(baseCap, baseCap * 1.5, zoom);
+      const inX = smoothstep(fitsX * 0.8, fitsX, zoom) * gate;
+      const inY = smoothstep(fitsY * 0.8, fitsY, zoom) * gate;
+      const hw = W / 2 / zoom, hh = H / 2 / zoom;
+      fx = lerp(fx, clamp(fx, x0 + hw, x1 - hw), inX);
+      fy = lerp(fy, clamp(fy, y0 + hh, y1 - hh), inY);
+    }
 
     camera.style.transform = `translate(${W / 2}px, ${H / 2}px) scale(${zoom}) translate(${-fx}px, ${-fy}px)`;
   }
@@ -281,6 +287,32 @@ export function createLivingArtwork(
     const W = stage.clientWidth;
     const H = stage.clientHeight;
     const keys = config.camera.map((k) => ({ ...k, ...frameFor(k, W, H) }));
+    followCap.x = followCap.y = 1;
+    if (!detail) {
+      const cap = config.maxSourceScale;
+      const inside = (k: (typeof keys)[number]) => {
+        const zoom = Math.min(Math.exp(k.logZ), cap);
+        const hw = W / 2 / zoom, hh = H / 2 / zoom;
+        // only once the view is smaller than the work; zoomed out, the wall around it may show
+        if (2 * hw < base.width) k.fx = clamp(k.fx, hw, base.width - hw);
+        if (2 * hh < base.height) k.fy = clamp(k.fy, hh, base.height - hh);
+        return { hw, hh };
+      };
+      const sizes = keys.map(inside);
+      // the camera may follow the object only as far as there is room at the close-up keys
+      const end = motionAt(1);
+      const follow = config.follow ?? 0.6;
+      keys.forEach((k, i) => {
+        if (k.at < config.timing.aliveStart - 0.5 || k.at > (config.timing.followOut ?? config.timing.aliveEnd)) return;
+        const { hw, hh } = sizes[i];
+        if (2 * hw >= base.width && 2 * hh >= base.height) return;
+        const ox = end.dx * unit * follow, oy = end.dy * unit * follow;
+        const roomX = ox > 0 ? base.width - hw - k.fx : k.fx - hw;
+        const roomY = oy > 0 ? base.height - hh - k.fy : k.fy - hh;
+        if (Math.abs(ox) > 0.01) followCap.x = Math.min(followCap.x, clamp(roomX / Math.abs(ox), 0, 1));
+        if (Math.abs(oy) > 0.01) followCap.y = Math.min(followCap.y, clamp(roomY / Math.abs(oy), 0, 1));
+      });
+    }
     Object.assign(s, { fx: keys[0].fx, fy: keys[0].fy, logZ: keys[0].logZ, alive: 0, follow: 0, restore: 0 });
 
     if (reduce.matches) {
@@ -297,7 +329,8 @@ export function createLivingArtwork(
     tl = gsap.timeline({
       defaults: { ease: "none" },
       onUpdate: render,
-      scrollTrigger: {
+      paused: !!options.controlled,
+      scrollTrigger: options.controlled ? undefined : {
         trigger: root,
         start: "top top",
         end: () => `+=${window.innerHeight * config.scroll.screens}`,
@@ -312,7 +345,7 @@ export function createLivingArtwork(
       const prev = keys[i - 1];
       tl.to(s, { fx: k.fx, fy: k.fy, logZ: k.logZ, duration: k.at - prev.at, ease: k.ease ?? "power2.inOut" }, prev.at);
     }
-    tl.to(s, { follow: 1, duration: 0.3, ease: "sine.inOut" }, t.aliveStart)
+    tl.to(s, { follow: 1, duration: t.followInDuration ?? 0.3, ease: "sine.inOut" }, t.aliveStart)
       .to(s, { alive: 1, duration: t.aliveEnd - t.aliveStart, ease: "none" }, t.aliveStart)
       .to(s, { follow: 0, duration: t.followOutDuration ?? 0.4, ease: "sine.inOut" }, t.followOut ?? t.aliveEnd - 0.4);
     if (t.restore) tl.to(s, { restore: 1, duration: t.restore[1] - t.restore[0], ease: "sine.inOut" }, t.restore[0]);
