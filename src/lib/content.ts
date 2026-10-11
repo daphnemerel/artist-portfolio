@@ -104,10 +104,18 @@ const textSchema = z.object({
   order: z.number().default(0),
 });
 
+const experimentSchema = z.object({
+  title: z.string().min(1),
+  href: z.string().startsWith("/", "Experiment href must be a path on the site, e.g. /catching-waves-preview"),
+  date: z.coerce.date().optional(),
+  summary: z.string().optional(),
+});
+
 /* ---------- types ---------- */
 
 export type Site = z.infer<typeof siteSchema>;
 export type Exhibition = z.infer<typeof exhibitionSchema>;
+export type Experiment = z.infer<typeof experimentSchema> & { number: string };
 
 export type WorkImage = z.infer<typeof imageEntrySchema> & {
   url: string;
@@ -229,6 +237,17 @@ export function getExhibitions(): Exhibition[] {
   return parse(z.array(exhibitionSchema), data, "content/exhibitions.yaml").sort(
     byYearDesc,
   );
+}
+
+/* ---------- experiments ---------- */
+
+/** Experiments in the order of content/experiments.yaml, numbered 01, 02, … */
+export function getExperiments(): Experiment[] {
+  const data = readYaml("experiments.yaml") ?? [];
+  return parse(z.array(experimentSchema), data, "content/experiments.yaml").map((e, i) => ({
+    ...e,
+    number: String(i + 1).padStart(2, "0"),
+  }));
 }
 
 /* ---------- texts ---------- */
