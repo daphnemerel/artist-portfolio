@@ -9,9 +9,6 @@
 }
 
 .label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
   font-size: var(--type-caption);
   font-weight: 400;
   line-height: var(--leading-caption);
@@ -20,12 +17,6 @@
   color: var(--color-bordeaux);
 }
 
-/* a short bordeaux rule before the label, as elsewhere on the site */
-.label::before {
-  content: "";
-  width: 28px;
-  border-top: 1px solid var(--color-bordeaux);
-}
 
 .list {
   display: flex;
@@ -100,9 +91,6 @@
     height: 40px;
   }
 
-  .label::before {
-    width: 16px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
