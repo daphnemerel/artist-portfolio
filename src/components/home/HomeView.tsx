@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
@@ -55,13 +56,22 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
       </section>
       {hero.caption && <p className={styles.studioCaption}>{hero.caption}</p>}
 
-      {/* 1. A short introduction */}
+      {/* 1. Introduction: portrait in a circle, a few words beside it */}
       {site.intro && (
         <section className={styles.intro} aria-labelledby="intro-title">
-          <h2 id="intro-title" className={styles.introLabel}>
-            {site.name}
-          </h2>
+          <Image
+            src="/images/portrait-daphne.jpg"
+            alt="Daphne Merel, smiling, in the open door of a red vintage car."
+            width={900}
+            height={900}
+            sizes="(max-width: 700px) 160px, 240px"
+            quality={90}
+            className={styles.portrait}
+          />
           <div className={styles.introBody}>
+            <h2 id="intro-title" className={styles.introLabel}>
+              {site.name}
+            </h2>
             <p className={styles.introText}>{site.intro}</p>
             <Link href="/about" className={styles.more}>
               About {site.name.split(" ")[0]} <span aria-hidden="true">→</span>

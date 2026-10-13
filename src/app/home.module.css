@@ -22,36 +22,42 @@
   color: var(--color-muted);
 }
 
-/* ---------- 1. introduction: a quiet band, label left, text in the serif ---------- */
+/* ---------- 1. introduction: portrait left, text beside it ---------- */
 
 .intro {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  row-gap: var(--space-md);
-  padding-block: var(--space-2xl);
-  margin-block-start: var(--space-xl);
-  border-top: var(--border-hairline);
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-xl);
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-block: var(--space-2xl) var(--space-xl);
 }
 
-.introLabel {
-  grid-column: 1 / 4;
-  font-size: var(--type-caption);
-  font-weight: 400;
-  line-height: var(--leading-caption);
-  letter-spacing: var(--tracking-caption);
-  color: var(--color-muted);
+.portrait {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%; /* a portrait, not an artwork (codebook §7 keeps artworks square) */
+  object-fit: cover;
 }
 
 .introBody {
-  grid-column: 5 / 12;
   display: grid;
   justify-items: start;
-  gap: var(--space-lg);
+  gap: var(--space-md);
+}
+
+.introLabel {
+  font-size: var(--type-caption);
+  font-weight: 400;
+  line-height: var(--leading-caption);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
 
 .introText {
-  max-width: 34ch;
+  max-width: 46ch;
   font-family: var(--font-serif);
   font-size: var(--type-body-lg);
   line-height: var(--leading-body-lg);
@@ -70,52 +76,21 @@
   text-decoration-color: var(--color-turquoise);
 }
 
-/* ---------- 2. selected works: one row on the gallery wall ---------- */
-
-.works {
-  padding-block: var(--space-xl) var(--section-gap);
-  border-top: var(--border-hairline);
-}
-
-.worksHead {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-md);
-  margin-block-end: var(--space-lg);
-}
-
-.worksTitle {
-  font-size: var(--type-heading-md);
-  font-weight: 400;
-  line-height: var(--leading-heading-md);
-  letter-spacing: var(--tracking-heading-md);
-  color: var(--color-bordeaux);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-lg) var(--gutter);
-}
-
-@media (max-width: 1100px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 700px) {
   .intro {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: var(--space-lg);
     padding-block: var(--space-xl);
+    text-align: center;
   }
 
-  .introLabel,
   .introBody {
-    grid-column: 1 / -1;
+    justify-items: center;
   }
 
-  .grid {
-    gap: var(--space-md) var(--space-sm);
+  .portrait {
+    width: 160px;
+    height: 160px;
   }
 }

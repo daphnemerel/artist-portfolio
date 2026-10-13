@@ -1,6 +1,7 @@
 .works {
   padding-block: var(--space-xl) var(--section-gap);
   border-top: var(--border-hairline);
+  margin-block-start: 0;
   background: var(--color-off-white);
 }
 
@@ -100,5 +101,25 @@
 @media (max-width: 700px) {
   .track {
     --cols: 2;
+  }
+}
+
+/* Phones: title on its own line, arrows and link below it */
+@media (max-width: 700px) {
+  .head {
+    flex-wrap: wrap;
+    row-gap: var(--space-sm);
+  }
+
+  .title {
+    flex-basis: 100%;
+  }
+
+  .controls {
+    flex: 1;
+  }
+
+  .more {
+    margin-inline-start: auto;
   }
 }
