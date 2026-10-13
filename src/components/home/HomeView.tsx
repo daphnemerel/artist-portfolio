@@ -1,0 +1,94 @@
+import Link from "next/link";
+import { getImageProps } from "next/image";
+import { WorkCard } from "@/components/works/WorkCard";
+import { getFeaturedWorks, getSite } from "@/lib/content";
+import styles from "@/app/home.module.css";
+
+type Picture = { src: string; width: number; height: number };
+
+export type HomeHero = {
+  /** Photo for tall screens (and the fallback). */
+  portrait: Picture;
+  /** Optional separate photo for wide screens. */
+  landscape?: Picture;
+  alt: string;
+  caption?: string;
+  /** CSS object-position, to keep the subject in view when the photo is cropped to the screen. */
+  position?: string;
+};
+
+export const STUDIO_HERO: HomeHero = {
+  portrait: { src: "/images/studio-portrait.jpg", width: 941, height: 1672 },
+  landscape: { src: "/images/studio-landscape.jpg", width: 1672, height: 941 },
+  alt: "The artist at her easel in a sunlit studio, painting Catching Waves.",
+  caption: "Studio view with Catching Waves, 2026",
+};
+
+/** The homepage: a full-bleed opening photo, a short introduction and the selected works. */
+export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
+  const site = getSite();
+  // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
+  const works = getFeaturedWorks();
+
+  // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
+  const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
+  const landscape = hero.landscape && getImageProps({ ...common, ...hero.landscape }).props.srcSet;
+  const { srcSet: portraitSrcSet, ...portrait } = getImageProps({ ...common, ...hero.portrait }).props;
+
+  return (
+    <div className="container">
+      <h1 className="visually-hidden">{site.name}</h1>
+
+      {/* Full-bleed studio photograph with the header laid over it. */}
+      <section className={styles.studio} data-hero="bleed" aria-label="Studio">
+        <picture>
+          {landscape && <source media="(orientation: landscape)" srcSet={landscape} />}
+          <source srcSet={portraitSrcSet} />
+          <img
+            {...portrait}
+            alt={portrait.alt}
+            className={styles.studioImage}
+            style={hero.position ? { objectPosition: hero.position } : undefined}
+          />
+        </picture>
+      </section>
+      {hero.caption && <p className={styles.studioCaption}>{hero.caption}</p>}
+
+      {/* 1. A short introduction */}
+      {site.intro && (
+        <section className={styles.intro} aria-labelledby="intro-title">
+          <h2 id="intro-title" className={styles.introLabel}>
+            {site.name}
+          </h2>
+          <div className={styles.introBody}>
+            <p className={styles.introText}>{site.intro}</p>
+            <Link href="/about" className={styles.more}>
+              About {site.name.split(" ")[0]} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* 2. Selected works */}
+      {works.length > 0 && (
+        <section className={styles.works} aria-labelledby="works-title">
+          <div className={styles.worksHead}>
+            <h2 id="works-title" className={styles.worksTitle}>
+              Selected works
+            </h2>
+            <Link href="/works" className={styles.more}>
+              All works <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <ul className={styles.grid}>
+            {works.map((work) => (
+              <li key={work.slug}>
+                <WorkCard work={work} label={work.number ? String(work.number) : undefined} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </div>
+  );
+}

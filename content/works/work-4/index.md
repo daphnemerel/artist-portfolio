@@ -9,6 +9,10 @@ images:
     alt: >-
       A square canvas in rose, coral and burgundy with crumpled, layered texture, rippled pink and
       dark pours in the corners, flecks of gold leaf and two tiny butterflies near the centre.
+  - src: ./images/05.jpg
+    alt: Detail of the upper left corner, with rippled pours of red, pink, white and black and a fleck of gold leaf.
+  - src: ./images/06.jpg
+    alt: Detail of the lower left, with a cream and pink pour, orange and gold, and pink pastel loops.
   - src: ./images/02.jpg
     alt: Detail of the two tiny painted butterflies on the crumpled rose surface.
   - src: ./images/03.jpg

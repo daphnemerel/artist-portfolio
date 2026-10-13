@@ -68,3 +68,8 @@ for i, f in enumerate(["41e5f9f2", "0a630a29", "22c47c72", "da2d25b5", "c6d69931
     b = load(f)
     save(apply(b, ref / paint_median(b)), f"{cw}/new-0{i}.jpg")  # close-ups: matched on their own paint
 save(load("16437a2b"), f"{cw}/new-07.jpg")  # wall view: as photographed
+
+# Later: clean straight-on photos replaced the cropped lead photos (no correction needed), and work 5
+# was added. See the commit "Works: work 5, better lead photos" for the source files:
+#   work-1/01 <- 61c0d4c5, work-4/01 <- 51c357da (+05 9618ee02, 06 843d4e78),
+#   catching-waves/new-01 <- 4b697e3b, work-5/01 <- 181e89c8, 02 <- bb2b34c2
