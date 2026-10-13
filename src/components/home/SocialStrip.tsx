@@ -39,8 +39,10 @@ export function SocialStrip({ site }: { site: Site }) {
               aria-label={l.label}
               {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             >
-              <SocialIcon size={20}>{l.icon}</SocialIcon>
-              <span className={styles.name}>{l.label}</span>
+              <span className={styles.disc} aria-hidden="true" />
+              <span className={styles.icon}>
+                <SocialIcon size={24}>{l.icon}</SocialIcon>
+              </span>
             </a>
           </li>
         ))}

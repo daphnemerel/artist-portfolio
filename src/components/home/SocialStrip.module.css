@@ -1,80 +1,96 @@
-/* A thin band between the introduction and the selected works: label and icons on one line. */
+/* A thin band between the introduction and the selected works, centred: label, then the icons. */
 .strip {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-lg);
   padding-block: var(--title-gap);
   border-top: var(--border-hairline);
 }
 
 .label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   font-size: var(--type-caption);
   font-weight: 400;
   line-height: var(--leading-caption);
-  letter-spacing: 0.25em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--color-bordeaux);
+}
+
+/* a short bordeaux rule before the label, as elsewhere on the site */
+.label::before {
+  content: "";
+  width: 28px;
+  border-top: 1px solid var(--color-bordeaux);
 }
 
 .list {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
 }
 
-/* Square-ish touch target; on hover a bordeaux ground fills in and the name slides out. */
+/* No frame: a bare line icon. On hover a pink disc grows behind it, the icon lifts and turns
+   bordeaux. */
 .link {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  height: 40px;
-  padding-inline: 10px;
-  border: var(--border-hairline);
-  border-radius: var(--radius-none);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
   color: var(--color-ink);
-  overflow: hidden;
-  transition:
-    background-color var(--duration) var(--ease),
-    border-color var(--duration) var(--ease),
-    color var(--duration) var(--ease),
-    gap var(--duration) var(--ease);
 }
 
-.name {
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: var(--type-nav);
-  letter-spacing: var(--tracking-nav);
+.disc {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--color-pink);
+  transform: scale(0);
   opacity: 0;
   transition:
-    max-width 240ms var(--ease),
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
     opacity var(--duration) var(--ease);
 }
 
-.link:hover,
-.link:focus-visible {
-  gap: var(--space-xs);
-  border-color: var(--color-bordeaux);
-  background: var(--color-bordeaux);
-  color: var(--color-off-white);
+.icon {
+  position: relative;
+  display: grid;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color var(--duration) var(--ease);
 }
 
-.link:hover .name,
-.link:focus-visible .name {
-  max-width: 8rem;
+
+.link:hover .disc,
+.link:focus-visible .disc {
+  transform: scale(1);
   opacity: 1;
 }
+
+.link:hover .icon,
+.link:focus-visible .icon {
+  color: var(--color-bordeaux);
+  transform: translateY(-2px);
+}
+
 
 @media (max-width: 700px) {
   .strip {
     gap: var(--space-md);
   }
+
+  .label::before {
+    width: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .link,
-  .name {
+  .disc,
+  .icon {
     transition: none;
   }
 }
