@@ -18,13 +18,13 @@ export default function AboutPage() {
 
   return (
     <div className="container">
-      <section className={styles.about} aria-labelledby="about-title">
+      <section className={styles.about} aria-labelledby="about-title" data-tight-footer="">
         <Image
           src="/images/about-daphne.jpg"
           alt="Daphne Merel, smiling, at a table in her studio, with brushes in a jar and colourful paintings behind her."
           width={537}
           height={791}
-          sizes="(max-width: 700px) 100vw, 40vw"
+          sizes="(max-width: 700px) 100vw, 440px"
           quality={92}
           priority
           className={styles.photo}

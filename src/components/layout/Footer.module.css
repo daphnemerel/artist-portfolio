@@ -6,8 +6,8 @@
   font-family: var(--font-serif);
 }
 
-/* On the homepage the Commissions / Exhibitions band ends close to the footer. */
-:global(body:has([data-home-links])) .footer {
+/* Pages that end close to the footer (homepage band, About). */
+:global(body:has([data-home-links], [data-tight-footer])) .footer {
   margin-block-start: var(--title-gap);
 }
 
@@ -34,8 +34,8 @@
   display: grid;
   grid-template-columns: 7fr 3fr 3fr;
   align-items: start;
-  gap: var(--space-xl) var(--space-lg);
-  padding-block: var(--space-xl) var(--space-lg);
+  gap: var(--space-lg);
+  padding-block: var(--space-lg) var(--space-md); /* compact: just enough air around the links */
 }
 
 .name {
@@ -59,7 +59,7 @@
 
 .contact {
   display: grid;
-  gap: var(--space-lg);
+  gap: var(--space-md);
 }
 
 .label {
@@ -84,7 +84,7 @@
 .social {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md);
+  gap: var(--space-xs); /* all icons on one line where it fits */
   margin-inline-start: -9px;
 }
 
