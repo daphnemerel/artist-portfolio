@@ -3,8 +3,8 @@
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
-  row-gap: var(--space-xl);
-  padding-block-start: var(--space-lg); /* same small gap under the header as the page titles */
+  row-gap: var(--title-gap);
+  padding-block-start: var(--title-gap); /* same gap under the header as the page titles */
 }
 
 /* Story layout (e.g. Catching Waves) opens with its image strip right under the header. */
@@ -18,7 +18,7 @@
   position: sticky;
   top: var(--space-md);
   display: grid;
-  gap: var(--space-md);
+  gap: var(--title-gap);
   font-size: var(--type-caption);
   line-height: var(--leading-caption);
   letter-spacing: var(--tracking-caption);

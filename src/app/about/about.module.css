@@ -3,7 +3,7 @@
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
   row-gap: var(--space-2xl);
-  padding-block-start: var(--space-lg); /* same small gap under the header as the page titles */
+  padding-block-start: var(--title-gap); /* same gap under the header as the page titles */
 }
 
 .bio {
@@ -38,5 +38,11 @@
   .bio,
   .side {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .about {
+    row-gap: var(--space-lg);
   }
 }
