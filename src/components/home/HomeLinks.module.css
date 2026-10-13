@@ -2,16 +2,38 @@
 .links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding-block: var(--title-gap) var(--space-xl);
+  padding-block: var(--title-gap) 0; /* the footer brings its own space */
   border-top: var(--border-hairline);
 }
 
 .item {
   display: grid;
+  align-items: start;
+  gap: var(--space-lg);
+  padding-block: var(--space-sm);
+}
+
+.item[data-image] {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.body {
+  display: grid;
   justify-items: start;
   align-content: start;
   gap: var(--space-xs);
-  padding-block: var(--space-sm);
+}
+
+/* An exhibition poster beside the text, small and unframed. */
+.image {
+  display: block;
+  width: 160px;
+}
+
+.image img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .item + .item {
@@ -48,6 +70,10 @@
 @media (max-width: 700px) {
   .links {
     grid-template-columns: 1fr;
+  }
+
+  .image {
+    width: 112px;
   }
 
   .item + .item {

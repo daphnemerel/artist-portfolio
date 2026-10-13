@@ -62,7 +62,7 @@ export function WorksCarousel({
           trigger: pinned.current,
           start: () =>
             pinned.current!.offsetHeight <= window.innerHeight
-              ? "center center"
+              ? "bottom bottom"
               : "top top",
           end: () => `+=${measure().max * 1.2}`,
           pin: true,
