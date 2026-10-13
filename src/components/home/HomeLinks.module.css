@@ -2,8 +2,9 @@
 .links {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding-block: var(--title-gap) 0; /* the footer brings its own space */
+  padding-block: var(--title-gap);
   border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline); /* closes the band, like the line above it */
 }
 
 .item {
