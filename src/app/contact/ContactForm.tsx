@@ -4,27 +4,19 @@ import { useState, type FormEvent } from "react";
 import styles from "./contact.module.css";
 
 /*
- * Sends the message from the visitor's browser to Web3Forms, which emails it to Daphne. Web3Forms
- * expects browser submissions on its free plan; its access key is public by design. The visitor
- * stays on the page and no mail app opens.
+ * Sends the message to the site's own server route (/api/contact), which emails it to Daphne via
+ * Gmail. No keys in the browser; the visitor stays on the page and no mail app opens.
  */
-const ENDPOINT = "https://api.web3forms.com/submit";
+const ENDPOINT = "/api/contact";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function ContactForm({
-  accessKey,
-  email,
-}: {
-  accessKey?: string;
-  email: string;
-}) {
-  const key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || accessKey;
+export function ContactForm({ email }: { email: string }) {
   const [status, setStatus] = useState<Status>("idle");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!key || status === "sending") return;
+    if (status === "sending") return;
     const form = event.currentTarget;
     const data = new FormData(form);
     const get = (name: string) => String(data.get(name) ?? "").trim();
@@ -38,23 +30,17 @@ export function ContactForm({
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: key,
-          subject: get("subject")
-            ? `Website: ${get("subject")}`
-            : "New message via the website",
-          from_name: "Daphne Merel website",
           name: get("name"),
           email: get("email"),
-          replyto: get("email"),
+          subject: get("subject"),
           message: get("message"),
           botcheck: data.get("botcheck") ? true : "",
         }),
       });
       const result = (await response.json().catch(() => null)) as {
-        success?: boolean;
+        ok?: boolean;
       } | null;
-      if (!response.ok || !result?.success)
-        throw new Error("Submission failed");
+      if (!response.ok || !result?.ok) throw new Error("Submission failed");
       form.reset();
       setStatus("sent");
     } catch {
@@ -127,7 +113,7 @@ export function ContactForm({
       <button
         type="submit"
         className={styles.send}
-        disabled={sending || !key}
+        disabled={sending}
         aria-busy={sending}
       >
         {sending ? (
@@ -144,9 +130,8 @@ export function ContactForm({
         aria-live="polite"
         data-status={status}
       >
-        {!key && "The form is not available yet. Please email me directly."}
-        {key && status === "sent" && "Thank you — your message has been sent."}
-        {key && status === "error" && (
+        {status === "sent" && "Thank you — your message has been sent."}
+        {status === "error" && (
           <>
             Sorry, something went wrong. Please try again, or email me at{" "}
             <a href={`mailto:${email}`}>{email}</a>.

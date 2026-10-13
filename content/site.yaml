@@ -4,9 +4,8 @@ name: Daphne Merel
 description: Artist statement to be added.
 location: ""
 email: daphnemerelinfo@gmail.com
-# Contact form (web3forms.com). This key is public by design: it can only send messages to the
-# address above. A NEXT_PUBLIC_WEB3FORMS_KEY setting in Vercel overrides it.
-web3formsKey: 140588c2-55f5-4321-993e-1f8d649cbffc
+# The contact form emails this address via Gmail. Set GMAIL_APP_PASSWORD (a Google app password)
+# in Vercel → Settings → Environment Variables; it is never stored in the code.
 # Social accounts: fill in the account name only (no URL). Empty ones show as "to be added" in the footer.
 # Shown in this order on the site (email always last).
 instagram: daphne_merel

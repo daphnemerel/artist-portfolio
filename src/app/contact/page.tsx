@@ -110,7 +110,7 @@ export default function ContactPage() {
               Prefer to send a direct message? Use the form below and I&rsquo;ll get back to you as soon as
               possible.
             </p>
-            <ContactForm accessKey={site.web3formsKey} email={site.email} />
+            <ContactForm email={site.email} />
           </section>
         )}
       </div>
