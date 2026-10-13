@@ -26,6 +26,8 @@ const siteSchema = z.object({
     .default([]),
   cv: z.string().optional(),
   bio: z.string().min(1),
+  /** Short introduction on the homepage. */
+  intro: z.string().optional(),
 });
 
 const imageEntrySchema = z.object({

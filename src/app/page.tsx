@@ -1,9 +1,13 @@
+import Link from "next/link";
 import { getImageProps } from "next/image";
-import { getSite } from "@/lib/content";
+import { WorkCard } from "@/components/works/WorkCard";
+import { getFeaturedWorks, getSite } from "@/lib/content";
 import styles from "./home.module.css";
 
 export default function HomePage() {
   const site = getSite();
+  // Works with `featured: true` in their content file, in their usual order (max. 4).
+  const works = getFeaturedWorks().slice(0, 4);
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const studio = {
@@ -38,6 +42,42 @@ export default function HomePage() {
         </picture>
       </section>
       <p className={styles.studioCaption}>Studio view with Catching Waves, 2026</p>
+
+      {/* 1. A short introduction */}
+      {site.intro && (
+        <section className={styles.intro} aria-labelledby="intro-title">
+          <h2 id="intro-title" className={styles.introLabel}>
+            {site.name}
+          </h2>
+          <div className={styles.introBody}>
+            <p className={styles.introText}>{site.intro}</p>
+            <Link href="/about" className={styles.more}>
+              About {site.name.split(" ")[0]} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* 2. Selected works */}
+      {works.length > 0 && (
+        <section className={styles.works} aria-labelledby="works-title">
+          <div className={styles.worksHead}>
+            <h2 id="works-title" className={styles.worksTitle}>
+              Selected works
+            </h2>
+            <Link href="/works" className={styles.more}>
+              All works <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <ul className={styles.grid}>
+            {works.map((work) => (
+              <li key={work.slug}>
+                <WorkCard work={work} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }

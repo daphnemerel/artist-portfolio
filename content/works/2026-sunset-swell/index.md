@@ -3,6 +3,7 @@
 title: Sunset Swell
 medium: Medium to be added
 order: 0.1
+featured: true
 images:
   - src: ./images/01.jpg
     alt: Thick salmon-pink paint in sweeping strokes with two tiny surfers riding across it.
