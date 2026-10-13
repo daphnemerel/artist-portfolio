@@ -86,10 +86,19 @@
 }
 
 @media (max-width: 900px) {
+  /* Phones/tablets: a slim band; room below the links only when the menu is open. */
   .header {
     grid-template-columns: 1fr auto;
     row-gap: var(--space-md);
+    padding-block: var(--space-xs);
+  }
+
+  .header:has([data-open="true"]) {
     padding-block-end: var(--space-lg);
+  }
+
+  .name {
+    font-size: 1.5rem;
   }
 
   .toggle {
