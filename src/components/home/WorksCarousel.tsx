@@ -144,7 +144,7 @@ export function WorksCarousel({
               </>
             )}
             <Link href="/works" className={styles.more}>
-              All works <span aria-hidden="true">→</span>
+              View works
             </Link>
           </div>
         </div>
