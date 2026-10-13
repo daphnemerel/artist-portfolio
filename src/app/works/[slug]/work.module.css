@@ -4,6 +4,12 @@
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
   row-gap: var(--space-xl);
+  padding-block-start: var(--space-lg); /* same small gap under the header as the page titles */
+}
+
+/* Story layout (e.g. Catching Waves) opens with its image strip right under the header. */
+.story {
+  padding-block-start: 0;
 }
 
 .details {

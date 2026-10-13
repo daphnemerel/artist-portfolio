@@ -3,6 +3,7 @@
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--gutter);
   row-gap: var(--space-2xl);
+  padding-block-start: var(--space-lg); /* same small gap under the header as the page titles */
 }
 
 .bio {
