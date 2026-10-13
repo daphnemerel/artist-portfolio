@@ -30,7 +30,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: center;
   column-gap: var(--gutter);
-  padding-block: var(--space-xl);
+  padding-block: var(--space-xl) var(--space-lg);
 }
 
 .portrait {

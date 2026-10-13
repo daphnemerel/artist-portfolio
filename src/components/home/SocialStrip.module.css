@@ -1,0 +1,80 @@
+/* A thin band between the introduction and the selected works: label and icons on one line. */
+.strip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding-block: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+.label {
+  font-size: var(--type-caption);
+  font-weight: 400;
+  line-height: var(--leading-caption);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Square-ish touch target; on hover a bordeaux ground fills in and the name slides out. */
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 40px;
+  padding-inline: 10px;
+  border: var(--border-hairline);
+  border-radius: var(--radius-none);
+  color: var(--color-ink);
+  overflow: hidden;
+  transition:
+    background-color var(--duration) var(--ease),
+    border-color var(--duration) var(--ease),
+    color var(--duration) var(--ease),
+    gap var(--duration) var(--ease);
+}
+
+.name {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  opacity: 0;
+  transition:
+    max-width 240ms var(--ease),
+    opacity var(--duration) var(--ease);
+}
+
+.link:hover,
+.link:focus-visible {
+  gap: var(--space-xs);
+  border-color: var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.link:hover .name,
+.link:focus-visible .name {
+  max-width: 8rem;
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .strip {
+    gap: var(--space-md);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .name {
+    transition: none;
+  }
+}

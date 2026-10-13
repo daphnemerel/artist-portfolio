@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
 import styles from "@/app/home.module.css";
@@ -80,7 +81,10 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
         </section>
       )}
 
-      {/* 2. Selected works */}
+      {/* 2. Socials: a thin band */}
+      <SocialStrip site={site} />
+
+      {/* 3. Selected works */}
       {works.length > 0 && (
         <WorksCarousel
           items={works.map((work) => ({
