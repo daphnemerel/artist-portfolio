@@ -4,29 +4,31 @@
  * exception for this page only.
  */
 .about {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
+  display: flex;
   align-items: center;
-  padding-block: var(--space-xl);
+  justify-content: center;
+  /* The same white above as below: below = this padding + the footer's own gap (both --title-gap). */
+  padding-block: calc(2 * var(--title-gap)) var(--title-gap);
 }
 
+/* The whole page fits on one screen: the portrait is as tall as the space under the header. */
 .photo {
-  grid-column: 2 / 7;
-  grid-row: 1;
-  width: 100%;
-  height: auto;
+  flex: none;
+  width: auto;
+  height: min(calc(100svh - 76px - 4 * var(--title-gap)), 620px);
+  aspect-ratio: 537 / 791;
   border-radius: 16px;
+  object-fit: cover;
 }
 
 .card {
-  grid-column: 6 / 12;
-  grid-row: 1;
   position: relative; /* above the photo */
+  flex: 0 1 34rem;
   display: grid;
   justify-items: start;
-  gap: var(--space-md);
-  padding: var(--space-xl) var(--space-xl) var(--space-xl);
+  gap: var(--space-sm);
+  margin-inline-start: calc(-1 * var(--space-2xl));
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) var(--space-xl);
   border-radius: 16px;
   background: color-mix(in srgb, var(--color-off-white) 55%, white);
 }
@@ -42,7 +44,7 @@
 .title {
   margin-block-start: calc(-1 * var(--space-xs));
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 4.4vw, 4rem);
+  font-size: clamp(2.25rem, 3.4vw, 3.25rem);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.015em;
@@ -51,10 +53,10 @@
 
 .text {
   display: grid;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   max-width: 60ch;
   font-family: var(--font-serif);
-  font-size: 1.125rem;
+  font-size: 1rem;
   line-height: var(--leading-body);
   color: var(--color-bordeaux);
 }
@@ -88,14 +90,14 @@
   text-underline-offset: 0.2em;
 }
 
-/* Tablet: the card overlaps a little more */
+/* Tablet: smaller portrait, the card overlaps it */
 @media (max-width: 1100px) {
   .photo {
-    grid-column: 1 / 7;
+    height: min(calc(100svh - 120px), 480px);
   }
 
   .card {
-    grid-column: 6 / -1;
+    margin-inline-start: calc(-1 * var(--space-xl));
     padding: var(--space-lg);
   }
 }
@@ -103,23 +105,21 @@
 /* Phone: portrait on top, the card overlapping its lower edge */
 @media (max-width: 700px) {
   .about {
-    grid-template-columns: 1fr;
-    padding-block: var(--title-gap) var(--space-lg);
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .photo,
-  .card {
-    grid-column: 1;
+  .photo {
+    width: 100%;
+    height: auto;
+    max-height: 60svh;
+    object-position: 50% 30%;
   }
 
   .card {
-    grid-row: 2;
+    flex: none;
     margin-block-start: calc(-1 * var(--space-xl));
     margin-inline: var(--space-sm);
     padding: var(--space-lg) var(--space-md);
-  }
-
-  .text {
-    font-size: var(--type-body);
   }
 }

@@ -29,7 +29,7 @@ export default function ContactPage() {
 
   return (
     <div className="container">
-      <div className={styles.contact}>
+      <div className={styles.contact} data-tight-footer="">
         <div className={styles.intro}>
           <p className={styles.eyebrow}>Get in touch</p>
           <h1 className={styles.title}>Contact</h1>
