@@ -1,3 +1,7 @@
+.pinned {
+  background: var(--color-off-white);
+}
+
 .works {
   padding-block: var(--title-gap) var(--space-xl);
   border-top: var(--border-hairline);

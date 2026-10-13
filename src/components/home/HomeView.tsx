@@ -36,23 +36,37 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
-  const landscape = hero.landscape && getImageProps({ ...common, ...hero.landscape }).props.srcSet;
-  const { srcSet: portraitSrcSet, ...portrait } = getImageProps({ ...common, ...hero.portrait }).props;
+  const landscape =
+    hero.landscape &&
+    getImageProps({ ...common, ...hero.landscape }).props.srcSet;
+  const { srcSet: portraitSrcSet, ...portrait } = getImageProps({
+    ...common,
+    ...hero.portrait,
+  }).props;
 
   return (
     <div className="container">
       <h1 className="visually-hidden">{site.name}</h1>
 
       {/* Full-bleed studio photograph with the header laid over it. */}
-      <section className={styles.studio} data-hero="bleed" data-hero-glass aria-label="Studio">
+      <section
+        className={styles.studio}
+        data-hero="bleed"
+        data-hero-glass
+        aria-label="Studio"
+      >
         <picture>
-          {landscape && <source media="(orientation: landscape)" srcSet={landscape} />}
+          {landscape && (
+            <source media="(orientation: landscape)" srcSet={landscape} />
+          )}
           <source srcSet={portraitSrcSet} />
           <img
             {...portrait}
             alt={portrait.alt}
             className={styles.studioImage}
-            style={hero.position ? { objectPosition: hero.position } : undefined}
+            style={
+              hero.position ? { objectPosition: hero.position } : undefined
+            }
           />
         </picture>
       </section>
@@ -85,19 +99,23 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
       {/* 2. Socials: a thin band */}
       <SocialStrip site={site} />
 
-      {/* 3. Recent works */}
+      {/* 3. Recent works, with Commissions and Exhibitions below (pinned together) */}
+      {works.length === 0 && <HomeLinks />}
       {works.length > 0 && (
         <WorksCarousel
           title="Recent works"
+          after={<HomeLinks />}
           items={works.map((work) => ({
             key: work.slug,
-            card: <WorkCard work={work} label={work.number ? String(work.number) : undefined} />,
+            card: (
+              <WorkCard
+                work={work}
+                label={work.number ? String(work.number) : undefined}
+              />
+            ),
           }))}
         />
       )}
-
-      {/* 4. Commissions and exhibitions */}
-      <HomeLinks />
     </div>
   );
 }
