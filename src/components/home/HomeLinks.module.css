@@ -15,6 +15,7 @@
 
 .item[data-image] {
   grid-template-columns: auto minmax(0, 1fr);
+  align-items: center; /* the text centred beside the poster */
 }
 
 .body {
