@@ -61,6 +61,8 @@
   --gutter: clamp(16px, 2vw, 32px);
   --measure: 65ch;
   --section-gap: clamp(var(--space-xl), 10vw, var(--space-3xl));
+  /* Space between the header band and a page title, and the same space below the title. */
+  --title-gap: var(--space-md);
 
   /* Motion */
   --ease: ease;
@@ -69,6 +71,7 @@
 
 @media (max-width: 700px) {
   :root {
+    --title-gap: var(--space-sm);
     --space-xl: 48px;
     --space-2xl: 72px;
     --space-3xl: 104px;

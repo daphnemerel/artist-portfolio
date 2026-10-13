@@ -1,7 +1,8 @@
+/* Page title under the pink header band: the same space above and below it. */
 .pageHeader {
   display: grid;
-  gap: var(--space-md);
-  margin-block-end: var(--space-lg);
+  gap: var(--space-sm);
+  margin-block: var(--title-gap);
 }
 
 .pageTitle {

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { HomeLinks } from "./HomeLinks";
+import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
 import styles from "@/app/home.module.css";
@@ -34,23 +36,37 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
-  const landscape = hero.landscape && getImageProps({ ...common, ...hero.landscape }).props.srcSet;
-  const { srcSet: portraitSrcSet, ...portrait } = getImageProps({ ...common, ...hero.portrait }).props;
+  const landscape =
+    hero.landscape &&
+    getImageProps({ ...common, ...hero.landscape }).props.srcSet;
+  const { srcSet: portraitSrcSet, ...portrait } = getImageProps({
+    ...common,
+    ...hero.portrait,
+  }).props;
 
   return (
     <div className="container">
       <h1 className="visually-hidden">{site.name}</h1>
 
       {/* Full-bleed studio photograph with the header laid over it. */}
-      <section className={styles.studio} data-hero="bleed" data-hero-glass aria-label="Studio">
+      <section
+        className={styles.studio}
+        data-hero="bleed"
+        data-hero-glass
+        aria-label="Studio"
+      >
         <picture>
-          {landscape && <source media="(orientation: landscape)" srcSet={landscape} />}
+          {landscape && (
+            <source media="(orientation: landscape)" srcSet={landscape} />
+          )}
           <source srcSet={portraitSrcSet} />
           <img
             {...portrait}
             alt={portrait.alt}
             className={styles.studioImage}
-            style={hero.position ? { objectPosition: hero.position } : undefined}
+            style={
+              hero.position ? { objectPosition: hero.position } : undefined
+            }
           />
         </picture>
       </section>
@@ -80,12 +96,23 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
         </section>
       )}
 
-      {/* 2. Selected works */}
+      {/* 2. Socials: a thin band */}
+      <SocialStrip site={site} />
+
+      {/* 3. Recent works, with Commissions and Exhibitions below (pinned together) */}
+      {works.length === 0 && <HomeLinks />}
       {works.length > 0 && (
         <WorksCarousel
+          title="Recent works"
+          after={<HomeLinks />}
           items={works.map((work) => ({
             key: work.slug,
-            card: <WorkCard work={work} label={work.number ? String(work.number) : undefined} />,
+            card: (
+              <WorkCard
+                work={work}
+                label={work.number ? String(work.number) : undefined}
+              />
+            ),
           }))}
         />
       )}

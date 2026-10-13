@@ -1,5 +1,9 @@
+.pinned {
+  background: var(--color-off-white);
+}
+
 .works {
-  padding-block: var(--space-md) var(--section-gap);
+  padding-block: var(--title-gap);
   border-top: var(--border-hairline);
   margin-block-start: 0;
   background: var(--color-off-white);
@@ -52,17 +56,29 @@
   cursor: default;
 }
 
+/* "View works": a square-cornered button as tall as the arrows, filled bordeaux (codebook §13). */
 .more {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
   margin-inline-start: var(--space-sm);
+  padding-inline: 22px;
+  border: 1px solid var(--color-bordeaux);
+  border-radius: var(--radius-none);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
   font-size: var(--type-nav);
   letter-spacing: var(--tracking-nav);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.3em;
+  text-decoration: none;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
 }
 
-.more:hover {
-  text-decoration-color: var(--color-turquoise);
+.more:hover,
+.more:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
 }
 
 /* Without the scroll animation: a native horizontal strip with snap points. */
@@ -125,7 +141,9 @@
   }
 
   .more {
+    height: 32px;
     margin-inline-start: 4px;
+    padding-inline: 12px;
     white-space: nowrap;
   }
 }

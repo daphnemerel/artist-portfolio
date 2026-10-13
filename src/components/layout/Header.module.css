@@ -4,7 +4,10 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   column-gap: var(--space-lg);
-  padding-block: var(--space-md) var(--space-lg);
+  /* A slim band in the brand pink on every page, at the artist's request. */
+  padding-block: var(--space-sm);
+  background: var(--color-pink);
+  color: var(--color-ink);
   font-size: var(--type-nav);
   line-height: var(--leading-nav);
   letter-spacing: var(--tracking-nav);
@@ -18,17 +21,9 @@
   z-index: 2;
 }
 
-/* Homepage hero: a solid band in the brand pink, so the menu stays readable over any photo;
-   slimmer than the normal header (no extra space below the links). At the artist's request. */
-:global(body:has([data-hero-glass])) .header {
-  padding-block: var(--space-sm);
-  background: var(--color-pink);
-  color: var(--color-ink);
-}
-
-/* An open mobile menu needs its own ground to stay readable over the photo. */
+/* An open mobile menu keeps the same pink ground over a photo. */
 :global(body:has([data-hero="bleed"])) .header:has([data-open="true"]) {
-  background: var(--color-off-white);
+  background: var(--color-pink);
 }
 
 .name {
@@ -91,10 +86,19 @@
 }
 
 @media (max-width: 900px) {
+  /* Phones/tablets: a slim band; room below the links only when the menu is open. */
   .header {
     grid-template-columns: 1fr auto;
     row-gap: var(--space-md);
+    padding-block: var(--space-xs);
+  }
+
+  .header:has([data-open="true"]) {
     padding-block-end: var(--space-lg);
+  }
+
+  .name {
+    font-size: 1.5rem;
   }
 
   .toggle {

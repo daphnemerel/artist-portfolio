@@ -1,0 +1,101 @@
+/* A thin band between the introduction and the selected works, centred: label, then the icons. */
+.strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding-block: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+.label {
+  font-size: var(--type-caption);
+  font-weight: 400;
+  line-height: var(--leading-caption);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* No frame: a bare line icon. On hover a pink disc grows behind it, the icon lifts and turns
+   bordeaux. */
+.link {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  color: var(--color-ink);
+}
+
+/* accounts not filled in yet: faded, no hover */
+.pending {
+  color: var(--color-muted);
+  opacity: 0.4;
+  cursor: default;
+}
+
+.disc {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--color-pink);
+  transform: scale(0);
+  opacity: 0;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity var(--duration) var(--ease);
+}
+
+.icon {
+  position: relative;
+  display: grid;
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    color var(--duration) var(--ease);
+}
+
+
+.link:hover .disc,
+.link:focus-visible .disc {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.link:hover .icon,
+.link:focus-visible .icon {
+  color: var(--color-bordeaux);
+  transform: translateY(-2px);
+}
+
+
+@media (max-width: 700px) {
+  .strip {
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+  }
+
+  .list {
+    gap: 0;
+  }
+
+  .link {
+    width: 40px;
+    height: 40px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disc,
+  .icon {
+    transition: none;
+  }
+}

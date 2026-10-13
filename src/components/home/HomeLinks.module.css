@@ -1,0 +1,89 @@
+/* Commissions and Exhibitions: two columns under a hairline, a hairline between them. */
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-block: var(--title-gap);
+  border-top: var(--border-hairline);
+  border-bottom: var(--border-hairline); /* closes the band, like the line above it */
+}
+
+.item {
+  display: grid;
+  align-items: start;
+  gap: var(--space-lg);
+  padding-block: var(--space-sm);
+}
+
+.item[data-image] {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center; /* the text centred beside the poster */
+}
+
+.body {
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  gap: var(--space-xs);
+}
+
+/* An exhibition poster left of the text, small and unframed. */
+.image {
+  order: -1;
+  display: block;
+  width: 190px;
+}
+
+.image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.item + .item {
+  padding-inline-start: var(--space-xl);
+  border-left: var(--border-hairline);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.text {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.more {
+  margin-block-start: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+/* Phones: one under the other, the hairline turns horizontal. */
+@media (max-width: 700px) {
+  .links {
+    grid-template-columns: 1fr;
+  }
+
+  .image {
+    width: 128px;
+  }
+
+  .item + .item {
+    margin-block-start: var(--space-sm);
+    padding-inline-start: 0;
+    padding-block-start: var(--title-gap);
+    border-left: 0;
+    border-top: var(--border-hairline);
+  }
+}

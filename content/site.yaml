@@ -4,16 +4,25 @@ name: Daphne Merel
 description: Artist statement to be added.
 location: ""
 email: daphnemerelinfo@gmail.com
+# The contact form emails this address via Gmail. Set GMAIL_APP_PASSWORD (a Google app password)
+# in Vercel → Settings → Environment Variables; it is never stored in the code.
 # Social accounts: fill in the account name only (no URL). Empty ones show as "to be added" in the footer.
+# Shown in this order on the site (email always last).
 instagram: daphne_merel
-facebook: ""
 tiktok: ""
+pinterest: ""
+facebook: ""
 youtube: ""
 linkedin: ""
 representation: []
 # Put the PDF in public/ and link it here, e.g. /cv.pdf
 # cv: /cv.pdf
-bio: Daphne Merel is tof.
+bio: |-
+  I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus. My work combines layered paint, tactile surfaces and delicate figurative details, creating quiet stories within bold material worlds.
+
+  Nature, everyday life and fleeting emotions often find their way into my work — a bird, a bloom, a glimpse of a place. I love working with rich textures and layers, letting colors, forms and small subjects come together to create atmosphere, depth and a sense of curiosity.
+
+  Commissions are very welcome. I'd love to create a unique piece together that tells your story.
 # Short introduction on the homepage, beside the portrait (Daphne's own text, first person).
 intro: >-
   I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
