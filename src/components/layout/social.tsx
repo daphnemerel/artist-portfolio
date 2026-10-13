@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Site } from "@/lib/content";
 
-export type SocialPlatform = "instagram" | "facebook" | "tiktok" | "youtube" | "linkedin";
+export type SocialPlatform = "instagram" | "tiktok" | "pinterest" | "facebook" | "youtube" | "linkedin";
 
 type SocialAccount = {
   platform: SocialPlatform;
@@ -33,13 +33,6 @@ const platforms: {
     ),
   },
   {
-    platform: "facebook",
-    label: "Facebook",
-    url: (h) => `https://facebook.com/${h}`,
-    display: (h) => h,
-    icon: <path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V10H6.5v3.5H9V21h3.5v-7.5H15l.5-3.5h-3V7a1 1 0 0 1 1-1H15z" />,
-  },
-  {
     platform: "tiktok",
     label: "TikTok",
     url: (h) => `https://tiktok.com/@${h}`,
@@ -50,6 +43,26 @@ const platforms: {
         <path d="M14 3c.5 2.5 2.5 4.5 5 5" />
       </>
     ),
+  },
+  {
+    platform: "pinterest",
+    label: "Pinterest",
+    url: (h) => `https://pinterest.com/${h}`,
+    display: (h) => h,
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M11.2 20.5 12.8 13" />
+        <path d="M10.4 14.2c.5.6 1.2.9 2 .9 2.1 0 3.4-1.7 3.4-3.8 0-2.1-1.7-3.7-3.9-3.7-2.4 0-4 1.7-4 3.7 0 .8.3 1.5.8 2" />
+      </>
+    ),
+  },
+  {
+    platform: "facebook",
+    label: "Facebook",
+    url: (h) => `https://facebook.com/${h}`,
+    display: (h) => h,
+    icon: <path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V10H6.5v3.5H9V21h3.5v-7.5H15l.5-3.5h-3V7a1 1 0 0 1 1-1H15z" />,
   },
   {
     platform: "youtube",

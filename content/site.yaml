@@ -5,9 +5,11 @@ description: Artist statement to be added.
 location: ""
 email: daphnemerelinfo@gmail.com
 # Social accounts: fill in the account name only (no URL). Empty ones show as "to be added" in the footer.
+# Shown in this order on the site (email always last).
 instagram: daphne_merel
-facebook: ""
 tiktok: ""
+pinterest: ""
+facebook: ""
 youtube: ""
 linkedin: ""
 representation: []

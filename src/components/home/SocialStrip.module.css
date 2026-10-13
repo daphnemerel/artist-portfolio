@@ -44,6 +44,13 @@
   color: var(--color-ink);
 }
 
+/* accounts not filled in yet: faded, no hover */
+.pending {
+  color: var(--color-muted);
+  opacity: 0.4;
+  cursor: default;
+}
+
 .disc {
   position: absolute;
   inset: 4px;
@@ -80,7 +87,17 @@
 
 @media (max-width: 700px) {
   .strip {
-    gap: var(--space-md);
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-md);
+  }
+
+  .list {
+    gap: 0;
+  }
+
+  .link {
+    width: 40px;
+    height: 40px;
   }
 
   .label::before {

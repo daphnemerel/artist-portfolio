@@ -5,10 +5,15 @@ import styles from "./SocialStrip.module.css";
 
 /** Thin band on the homepage: "SOCIALS" and the accounts filled in content/site.yaml, plus email. */
 export function SocialStrip({ site }: { site: Site }) {
-  type Link = { key: string; label: string; href: string; icon: ReactNode; external: boolean };
-  const links: Link[] = socialAccounts(site)
-    .filter((a) => a.href)
-    .map(({ platform, label, href, icon }) => ({ key: platform, label, href: href!, icon, external: true }));
+  type Link = { key: string; label: string; href?: string; icon: ReactNode; external: boolean };
+  // every platform, in the order of content/site.yaml; those without an account yet are shown faded
+  const links: Link[] = socialAccounts(site).map(({ platform, label, href, icon }) => ({
+    key: platform,
+    label,
+    href,
+    icon,
+    external: true,
+  }));
   if (site.email) {
     links.push({
       key: "email",
@@ -23,7 +28,6 @@ export function SocialStrip({ site }: { site: Site }) {
       external: false,
     });
   }
-  if (links.length === 0) return null;
 
   return (
     <section className={styles.strip} aria-labelledby="socials-title">
@@ -33,17 +37,26 @@ export function SocialStrip({ site }: { site: Site }) {
       <ul className={styles.list}>
         {links.map((l) => (
           <li key={l.key}>
-            <a
-              href={l.href}
-              className={styles.link}
-              aria-label={l.label}
-              {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            >
-              <span className={styles.disc} aria-hidden="true" />
-              <span className={styles.icon}>
-                <SocialIcon size={24}>{l.icon}</SocialIcon>
+            {l.href ? (
+              <a
+                href={l.href}
+                className={styles.link}
+                aria-label={l.label}
+                {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <span className={styles.disc} aria-hidden="true" />
+                <span className={styles.icon}>
+                  <SocialIcon size={24}>{l.icon}</SocialIcon>
+                </span>
+              </a>
+            ) : (
+              <span className={`${styles.link} ${styles.pending}`} title={`${l.label}: coming soon`}>
+                <span className={styles.icon}>
+                  <SocialIcon size={24}>{l.icon}</SocialIcon>
+                </span>
+                <span className="visually-hidden">{l.label}: coming soon</span>
               </span>
-            </a>
+            )}
           </li>
         ))}
       </ul>
