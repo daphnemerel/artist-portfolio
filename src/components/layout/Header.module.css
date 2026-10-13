@@ -18,10 +18,11 @@
   z-index: 2;
 }
 
-/* Homepage hero: a solid light-pink band, so the menu stays readable over any photo.
-   #F0E0DC = 20% brand pink (#D79A9A) on off-white (#F6F1EC), at the artist's request. */
+/* Homepage hero: a solid band in the brand pink, so the menu stays readable over any photo;
+   slimmer than the normal header (no extra space below the links). At the artist's request. */
 :global(body:has([data-hero-glass])) .header {
-  background: #f0e0dc;
+  padding-block: var(--space-sm);
+  background: var(--color-pink);
   color: var(--color-ink);
 }
 
