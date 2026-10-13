@@ -1,19 +1,264 @@
+/*
+ * Contact: three columns on wide screens — introduction and details (1–4), a studio photograph
+ * (5–8), and the message form (9–12) behind a pink hairline. Spacing as on the other pages: the
+ * same gap under the pink header band as above the footer.
+ */
 .contact {
   display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: start;
+  padding-block: var(--title-gap) var(--space-lg);
+}
+
+/* ---------- introduction ---------- */
+
+.intro {
+  grid-column: 1 / 5;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  padding-block-start: var(--space-md);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  border-top: 1px solid var(--color-pink);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--color-bordeaux);
+}
+
+.text {
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: var(--leading-body);
+}
+
+.rule {
+  width: 64px;
+  border-top: 1px solid var(--color-pink);
+}
+
+.details {
+  display: grid;
   gap: var(--space-lg);
-  max-width: var(--measure);
+  margin: 0;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: var(--space-md);
+  row-gap: 4px;
+}
+
+.icon {
+  grid-row: 1 / 3;
+  color: var(--color-bordeaux);
+}
+
+.detail dt {
+  grid-column: 2;
+  font-family: var(--font-serif);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  color: var(--color-muted);
+}
+
+.detail dd {
+  grid-column: 2;
+  display: grid;
+  gap: var(--space-xs);
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+}
+
+.detail a {
+  justify-self: start;
+  text-decoration: underline;
+  text-decoration-color: var(--color-pink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: color var(--duration) var(--ease);
+}
+
+.detail a:hover {
+  color: var(--color-bordeaux);
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* ---------- studio photograph (a photo, not an artwork: it may be cropped) ---------- */
+
+.photo {
+  grid-column: 5 / 9;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 8;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+/* ---------- message form ---------- */
+
+.message {
+  grid-column: 9 / -1;
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+  align-self: stretch;
+  padding-inline-start: var(--space-lg);
+  padding-block-start: var(--space-md);
+  border-left: 1px solid var(--color-pink);
+}
+
+.lead {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: var(--leading-body);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.fieldLabel {
+  font-family: var(--font-serif);
   font-size: var(--type-body);
 }
 
-.contact h2 {
-  margin-block-end: var(--space-xs);
+.required {
+  color: var(--color-pink);
 }
 
-.contact a {
-  text-decoration: underline;
-  text-decoration-color: var(--color-rule);
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px var(--space-sm);
+  border: 1px solid var(--color-pink);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-ink);
+  font: 400 var(--type-body) / 1.4 var(--font-serif);
+  transition: border-color var(--duration) var(--ease);
 }
 
-.muted {
+.field textarea {
+  resize: vertical;
+  min-height: 132px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
   color: var(--color-muted);
+  opacity: 0.8;
+}
+
+.field input:hover,
+.field textarea:hover,
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--color-bordeaux);
+}
+
+.send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 56px;
+  margin-block-start: var(--space-xs);
+  border: 1px solid var(--color-bordeaux);
+  border-radius: var(--radius-none);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font: 400 1.125rem / 1 var(--font-serif);
+  cursor: pointer;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.send:hover {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+.formNote {
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  color: var(--color-muted);
+}
+
+/* ---------- tablet: introduction beside the photo, the form underneath ---------- */
+
+@media (max-width: 1100px) {
+  .intro {
+    grid-column: 1 / 7;
+  }
+
+  .photo {
+    grid-column: 7 / -1;
+  }
+
+  .message {
+    grid-column: 1 / -1;
+    margin-block-start: var(--space-xl);
+    padding-inline-start: 0;
+    padding-block-start: var(--title-gap);
+    border-left: 0;
+    border-top: 1px solid var(--color-pink);
+  }
+}
+
+/* ---------- phone: one column ---------- */
+
+@media (max-width: 700px) {
+  .intro,
+  .photo {
+    grid-column: 1 / -1;
+  }
+
+  .intro {
+    padding-block-start: 0;
+  }
+
+  .photo {
+    margin-block-start: var(--space-lg);
+    aspect-ratio: 4 / 5;
+  }
+
+  .message {
+    margin-block-start: var(--space-lg);
+  }
 }
