@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function CatchingWavesLivingPage() {
   const work = getWork("2026-catching-waves");
   if (!work) notFound();
-  const image = work.images[0];
+  const image = work.images.find((i) => i.url.endsWith("/01.jpg")) ?? work.images[0];
   return (
     <LivingArtwork
       artwork={{ src: image.url, width: image.width, height: image.height, alt: image.alt }}

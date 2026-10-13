@@ -29,7 +29,7 @@ export default function CatchingWavesPreviewPage() {
   if (!work) notFound();
 
   const pick = <T extends { url: string }>(list: T[] | undefined, file: string) => list?.find((i) => i.url.endsWith(`/${file}`));
-  const artwork = work.images[0];
+  const artwork = work.images.find((i) => i.url.endsWith("/01.jpg")) ?? work.images[0];
   const studioWide = pick(work.journey?.items, "journey-studio.jpg");
   const studioTall = pick(work.images, "02.jpg");
   if (!studioWide || !studioTall) {

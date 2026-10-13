@@ -26,6 +26,8 @@ const siteSchema = z.object({
     .default([]),
   cv: z.string().optional(),
   bio: z.string().min(1),
+  /** Short introduction on the homepage. */
+  intro: z.string().optional(),
 });
 
 const imageEntrySchema = z.object({
@@ -74,6 +76,8 @@ const workSchema = z.object({
   edition: z.string().optional(),
   series: z.string().optional(),
   featured: z.boolean().default(false),
+  /** Position in the sequence of works (1 = oldest). Higher numbers are shown first. */
+  number: z.number().int().positive().optional(),
   order: z.number().default(0),
   draft: z.boolean().default(false),
   images: z.array(imageEntrySchema).min(1, "A work needs at least one image"),
@@ -218,7 +222,11 @@ export function getWorks(): Work[] {
     .filter((entry) => entry.isDirectory())
     .map((entry) => loadWork(entry.name))
     .filter((work) => !work.draft)
-    .sort((a, b) => byYearDesc(a, b) || a.order - b.order);
+    .sort((a, b) =>
+      a.number !== undefined && b.number !== undefined
+        ? b.number - a.number // newest first
+        : byYearDesc(a, b) || a.order - b.order,
+    );
   return worksCache;
 }
 

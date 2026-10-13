@@ -14,3 +14,8 @@ representation: []
 # Put the PDF in public/ and link it here, e.g. /cv.pdf
 # cv: /cv.pdf
 bio: Daphne Merel is tof.
+# Short introduction on the homepage, beside the portrait (Daphne's own text, first person).
+intro: >-
+  I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
+  My work combines layered, tactile surfaces with delicate figurative details, creating quiet
+  stories within bold material worlds.

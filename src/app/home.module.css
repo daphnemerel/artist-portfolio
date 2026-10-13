@@ -21,3 +21,83 @@
   letter-spacing: var(--tracking-caption);
   color: var(--color-muted);
 }
+
+/* ---------- 1. introduction: portrait left, text beside it ---------- */
+
+/* Full width of the page: portrait over columns 1-4, text over 5-12 (codebook §6 grid). */
+.intro {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+  column-gap: var(--gutter);
+  padding-block: var(--space-xl);
+}
+
+.portrait {
+  grid-column: 1 / 5;
+  justify-self: center;
+  width: min(100%, 340px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%; /* a portrait, not an artwork (codebook §7 keeps artworks square) */
+  object-fit: cover;
+}
+
+.introBody {
+  grid-column: 5 / -1;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+}
+
+.introLabel {
+  font-size: var(--type-caption);
+  font-weight: 400;
+  line-height: var(--leading-caption);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.introText {
+  max-width: 58ch;
+  font-family: var(--font-serif);
+  font-size: var(--type-body-lg);
+  line-height: var(--leading-body-lg);
+  color: var(--color-bordeaux);
+}
+
+.more {
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.more:hover {
+  text-decoration-color: var(--color-turquoise);
+}
+
+@media (max-width: 700px) {
+  .intro {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: var(--space-lg);
+    padding-block: var(--space-lg);
+    text-align: center;
+  }
+
+  .introBody {
+    justify-items: center;
+  }
+
+  .portrait,
+  .introBody {
+    grid-column: 1 / -1;
+  }
+
+  .portrait {
+    width: 200px;
+  }
+}
