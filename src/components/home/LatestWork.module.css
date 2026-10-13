@@ -1,0 +1,118 @@
+/*
+ * The most recent work, larger than the works in the carousel. Same label as the end of
+ * Experiment 02: eyebrow with a short bordeaux rule, serif title, caption meta, hairline, links.
+ */
+.latest {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  /* As little white as the bands above: the same gap as from a band to its title. */
+  padding-block: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+.figure {
+  grid-column: 1 / 8;
+  display: block;
+}
+
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto; /* natural proportions, never cropped */
+  max-height: calc(100svh - 160px); /* the whole work fits on one screen */
+}
+
+.info {
+  grid-column: 9 / -1;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+  max-width: 30rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4.1vw, 3.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--color-bordeaux);
+}
+
+.title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.title a:hover {
+  color: var(--color-turquoise);
+}
+
+.meta {
+  display: grid;
+  gap: 2px;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
+
+.rule {
+  width: 56px;
+  border-top: var(--border-hairline);
+}
+
+.summary {
+  max-width: 36ch;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+}
+
+.links a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+@media (max-width: 900px) {
+  .figure {
+    grid-column: 1 / -1;
+  }
+
+  .info {
+    grid-column: 1 / -1;
+    margin-block-start: var(--title-gap);
+    max-width: none;
+  }
+}

@@ -14,7 +14,13 @@ gsap.registerPlugin(ScrollTrigger);
  * - scrolling down onto the strip holds it and moves it to the right (scroll-scrubbed, reversible);
  * - reduced motion / no JS: a plain horizontal scroll strip with snap points.
  */
-export function WorksCarousel({ items }: { items: { key: string; card: ReactNode }[] }) {
+export function WorksCarousel({
+  items,
+  title = "Selected works",
+}: {
+  items: { key: string; card: ReactNode }[];
+  title?: string;
+}) {
   const section = useRef<HTMLElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLUListElement>(null);
@@ -92,7 +98,7 @@ export function WorksCarousel({ items }: { items: { key: string; card: ReactNode
     <section ref={section} className={styles.works} aria-labelledby="works-title">
       <div className={styles.head}>
         <h2 id="works-title" className={styles.title}>
-          Selected works
+          {title}
         </h2>
         <div className={styles.controls}>
           {pages > 0 && (

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { LatestWork } from "./LatestWork";
 import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
@@ -31,7 +32,7 @@ export const STUDIO_HERO: HomeHero = {
 export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
   const site = getSite();
   // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
-  const works = getFeaturedWorks().slice(0, 8); // max. 8 on the homepage
+  const works = getFeaturedWorks().slice(0, 9); // the latest, plus max. 8 others
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
@@ -84,10 +85,14 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
       {/* 2. Socials: a thin band */}
       <SocialStrip site={site} />
 
-      {/* 3. Selected works */}
-      {works.length > 0 && (
+      {/* 3. The most recent work, larger */}
+      {works[0] && <LatestWork work={works[0]} artist={site.name} />}
+
+      {/* 4. The other works */}
+      {works.length > 1 && (
         <WorksCarousel
-          items={works.map((work) => ({
+          title="Other works"
+          items={works.slice(1).map((work) => ({
             key: work.slug,
             card: <WorkCard work={work} label={work.number ? String(work.number) : undefined} />,
           }))}
