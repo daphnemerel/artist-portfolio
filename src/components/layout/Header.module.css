@@ -18,11 +18,10 @@
   z-index: 2;
 }
 
-/* Homepage hero: a soft translucent off-white band, so the menu stays readable over any photo. */
+/* Homepage hero: a solid light-pink band, so the menu stays readable over any photo.
+   #F0E0DC = 20% brand pink (#D79A9A) on off-white (#F6F1EC), at the artist's request. */
 :global(body:has([data-hero-glass])) .header {
-  background: rgba(246, 241, 236, 0.78);
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
+  background: #f0e0dc;
   color: var(--color-ink);
 }
 
