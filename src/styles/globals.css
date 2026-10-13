@@ -23,6 +23,14 @@ main {
   flex: 1;
 }
 
+/* Short pages (About, Contact) sit in the middle of any leftover height, so the white above and
+   below them stays equal on tall screens. */
+main:has([data-tight-footer]) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 a {
   color: inherit;
   text-decoration: none;

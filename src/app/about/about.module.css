@@ -7,14 +7,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-block: var(--title-gap); /* as little white as the other pages, close to the footer */
+  /* The same white above as below: below = this padding + the footer's own gap (both --title-gap). */
+  padding-block: calc(2 * var(--title-gap)) var(--title-gap);
 }
 
 /* The whole page fits on one screen: the portrait is as tall as the space under the header. */
 .photo {
   flex: none;
   width: auto;
-  height: min(calc(100svh - 76px - 2 * var(--title-gap)), 620px);
+  height: min(calc(100svh - 76px - 4 * var(--title-gap)), 620px);
   aspect-ratio: 537 / 791;
   border-radius: 16px;
   object-fit: cover;

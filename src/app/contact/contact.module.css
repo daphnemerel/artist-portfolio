@@ -8,7 +8,8 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
   align-items: start;
-  padding-block: var(--title-gap); /* close to the footer */
+  /* The same white above as below: below = this padding + the footer's own gap (both --title-gap). */
+  padding-block: calc(2 * var(--title-gap)) var(--title-gap);
 }
 
 /* ---------- introduction ---------- */
