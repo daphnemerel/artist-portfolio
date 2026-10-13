@@ -1,70 +1,69 @@
 import type { Metadata } from "next";
-import { Label } from "@/components/type/Label";
-import { Prose } from "@/components/type/Prose";
-import { getSite } from "@/lib/content";
+import Image from "next/image";
+import Link from "next/link";
 import { marked } from "marked";
+import { getSite } from "@/lib/content";
 import styles from "./about.module.css";
 
 export const metadata: Metadata = { title: "About" };
 
+/*
+ * About: a portrait in the studio with a text card laid over its right edge. The rounded corners
+ * and the card are a deliberate exception to the codebook (§7, §2 "cards"), asked for by the
+ * artist for this page; the portrait is a photograph, not an artwork.
+ */
 export default function AboutPage() {
   const site = getSite();
   const bio = marked.parse(site.bio, { async: false });
 
   return (
-    <div className={`${styles.about} container`}>
-      <div className={styles.bio}>
-        <h1 className="visually-hidden">About</h1>
-        <Prose html={bio} />
-      </div>
+    <div className="container">
+      <section className={styles.about} aria-labelledby="about-title">
+        <Image
+          src="/images/about-daphne.jpg"
+          alt="Daphne Merel, smiling, at a table in her studio, with brushes in a jar and colourful paintings behind her."
+          width={537}
+          height={791}
+          sizes="(max-width: 700px) 100vw, 40vw"
+          quality={92}
+          priority
+          className={styles.photo}
+        />
 
-      <aside className={styles.side}>
-        {(site.email || site.instagram || site.location) && (
-          <section>
-            <Label as="h2">Contact</Label>
-            {site.email && (
-              <p>
-                <a href={`mailto:${site.email}`}>{site.email}</a>
-              </p>
-            )}
-            {site.instagram && (
-              <p>
-                <a href={`https://instagram.com/${site.instagram}`} rel="noopener noreferrer">
-                  @{site.instagram}
-                </a>
-              </p>
-            )}
-            {site.location && <p className={styles.muted}>{site.location}</p>}
-          </section>
-        )}
+        <div className={styles.card}>
+          <p className={styles.eyebrow}>{site.name}</p>
+          <h1 id="about-title" className={styles.title}>
+            About Daphne
+          </h1>
+          <div className={styles.text} dangerouslySetInnerHTML={{ __html: bio }} />
+          <Link href="/contact" className={styles.more}>
+            Get in touch <span aria-hidden="true">→</span>
+          </Link>
 
-        {site.representation.length > 0 && (
-          <section>
-            <Label as="h2">Representation</Label>
-            {site.representation.map((gallery) => (
-              <p key={gallery.name}>
-                {gallery.url ? (
-                  <a href={gallery.url} rel="noopener noreferrer">
-                    {gallery.name}
-                  </a>
-                ) : (
-                  gallery.name
-                )}
-                <span className={styles.muted}>, {gallery.city}</span>
-              </p>
-            ))}
-          </section>
-        )}
-
-        {site.cv && (
-          <section>
-            <Label as="h2">CV</Label>
-            <p>
-              <a href={site.cv}>Download CV (PDF)</a>
-            </p>
-          </section>
-        )}
-      </aside>
+          {(site.cv || site.representation.length > 0) && (
+            <div className={styles.extra}>
+              {site.representation.map((gallery) => (
+                <p key={gallery.name}>
+                  Represented by{" "}
+                  {gallery.url ? (
+                    <a href={gallery.url} rel="noopener noreferrer">
+                      {gallery.name}
+                    </a>
+                  ) : (
+                    gallery.name
+                  )}
+                  , {gallery.city}
+                </p>
+              ))}
+              {site.cv && (
+                <p>
+                  <a href={site.cv}>Download CV (PDF)</a>
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
