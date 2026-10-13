@@ -16,6 +16,8 @@ const siteSchema = z.object({
   description: z.string().min(1),
   location: z.string().optional(),
   email: z.union([z.email(), z.literal("")]),
+  /** Web3Forms access key for the contact form. Public by design (it can only send to Daphne). */
+  web3formsKey: z.string().optional(),
   instagram: z.string().optional(),
   tiktok: z.string().optional(),
   pinterest: z.string().optional(),
