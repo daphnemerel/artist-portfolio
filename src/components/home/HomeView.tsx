@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
 import styles from "@/app/home.module.css";
 
@@ -28,7 +29,7 @@ export const STUDIO_HERO: HomeHero = {
 export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
   const site = getSite();
   // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
-  const works = getFeaturedWorks();
+  const works = getFeaturedWorks().slice(0, 8); // max. 8 on the homepage
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
@@ -71,23 +72,12 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
 
       {/* 2. Selected works */}
       {works.length > 0 && (
-        <section className={styles.works} aria-labelledby="works-title">
-          <div className={styles.worksHead}>
-            <h2 id="works-title" className={styles.worksTitle}>
-              Selected works
-            </h2>
-            <Link href="/works" className={styles.more}>
-              All works <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-          <ul className={styles.grid}>
-            {works.map((work) => (
-              <li key={work.slug}>
-                <WorkCard work={work} label={work.number ? String(work.number) : undefined} />
-              </li>
-            ))}
-          </ul>
-        </section>
+        <WorksCarousel
+          items={works.map((work) => ({
+            key: work.slug,
+            card: <WorkCard work={work} label={work.number ? String(work.number) : undefined} />,
+          }))}
+        />
       )}
     </div>
   );
