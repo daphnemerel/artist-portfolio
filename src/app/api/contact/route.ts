@@ -67,7 +67,13 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Contact form: sending failed", error);
-    return Response.json({ ok: false, error: "send-failed" }, { status: 502 });
+    const code =
+      (error as { code?: string; responseCode?: number })?.responseCode ??
+      (error as { code?: string })?.code;
+    return Response.json(
+      { ok: false, error: `send-failed${code ? `-${code}` : ""}` },
+      { status: 502 },
+    );
   }
 
   return Response.json({ ok: true });

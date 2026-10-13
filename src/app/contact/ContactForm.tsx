@@ -13,6 +13,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 export function ContactForm({ email }: { email: string }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [reason, setReason] = useState("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ export function ContactForm({ email }: { email: string }) {
     const get = (name: string) => String(data.get(name) ?? "").trim();
 
     setStatus("sending");
+    setReason("");
     try {
       const response = await fetch(ENDPOINT, {
         method: "POST",
@@ -39,8 +41,12 @@ export function ContactForm({ email }: { email: string }) {
       });
       const result = (await response.json().catch(() => null)) as {
         ok?: boolean;
+        error?: string;
       } | null;
-      if (!response.ok || !result?.ok) throw new Error("Submission failed");
+      if (!response.ok || !result?.ok) {
+        setReason(result?.error ?? `http-${response.status}`);
+        throw new Error("Submission failed");
+      }
       form.reset();
       setStatus("sent");
     } catch {
@@ -135,6 +141,7 @@ export function ContactForm({ email }: { email: string }) {
           <>
             Sorry, something went wrong. Please try again, or email me at{" "}
             <a href={`mailto:${email}`}>{email}</a>.
+            {reason && <span className={styles.reason}> (code: {reason})</span>}
           </>
         )}
       </p>

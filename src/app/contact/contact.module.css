@@ -286,3 +286,8 @@
     margin-block-start: var(--space-lg);
   }
 }
+
+/* A short technical code after the error, to help find the cause. */
+.reason {
+  opacity: 0.7;
+}
