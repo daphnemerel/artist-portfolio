@@ -52,9 +52,19 @@ for slug, ((lead, box), rest) in works.items():
         has_wall = f in ("4d16d0e4", "739291d4", "b488b9e4", "cde29afd", "81260cca", "3420d565", "b9407473")
         save(apply(b, wall_gains(b) if has_wall else g), f"{W}/{slug}/images/0{i}.jpg")
 
-# Catching Waves: the wall is painted peach, so it is no neutral reference -> brightness/contrast only
+# Catching Waves: the new photos (warm, peach-lit room) render the turquoise as grey. The earlier
+# photo 01.jpg shows the paint's colour, so the new photos are colour-matched to it: per-channel gains
+# that bring the median paint colour of new-01 to that of 01.jpg (same painting, same paint).
 cw = f"{W}/2026-catching-waves/images"
-save(levels(load("666a9a99")), f"{cw}/new-01.jpg", (184, 454, 1716, 2006))
+def paint_median(a):
+    h, w = a.shape[:2]
+    return np.median(a[h // 4: 3 * h // 4, w // 4: 3 * w // 4].reshape(-1, 3), 0)
+ref = paint_median(np.asarray(Image.open(f"{cw}/01.jpg").convert("RGB")).astype(np.float32))
+lead = load("666a9a99")[454:2006, 184:1716]
+cw_gain = ref / paint_median(lead)
+print("catching waves colour gains", cw_gain.round(3))
+save(apply(lead, cw_gain), f"{cw}/new-01.jpg")
 for i, f in enumerate(["41e5f9f2", "0a630a29", "22c47c72", "da2d25b5", "c6d69931"], start=2):
-    save(levels(load(f)), f"{cw}/new-0{i}.jpg")
-save(levels(load("16437a2b"), amount=0.4), f"{cw}/new-07.jpg")
+    b = load(f)
+    save(apply(b, ref / paint_median(b)), f"{cw}/new-0{i}.jpg")  # close-ups: matched on their own paint
+save(load("16437a2b"), f"{cw}/new-07.jpg")  # wall view: as photographed
