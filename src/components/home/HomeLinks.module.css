@@ -14,7 +14,7 @@
 }
 
 .item[data-image] {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
 }
 
 .body {
@@ -24,10 +24,11 @@
   gap: var(--space-xs);
 }
 
-/* An exhibition poster beside the text, small and unframed. */
+/* An exhibition poster left of the text, small and unframed. */
 .image {
+  order: -1;
   display: block;
-  width: 160px;
+  width: 190px;
 }
 
 .image img {
@@ -73,7 +74,7 @@
   }
 
   .image {
-    width: 112px;
+    width: 128px;
   }
 
   .item + .item {

@@ -46,7 +46,7 @@ export function HomeLinks() {
           </div>
           {item.image && (
             <Link href={item.href} className={styles.image} tabIndex={-1} aria-hidden="true">
-              <Image {...item.image} sizes="160px" quality={90} alt={item.image.alt} />
+              <Image {...item.image} sizes="190px" quality={90} alt={item.image.alt} />
             </Link>
           )}
         </div>
