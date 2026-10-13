@@ -1,7 +1,7 @@
 /*
- * The most recent work, larger than the works in the carousel but no taller than the introduction
- * above: the work in the same place and size as the portrait, the label where the intro text is. Same label as the end of
- * Experiment 02: eyebrow with a short bordeaux rule, serif title, caption meta, hairline, links.
+ * The most recent work across the whole width, like a catalogue spread: the work on the left, the
+ * label in the middle, a detail on the right resting on the same baseline. Same label as the end
+ * of Experiment 02: eyebrow with a short bordeaux rule, serif title, caption meta, hairline, links.
  */
 .latest {
   display: grid;
@@ -14,9 +14,14 @@
 }
 
 .figure {
-  grid-column: 1 / 5;
-  justify-self: center;
+  grid-column: 1 / 6;
+  align-self: end;
   display: block;
+  overflow: hidden;
+}
+
+.figure:hover .image {
+  transform: scale(1.01);
 }
 
 .image {
@@ -24,11 +29,35 @@
   width: auto;
   max-width: 100%;
   height: auto; /* natural proportions, never cropped */
-  max-height: 340px; /* as large as the portrait in the introduction */
+  max-height: 440px;
+  transition: transform 220ms var(--ease);
+}
+
+/* A detail of the same work, smaller, on the right edge of the page. */
+.detail {
+  grid-column: 10 / -1;
+  justify-self: end;
+  align-self: end;
+  width: min(100%, 240px);
+  margin: 0;
+}
+
+.detail .image {
+  width: 100%;
+}
+
+.caption {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
 }
 
 .info {
-  grid-column: 5 / -1;
+  grid-column: 6 / 10;
+  padding-inline-start: var(--space-lg);
   display: grid;
   justify-items: start;
   gap: var(--space-sm);
@@ -107,18 +136,34 @@
   text-underline-offset: 0.3em;
 }
 
+@media (max-width: 900px) {
+  .figure {
+    grid-column: 1 / 7;
+  }
+
+  .info {
+    grid-column: 7 / -1;
+  }
+
+  .detail {
+    display: none;
+  }
+}
+
 @media (max-width: 700px) {
   .figure {
     grid-column: 1 / -1;
+    justify-self: center;
   }
 
   .image {
-    max-height: 260px;
+    max-height: 320px;
   }
 
   .info {
     grid-column: 1 / -1;
     margin-block-start: var(--title-gap);
+    padding-inline-start: 0;
     max-width: none;
     justify-items: center; /* centred, like the introduction and Socials on phones */
     text-align: center;

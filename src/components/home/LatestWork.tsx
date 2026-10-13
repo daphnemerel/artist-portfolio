@@ -5,7 +5,7 @@ import styles from "./LatestWork.module.css";
 
 /** The most recent work, shown larger than the others: the work on the left, its label beside it. */
 export function LatestWork({ work, artist }: { work: Work; artist: string }) {
-  const image = work.images[0];
+  const [image, detail] = work.images;
   const href = `/works/${work.slug}`;
 
   return (
@@ -16,7 +16,7 @@ export function LatestWork({ work, artist }: { work: Work; artist: string }) {
           alt={image.alt}
           width={image.width}
           height={image.height}
-          sizes="(max-width: 700px) 70vw, 340px"
+          sizes="(max-width: 700px) 85vw, 440px"
           quality={90}
           className={styles.image}
         />
@@ -42,6 +42,21 @@ export function LatestWork({ work, artist }: { work: Work; artist: string }) {
           <Link href="/works">All works</Link>
         </p>
       </div>
+
+      {detail && (
+        <figure className={styles.detail}>
+          <Image
+            src={detail.url}
+            alt={detail.alt}
+            width={detail.width}
+            height={detail.height}
+            sizes="240px"
+            quality={90}
+            className={styles.image}
+          />
+          <figcaption className={styles.caption}>Detail</figcaption>
+        </figure>
+      )}
     </section>
   );
 }
