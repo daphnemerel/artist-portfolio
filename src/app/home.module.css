@@ -30,7 +30,10 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: center;
   column-gap: var(--gutter);
-  padding-block: var(--space-xl) var(--space-lg);
+  /* A hairline above, like the one below it, a little way under the photo. */
+  margin-block-start: var(--title-gap);
+  padding-block: var(--space-lg);
+  border-top: var(--border-hairline);
 }
 
 .portrait {
