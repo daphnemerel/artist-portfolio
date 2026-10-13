@@ -16,6 +16,12 @@ const LINKS: Item[] = [
     text: "Interested in a custom work or collaboration?",
     href: "/commissions",
     label: "View commissions",
+    image: {
+      src: "/images/commissions-floral-glass.jpg",
+      width: 1254,
+      height: 1254,
+      alt: "A glass panel painted with pink, white and deep red flowers and green leaves, standing on a stone counter in soft sunlight.",
+    },
   },
   {
     title: "Exhibitions",
