@@ -1,5 +1,5 @@
 .works {
-  padding-block: var(--title-gap) var(--section-gap);
+  padding-block: var(--title-gap) var(--space-xl);
   border-top: var(--border-hairline);
   margin-block-start: 0;
   background: var(--color-off-white);

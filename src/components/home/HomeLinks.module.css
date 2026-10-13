@@ -1,0 +1,60 @@
+/* Commissions and Exhibitions: two columns under a hairline, a hairline between them. */
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-block: var(--title-gap) var(--space-xl);
+  border-top: var(--border-hairline);
+}
+
+.item {
+  display: grid;
+  justify-items: start;
+  align-content: start;
+  gap: var(--space-xs);
+  padding-block: var(--space-sm);
+}
+
+.item + .item {
+  padding-inline-start: var(--space-xl);
+  border-left: var(--border-hairline);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.text {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.more {
+  margin-block-start: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+/* Phones: one under the other, the hairline turns horizontal. */
+@media (max-width: 700px) {
+  .links {
+    grid-template-columns: 1fr;
+  }
+
+  .item + .item {
+    margin-block-start: var(--space-sm);
+    padding-inline-start: 0;
+    padding-block-start: var(--title-gap);
+    border-left: 0;
+    border-top: var(--border-hairline);
+  }
+}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { HomeLinks } from "./HomeLinks";
 import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
@@ -94,6 +95,9 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
           }))}
         />
       )}
+
+      {/* 4. Commissions and exhibitions */}
+      <HomeLinks />
     </div>
   );
 }
