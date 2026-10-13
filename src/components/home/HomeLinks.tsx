@@ -34,7 +34,7 @@ const LINKS: Item[] = [
 /** Two quiet pointers at the end of the homepage, side by side with a hairline between them. */
 export function HomeLinks() {
   return (
-    <nav className={styles.links} aria-label="More">
+    <nav className={styles.links} aria-label="More" data-home-links="">
       {LINKS.map((item) => (
         <div key={item.href} className={styles.item} data-image={item.image ? "" : undefined}>
           <div className={styles.body}>

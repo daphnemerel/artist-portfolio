@@ -6,6 +6,11 @@
   font-family: var(--font-serif);
 }
 
+/* On the homepage the Commissions / Exhibitions band ends close to the footer. */
+:global(body:has([data-home-links])) .footer {
+  margin-block-start: var(--title-gap);
+}
+
 /* Links behave like the header navigation: a turquoise line appears on hover. */
 .footer a {
   color: var(--color-off-white);
