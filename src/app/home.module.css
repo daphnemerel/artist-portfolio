@@ -24,24 +24,27 @@
 
 /* ---------- 1. introduction: portrait left, text beside it ---------- */
 
+/* Full width of the page: portrait over columns 1-4, text over 5-12 (codebook §6 grid). */
 .intro {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: center;
-  column-gap: var(--space-xl);
-  max-width: 64rem;
-  margin-inline: auto;
-  padding-block: var(--space-2xl) var(--space-xl);
+  column-gap: var(--gutter);
+  padding-block: var(--space-xl);
 }
 
 .portrait {
-  width: 240px;
-  height: 240px;
+  grid-column: 1 / 5;
+  justify-self: center;
+  width: min(100%, 340px);
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 50%; /* a portrait, not an artwork (codebook §7 keeps artworks square) */
   object-fit: cover;
 }
 
 .introBody {
+  grid-column: 5 / -1;
   display: grid;
   justify-items: start;
   gap: var(--space-md);
@@ -57,7 +60,7 @@
 }
 
 .introText {
-  max-width: 46ch;
+  max-width: 58ch;
   font-family: var(--font-serif);
   font-size: var(--type-body-lg);
   line-height: var(--leading-body-lg);
@@ -81,7 +84,7 @@
     grid-template-columns: 1fr;
     justify-items: center;
     row-gap: var(--space-lg);
-    padding-block: var(--space-xl);
+    padding-block: var(--space-lg);
     text-align: center;
   }
 
@@ -89,8 +92,12 @@
     justify-items: center;
   }
 
+  .portrait,
+  .introBody {
+    grid-column: 1 / -1;
+  }
+
   .portrait {
-    width: 160px;
-    height: 160px;
+    width: 200px;
   }
 }

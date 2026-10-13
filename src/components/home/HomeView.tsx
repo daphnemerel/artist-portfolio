@@ -62,9 +62,9 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
           <Image
             src="/images/portrait-daphne.jpg"
             alt="Daphne Merel, smiling, in the open door of a red vintage car."
-            width={900}
-            height={900}
-            sizes="(max-width: 700px) 160px, 240px"
+            width={1000}
+            height={1000}
+            sizes="(max-width: 700px) 200px, 340px"
             quality={90}
             className={styles.portrait}
           />
