@@ -74,7 +74,7 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
             </h2>
             <p className={styles.introText}>{site.intro}</p>
             <Link href="/about" className={styles.more}>
-              About {site.name.split(" ")[0]} <span aria-hidden="true">→</span>
+              About me <span aria-hidden="true">→</span>
             </Link>
           </div>
         </section>
