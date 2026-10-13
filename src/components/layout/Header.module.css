@@ -18,11 +18,11 @@
   z-index: 2;
 }
 
-/* Homepage hero: a solid band in the brand pink, so the menu stays readable over any photo;
+/* Homepage hero: a solid band in the brand beige (off-white), so the menu stays readable over any photo;
    slimmer than the normal header (no extra space below the links). At the artist's request. */
 :global(body:has([data-hero-glass])) .header {
   padding-block: var(--space-sm);
-  background: var(--color-pink);
+  background: var(--color-off-white);
   color: var(--color-ink);
 }
 
