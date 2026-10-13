@@ -6,8 +6,8 @@ import styles from "./home.module.css";
 
 export default function HomePage() {
   const site = getSite();
-  // Works with `featured: true` in their content file, in their usual order (max. 4).
-  const works = getFeaturedWorks().slice(0, 4);
+  // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
+  const works = getFeaturedWorks();
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const studio = {
@@ -72,7 +72,7 @@ export default function HomePage() {
           <ul className={styles.grid}>
             {works.map((work) => (
               <li key={work.slug}>
-                <WorkCard work={work} />
+                <WorkCard work={work} label={work.number ? String(work.number) : undefined} />
               </li>
             ))}
           </ul>

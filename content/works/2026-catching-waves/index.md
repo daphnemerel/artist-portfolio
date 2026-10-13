@@ -4,15 +4,33 @@ title: Catching Waves
 year: 2026
 medium: Medium to be added
 featured: true
+number: 3
 summary: A playful scene of tiny swimmers and surfers on a textured sea of layered paint.
 # PLACEHOLDER price taken from the design mock-up — replace with the real price.
 price: €999,99
 order: 0
 images:
+  - src: ./images/new-01.jpg
+    alt: >-
+      Thick pale turquoise paint in sweeping, ridged strokes, with tiny swimmers and surfers on
+      colourful boards scattered across the surface.
+  - src: ./images/new-02.jpg
+    alt: Detail of a tiny surfer on a green board riding a curved ridge of turquoise paint.
+  - src: ./images/new-03.jpg
+    alt: Detail of a tiny swimmer in a bikini with one arm raised, on a small pink board.
+  - src: ./images/new-04.jpg
+    alt: Detail of a tiny figure in a black wetsuit lying on an orange board, a white wake behind.
+  - src: ./images/new-05.jpg
+    alt: Detail of a tiny surfer on a purple board, crouching as he turns on the paint.
+  - src: ./images/new-06.jpg
+    alt: Detail of two tiny surfers sitting on pink and green boards between ridges of paint.
+  - src: ./images/new-07.jpg
+    alt: Catching Waves hanging on a warm-toned wall.
+  # Earlier photographs; 01.jpg is also used by the experiments (/experimental).
   - src: ./images/01.jpg
     alt: >-
-      Thick turquoise paint in sweeping, ridged strokes, seen from above like the sea, with tiny
-      figures of swimmers and surfers on boards scattered across the waves.
+      Catching Waves seen from above: thick turquoise paint in sweeping strokes with tiny swimmers
+      and surfers.
   - src: ./images/02.jpg
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
