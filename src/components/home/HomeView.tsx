@@ -41,7 +41,7 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
       <h1 className="visually-hidden">{site.name}</h1>
 
       {/* Full-bleed studio photograph with the header laid over it. */}
-      <section className={styles.studio} data-hero="bleed" aria-label="Studio">
+      <section className={styles.studio} data-hero="bleed" data-hero-glass aria-label="Studio">
         <picture>
           {landscape && <source media="(orientation: landscape)" srcSet={landscape} />}
           <source srcSet={portraitSrcSet} />

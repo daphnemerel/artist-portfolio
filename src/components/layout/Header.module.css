@@ -18,6 +18,14 @@
   z-index: 2;
 }
 
+/* Homepage hero: a soft translucent off-white band, so the menu stays readable over any photo. */
+:global(body:has([data-hero-glass])) .header {
+  background: rgba(246, 241, 236, 0.78);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  color: var(--color-ink);
+}
+
 /* An open mobile menu needs its own ground to stay readable over the photo. */
 :global(body:has([data-hero="bleed"])) .header:has([data-open="true"]) {
   background: var(--color-off-white);
