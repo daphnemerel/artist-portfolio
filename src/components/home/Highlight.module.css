@@ -5,9 +5,25 @@
  */
 .band {
   --card: calc((100% - 3 * var(--gutter)) / 4); /* = one card of the Recent works strip */
+  position: relative;
   margin-inline: calc(-1 * var(--margin));
   padding: var(--space-lg) var(--margin);
   background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
+}
+
+/* A little off-white above and below the band, with a hairline as wide as the page content, like
+   the lines between the other bands (the one below is the top line of Recent works). */
+.band {
+  margin-block: var(--title-gap);
+}
+
+.band::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--title-gap) - 1px);
+  left: var(--margin);
+  right: var(--margin);
+  border-top: var(--border-hairline);
 }
 
 /* One row, as tall as the work: work | note | venue | map. */
