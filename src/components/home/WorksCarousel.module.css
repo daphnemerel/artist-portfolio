@@ -9,12 +9,18 @@
   background: var(--color-off-white);
 }
 
+/* Title left, the "drag / swipe" hint in the middle, the arrows and button right. */
 .head {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-md);
   margin-block-end: var(--space-sm);
+}
+
+.head > .controls {
+  grid-column: 3;
+  justify-self: end;
 }
 
 .title {
@@ -81,9 +87,11 @@
   color: var(--color-bordeaux);
 }
 
-/* Without the scroll animation: a native horizontal strip with snap points. */
+/* A native horizontal strip with snap points: swipe with a finger, drag with the mouse. */
 .viewport {
   overflow-x: auto;
+  overflow-y: hidden; /* the strip itself never moves up or down */
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
@@ -92,15 +100,34 @@
   display: none;
 }
 
-.viewport[data-pinned="true"] {
-  overflow: hidden;
+/* Touch screens: a swipe on the strip only goes sideways, never up or down. */
+@media (pointer: coarse) {
+  .viewport {
+    touch-action: pan-x;
+  }
+}
+
+/* Mouse: the strip can be dragged sideways */
+@media (pointer: fine) {
+  .viewport {
+    cursor: grab;
+  }
+}
+
+.viewport[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none; /* follow the mouse freely; it settles on a work afterwards */
+  user-select: none;
+}
+
+.viewport[data-dragging] a {
+  cursor: grabbing;
 }
 
 .track {
   --cols: 4;
   display: flex;
   gap: var(--gutter);
-  will-change: transform;
 }
 
 .item {
@@ -127,7 +154,7 @@
   }
 
   .title {
-    font-size: 1.375rem;
+    font-size: 1.25rem; /* room for the longer Dutch "Recente werken" + "Bekijk werken" */
     white-space: nowrap;
   }
 
@@ -145,5 +172,86 @@
     margin-inline-start: 4px;
     padding-inline: 12px;
     white-space: nowrap;
+  }
+}
+
+/* "Swipe to see more →" under the strip, until the visitor has moved it once. */
+.hint {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+  transition: opacity 400ms var(--ease);
+}
+
+.hint[data-hidden] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hintTouch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .hintMouse {
+    display: none;
+  }
+
+  .hintTouch {
+    display: inline;
+  }
+}
+
+.hintArrow {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0;
+  animation: nudge 1.6s var(--ease) infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hintArrow {
+    animation: none;
+  }
+}
+
+/* Phones: the hint gets its own short line under the title row. */
+@media (max-width: 700px) {
+  .head {
+    grid-template-columns: auto 1fr;
+    row-gap: var(--space-xs);
+  }
+
+  .head > .controls {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .hint {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    font-size: 0.6875rem;
+  }
+
+  .hint[data-hidden] {
+    display: none;
   }
 }

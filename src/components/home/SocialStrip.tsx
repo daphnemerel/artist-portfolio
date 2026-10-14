@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
+import { format } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import type { Site } from "@/lib/content";
 import { SocialIcon, socialAccounts } from "@/components/layout/social";
 import styles from "./SocialStrip.module.css";
 
 /** Thin band on the homepage: "SOCIALS" and the accounts filled in content/site.yaml, plus email. */
-export function SocialStrip({ site }: { site: Site }) {
+export function SocialStrip({ site, t }: { site: Site; t: Dictionary }) {
   type Link = { key: string; label: string; href?: string; icon: ReactNode; external: boolean };
   // every platform, in the order of content/site.yaml; those without an account yet are shown faded
   const links: Link[] = socialAccounts(site).map(({ platform, label, href, icon }) => ({
@@ -17,7 +19,7 @@ export function SocialStrip({ site }: { site: Site }) {
   if (site.email) {
     links.push({
       key: "email",
-      label: "Email",
+      label: t.nav.email,
       href: `mailto:${site.email}`,
       icon: (
         <>
@@ -32,7 +34,7 @@ export function SocialStrip({ site }: { site: Site }) {
   return (
     <section className={styles.strip} aria-labelledby="socials-title">
       <h2 id="socials-title" className={styles.label}>
-        Socials
+        {t.home.socials}
       </h2>
       <ul className={styles.list}>
         {links.map((l) => (
@@ -50,11 +52,11 @@ export function SocialStrip({ site }: { site: Site }) {
                 </span>
               </a>
             ) : (
-              <span className={`${styles.link} ${styles.pending}`} title={`${l.label}: coming soon`}>
+              <span className={`${styles.link} ${styles.pending}`} title={format(t.home.comingSoon, { label: l.label })}>
                 <span className={styles.icon}>
                   <SocialIcon size={24}>{l.icon}</SocialIcon>
                 </span>
-                <span className="visually-hidden">{l.label}: coming soon</span>
+                <span className="visually-hidden">{format(t.home.comingSoon, { label: l.label })}</span>
               </span>
             )}
           </li>

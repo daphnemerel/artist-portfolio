@@ -1,12 +1,27 @@
 import type { MetadataRoute } from "next";
+import { localeTag, locales } from "@/i18n/config";
 import { getTexts, getWorks } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 
+/** Every public page in both languages, each listing its other-language version. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/works", "/exhibitions", "/texts", "/commissions", "/about", "/contact"];
-  return [
-    ...pages.map((path) => ({ url: `${siteUrl}${path}` })),
-    ...getWorks().map((work) => ({ url: `${siteUrl}/works/${work.slug}` })),
-    ...getTexts().map((text) => ({ url: `${siteUrl}/texts/${text.slug}` })),
+  const paths = [
+    "",
+    "/works",
+    "/exhibitions",
+    "/texts",
+    "/commissions",
+    "/about",
+    "/contact",
+    ...getWorks("en").map((work) => `/works/${work.slug}`),
+    ...getTexts("en").map((text) => `/texts/${text.slug}`),
   ];
+  return paths.flatMap((path) =>
+    locales.map((locale) => ({
+      url: `${siteUrl}/${locale}${path}`,
+      alternates: {
+        languages: Object.fromEntries(locales.map((l) => [localeTag[l], `${siteUrl}/${l}${path}`])),
+      },
+    })),
+  );
 }

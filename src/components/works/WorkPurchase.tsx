@@ -1,9 +1,10 @@
 import Image from "next/image";
+import type { Dictionary } from "@/i18n/dictionaries";
 import type { WorkSummary } from "@/lib/content";
 import styles from "./WorkPurchase.module.css";
 
 /** The whole work, uncropped, beside its title, summary, price and a way to buy it. */
-export function WorkPurchase({ work, email }: { work: WorkSummary; email?: string }) {
+export function WorkPurchase({ work, email, t }: { work: WorkSummary; email?: string; t: Dictionary }) {
   const image = work.images[0];
   const subject = encodeURIComponent(`${work.title}${work.year ? `, ${work.year}` : ""}`);
 
@@ -22,7 +23,7 @@ export function WorkPurchase({ work, email }: { work: WorkSummary; email?: strin
       </div>
 
       <div className={styles.details}>
-        <p className={styles.eyebrow}>Original artwork</p>
+        <p className={styles.eyebrow}>{t.works.originalArtwork}</p>
         <h2 id="purchase-title" className={styles.title}>
           {work.title}
         </h2>
@@ -31,11 +32,11 @@ export function WorkPurchase({ work, email }: { work: WorkSummary; email?: strin
         <hr className={styles.rule} />
         {email && (
           <a href={`mailto:${email}?subject=${subject}`} className={`button ${styles.buy}`}>
-            Buy this work <span aria-hidden="true">→</span>
+            {t.works.buy} <span aria-hidden="true">→</span>
           </a>
         )}
         <a href="#about" className={styles.more}>
-          More details
+          {t.works.moreDetails}
         </a>
       </div>
     </section>

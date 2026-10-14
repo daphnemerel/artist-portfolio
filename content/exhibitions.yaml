@@ -1,11 +1,24 @@
 # PLACEHOLDER exhibitions — replace with real exhibitions or remove.
 # Fields: year (optional), title, venue, city, type (solo | group | fair | screening),
 # works (optional list of work folder names), url (optional).
-- title: Exhibition title to be added (1)
-  venue: Venue to be added
-  city: City to be added
+# title / venue / city may be one text, or { nl: …, en: … } when they differ per language.
+- title:
+    nl: Titel expositie volgt nog (1)
+    en: Exhibition title to be added (1)
+  venue:
+    nl: Locatie volgt nog
+    en: Venue to be added
+  city:
+    nl: Plaats volgt nog
+    en: City to be added
   type: solo
-- title: Exhibition title to be added (2)
-  venue: Venue to be added
-  city: City to be added
+- title:
+    nl: Titel expositie volgt nog (2)
+    en: Exhibition title to be added (2)
+  venue:
+    nl: Locatie volgt nog
+    en: Venue to be added
+  city:
+    nl: Plaats volgt nog
+    en: City to be added
   type: group

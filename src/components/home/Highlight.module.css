@@ -1,0 +1,369 @@
+/*
+ * Current exhibition on the homepage, on a pale pink band. Wide screens: the work (as wide as one
+ * Recent works card) | eyebrow, title, text and button | the venue behind a hairline | a small map
+ * with a "View location" button. Narrower screens fold it into two rows, phones into one column.
+ */
+.band {
+  --card: calc((100% - 3 * var(--gutter)) / 4); /* = one card of the Recent works strip */
+  position: relative;
+  margin-inline: calc(-1 * var(--margin));
+  padding: var(--space-lg) var(--margin);
+  background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
+}
+
+/* A little off-white above and below the band, with a hairline as wide as the page content, like
+   the lines between the other bands (the one below is the top line of Recent works). */
+.band {
+  margin-block: var(--title-gap);
+}
+
+.band::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--title-gap) - 1px);
+  left: var(--margin);
+  right: var(--margin);
+  border-top: var(--border-hairline);
+}
+
+/* One row, as tall as the work: work | note | venue | map. */
+.inner {
+  display: grid;
+  grid-template-columns: var(--card) minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--gutter);
+  row-gap: var(--space-md);
+}
+
+.band[data-venue] .inner {
+  grid-template-columns: var(--card) minmax(0, 1fr) minmax(12rem, auto) calc(var(--card) * 0.8);
+}
+
+.work {
+  display: block;
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto; /* natural proportions */
+  transition: transform 220ms var(--ease);
+}
+
+.work:hover .image {
+  transform: scale(1.02);
+}
+
+/* ---------- the note ---------- */
+
+.info {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-xs);
+  padding-inline: var(--space-md);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.5vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.08;
+  color: var(--color-bordeaux);
+}
+
+.text {
+  max-width: 44ch;
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+.button,
+.mapButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 44px;
+  padding-inline: 22px;
+  border: 1px solid var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  white-space: nowrap;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button {
+  margin-block-start: var(--space-sm);
+}
+
+.button:hover,
+.button:focus-visible,
+.mapButton:hover,
+.mapButton:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+/* ---------- the venue: set like a museum label ---------- */
+
+.venue {
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  padding-inline-start: var(--space-lg);
+  border-left: var(--border-hairline);
+}
+
+.venueEyebrow {
+  margin-block-end: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+.venueName {
+  font-family: var(--font-serif);
+  font-size: 1.625rem;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.venueLine {
+  margin-block-start: 4px;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.address {
+  display: grid;
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-sm);
+  border-top: var(--border-hairline);
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  font-style: normal;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+/* Opening hours as a small timetable: days left, times right, hairlines between. */
+.hours {
+  margin: var(--space-sm) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+.hoursRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: 5px;
+  border-top: var(--border-hairline);
+}
+
+.hoursRow:last-child {
+  border-bottom: var(--border-hairline);
+}
+
+.hoursRow dt {
+  color: var(--color-muted);
+}
+
+.hoursRow dd {
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.venueLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+  margin-block-start: var(--space-md);
+}
+
+.venueLinks a {
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: color var(--duration) var(--ease);
+}
+
+.venueLinks a:hover {
+  color: var(--color-turquoise);
+}
+
+/* ---------- the map: in its normal colours, in a bordeaux frame ---------- */
+
+.map {
+  display: grid;
+  color: var(--color-bordeaux);
+}
+
+.mapPlan {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--color-bordeaux);
+}
+
+/* Google's own buttons sit at the top; the plan is shifted up to hide them (the attribution at
+   the bottom stays visible). The map is a picture here: the whole tile links to the route. */
+.mapFrame {
+  position: absolute;
+  inset: -64px 0 0;
+  width: 100%;
+  height: calc(100% + 64px);
+  border: 0;
+  pointer-events: none;
+}
+
+/* The map in its own colours (at the artist's request); kept as an empty hook. */
+.mapTint {
+  display: none;
+}
+
+.mapCaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.map:hover .mapCaption,
+.map:focus-visible .mapCaption {
+  background: transparent;
+  color: var(--color-bordeaux);
+  outline: 1px solid var(--color-bordeaux);
+  outline-offset: -1px;
+}
+
+/* ---------- smaller screens ---------- */
+
+/* Up to 1280px the map steps aside ("View location" stays as a link), so the band stays slim. */
+@media (max-width: 1280px) {
+  .band[data-venue] .inner {
+    grid-template-columns: var(--card) minmax(0, 1fr) minmax(12rem, auto);
+  }
+
+  .map {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .band {
+    --card: calc((100% - 2 * var(--gutter)) / 3);
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .text {
+    display: none; /* the title and the venue say it; keeps the band as tall as the work */
+  }
+}
+
+/* Phones: the small work beside the title, the venue in two columns below. */
+@media (max-width: 700px) {
+  .band {
+    --card: calc((100% - var(--gutter)) / 2);
+  }
+
+  .inner,
+  .band[data-venue] .inner {
+    grid-template-columns: var(--card) minmax(0, 1fr);
+  }
+
+  .info {
+    padding-inline: 0;
+  }
+
+  .eyebrow {
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+  }
+
+  .eyebrow::before {
+    display: none;
+  }
+
+  .title {
+    font-size: 1.375rem;
+  }
+
+  .button {
+    padding-inline: 14px;
+  }
+
+  .venue {
+    grid-column: 1 / -1;
+    padding-inline-start: 0;
+    padding-block-start: var(--space-md);
+    border-left: 0;
+    border-top: var(--border-hairline);
+  }
+
+  .venueEyebrow,
+  .venueName,
+  .venueLine {
+    grid-column: 1 / -1;
+  }
+
+  .address {
+    grid-column: 1 / -1;
+  }
+
+  .hours {
+    grid-column: 1 / -1;
+  }
+
+  .venueLinks {
+    grid-column: 1 / -1;
+  }
+}

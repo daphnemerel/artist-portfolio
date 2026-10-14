@@ -42,6 +42,11 @@
   display: none;
 }
 
+/* The language flag: in the actions on wide screens, next to "Menu" on phones. */
+.header .switchPhone {
+  display: none;
+}
+
 .nav ul {
   display: flex;
   gap: var(--space-lg);
@@ -70,8 +75,21 @@
   gap: var(--space-md);
 }
 
-/* Medium screens: tighter spacing so all six links, the name and the button fit on one line. */
-@media (min-width: 901px) and (max-width: 1260px) {
+/* Medium screens: tighter spacing so all six links, the name, the button and the language flag fit
+   on one line (the longer Dutch labels included); the header's two small icons step aside here —
+   they are in the Socials band and the footer too. */
+@media (min-width: 1025px) and (max-width: 1260px) {
+  .actions > ul {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .name,
+  .nav a {
+    white-space: nowrap;
+  }
+
   .header {
     column-gap: var(--space-md);
   }
@@ -85,7 +103,7 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   /* Phones/tablets: a slim band; room below the links only when the menu is open. */
   .header {
     grid-template-columns: 1fr auto;
@@ -97,8 +115,21 @@
     padding-block-end: var(--space-lg);
   }
 
+  .header {
+    grid-template-columns: 1fr auto auto;
+    column-gap: var(--space-xs);
+  }
+
   .name {
     font-size: 1.5rem;
+  }
+
+  .header .switchPhone {
+    display: grid;
+  }
+
+  .header .switchDesktop {
+    display: none;
   }
 
   .toggle {

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useI18n } from "@/i18n/client";
 import type { WorkSummary } from "@/lib/content";
 import { WorkCard } from "./WorkCard";
 import styles from "./WorksIndex.module.css";
@@ -9,6 +10,8 @@ import styles from "./WorksIndex.module.css";
 type View = "images" | "list";
 
 export function WorksIndex({ works }: { works: WorkSummary[] }) {
+  const { locale, t: dict, href } = useI18n();
+  const t = dict.works;
   const [view, setView] = useState<View>("images");
   const [series, setSeries] = useState<string | null>(null);
 
@@ -22,10 +25,10 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
     <>
       <div className={styles.controls}>
         {allSeries.length > 0 && (
-          <ul className={styles.filters} aria-label="Filter by series">
+          <ul className={styles.filters} aria-label={t.filter}>
             <li>
               <button type="button" aria-pressed={series === null} onClick={() => setSeries(null)}>
-                All
+                {t.all}
               </button>
             </li>
             {allSeries.map((s) => (
@@ -37,12 +40,12 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
             ))}
           </ul>
         )}
-        <div className={styles.views} aria-label="View">
+        <div className={styles.views} aria-label={t.view}>
           <button type="button" aria-pressed={view === "images"} onClick={() => setView("images")}>
-            Images
+            {t.images}
           </button>
           <button type="button" aria-pressed={view === "list"} onClick={() => setView("list")}>
-            List
+            {t.list}
           </button>
         </div>
       </div>
@@ -51,7 +54,7 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
         <ul className={styles.grid}>
           {visible.map((work, i) => (
             <li key={work.slug}>
-              <WorkCard work={work} priority={i < 4} />
+              <WorkCard work={work} locale={locale} priority={i < 4} />
             </li>
           ))}
         </ul>
@@ -59,10 +62,10 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
         <table className={styles.list}>
           <thead className="visually-hidden">
             <tr>
-              <th>Year</th>
-              <th>Title</th>
-              <th>Medium</th>
-              <th>Dimensions</th>
+              <th>{t.year}</th>
+              <th>{t.titleColumn}</th>
+              <th>{t.medium}</th>
+              <th>{t.dimensions}</th>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +73,7 @@ export function WorksIndex({ works }: { works: WorkSummary[] }) {
               <tr key={work.slug}>
                 <td className={styles.year}>{work.year}</td>
                 <td>
-                  <Link href={`/works/${work.slug}`}>
+                  <Link href={href(`/works/${work.slug}`)}>
                     {work.title}
                   </Link>
                 </td>

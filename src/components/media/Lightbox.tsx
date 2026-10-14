@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import type { WorkImage } from "@/lib/content";
+import { useI18n } from "@/i18n/client";
 import styles from "./media.module.css";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export function Lightbox({ images, index, onChange, onClose }: Props) {
+  const { t } = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const image = images[index];
   const count = images.length;
@@ -33,20 +35,20 @@ export function Lightbox({ images, index, onChange, onClose }: Props) {
   }, [index, count, onChange]);
 
   return (
-    <dialog ref={dialogRef} className={styles.lightbox} onClose={onClose} aria-label="Image viewer">
+    <dialog ref={dialogRef} className={styles.lightbox} onClose={onClose} aria-label={t.works.viewer}>
       <div className={styles.lightboxBar}>
         <span>
           {index + 1} / {count}
         </span>
         <button type="button" onClick={onClose}>
-          Close
+          {t.works.closeViewer}
         </button>
       </div>
       <button
         type="button"
         className={styles.lightboxStage}
         onClick={() => onChange((index + 1) % count)}
-        aria-label={count > 1 ? "Next image" : "Image"}
+        aria-label={count > 1 ? t.works.nextImage : t.works.image}
       >
         <Image
           key={image.url}
@@ -63,10 +65,10 @@ export function Lightbox({ images, index, onChange, onClose }: Props) {
       {count > 1 && (
         <div className={styles.lightboxBar}>
           <button type="button" onClick={() => onChange((index - 1 + count) % count)}>
-            Previous
+            {t.works.previousImage}
           </button>
           <button type="button" onClick={() => onChange((index + 1) % count)}>
-            Next
+            {t.works.nextImageShort}
           </button>
         </div>
       )}

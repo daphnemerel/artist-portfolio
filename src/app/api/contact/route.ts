@@ -19,7 +19,7 @@ type Fields = {
 };
 
 export async function POST(request: Request) {
-  const site = getSite();
+  const site = getSite("en"); // name and email are the same in every language
   const user = process.env.GMAIL_USER || site.email;
   const pass = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "");
   if (!user || !pass) {

@@ -1,7 +1,11 @@
-# PLACEHOLDER — only `name` is confirmed. Fill in the rest with the artist's real details.
+# Site details. Texts that differ per language are written as { nl: …, en: … }.
+# The Dutch (nl) texts are DRAFT translations by Claude, to be reviewed by Daphne.
 # Empty values are hidden on the site.
 name: Daphne Merel
-description: Artist statement to be added.
+# Short description for search engines and link previews.
+description:
+  nl: Daphne Merel is een mixed media kunstenaar. Werken, exposities en opdrachten.
+  en: Daphne Merel is a mixed media artist. Works, exhibitions and commissions.
 location: ""
 email: daphnemerelinfo@gmail.com
 # The contact form emails this address via Gmail. Set GMAIL_APP_PASSWORD (a Google app password)
@@ -17,14 +21,65 @@ linkedin: ""
 representation: []
 # Put the PDF in public/ and link it here, e.g. /cv.pdf
 # cv: /cv.pdf
-bio: |-
-  I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus. My work combines layered paint, tactile surfaces and delicate figurative details, creating quiet stories within bold material worlds.
+bio:
+  nl: |-
+    Ik ben Daphne Merel, een mixed media kunstenaar met een voorliefde voor textuur, contrast en kleine momenten van aandacht. In mijn werk combineer ik gelaagde verf, tastbare oppervlakken en fijne figuratieve details tot stille verhalen in uitgesproken, materiële werelden.
 
-  Nature, everyday life and fleeting emotions often find their way into my work — a bird, a bloom, a glimpse of a place. I love working with rich textures and layers, letting colors, forms and small subjects come together to create atmosphere, depth and a sense of curiosity.
+    Natuur, het dagelijks leven en vluchtige emoties vinden vaak hun weg in mijn werk — een vogel, een bloem, een glimp van een plek. Ik werk graag met rijke texturen en lagen, waarin kleur, vorm en kleine onderwerpen samenkomen en zorgen voor sfeer, diepte en nieuwsgierigheid.
 
-  Commissions are very welcome. I'd love to create a unique piece together that tells your story.
+    Opdrachten zijn van harte welkom. Ik maak graag samen met jou een uniek werk dat jouw verhaal vertelt.
+  en: |-
+    I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus. My work combines layered paint, tactile surfaces and delicate figurative details, creating quiet stories within bold material worlds.
+
+    Nature, everyday life and fleeting emotions often find their way into my work — a bird, a bloom, a glimpse of a place. I love working with rich textures and layers, letting colors, forms and small subjects come together to create atmosphere, depth and a sense of curiosity.
+
+    Commissions are very welcome. I'd love to create a unique piece together that tells your story.
 # Short introduction on the homepage, beside the portrait (Daphne's own text, first person).
-intro: >-
-  I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
-  My work combines layered, tactile surfaces with delicate figurative details, creating quiet
-  stories within bold material worlds.
+intro:
+  nl: >-
+    Ik ben Daphne Merel, een mixed media kunstenaar met een voorliefde voor textuur, contrast en
+    kleine momenten van aandacht. In mijn werk combineer ik gelaagde, tastbare oppervlakken met fijne
+    figuratieve details: stille verhalen in uitgesproken, materiële werelden.
+  en: >-
+    I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
+    My work combines layered, tactile surfaces with delicate figurative details, creating quiet
+    stories within bold material worlds.
+
+# Highlighted on the homepage between Socials and Recent works. Remove to hide it.
+highlight:
+  eyebrow:
+    nl: Geselecteerd voor expositie — 2026
+    en: Selected exhibition — 2026
+  title:
+    nl: Binnenkort in CODA Museum Apeldoorn
+    en: Soon at CODA Museum Apeldoorn
+  text:
+    nl: >-
+      Een van mijn mixed media werken is geselecteerd voor een expositie in CODA Museum, als onderdeel
+      van 055 Apeldoorn Art.
+    en: >-
+      One of my mixed media works has been selected for exhibition at CODA Museum as part of
+      055 Apeldoorn Art.
+  work: work-4
+  link:
+    label:
+      nl: Bekijk expositie
+      en: View exhibition
+    href: /exhibitions
+  # Address and opening hours checked 14 Oct 2026 on coda-apeldoorn.nl (the work hangs from 10 Dec 2026).
+  venue:
+    name: CODA Museum
+    lines:
+      - 055 Apeldoorn Art
+    address:
+      - Vosselmanstraat 299
+      - 7311 CL Apeldoorn
+    hours:
+      - nl: "ma – vr: 10.00 – 17.30"
+        en: "Mon – Fri: 10:00 – 17:30"
+      - nl: "za: 10.00 – 17.00"
+        en: "Sat: 10:00 – 17:00"
+      - nl: "zo: 11.00 – 17.00"
+        en: "Sun: 11:00 – 17:00"
+    website: https://www.coda-apeldoorn.nl
+    map: CODA Museum, Vosselmanstraat 299, 7311 CL Apeldoorn
