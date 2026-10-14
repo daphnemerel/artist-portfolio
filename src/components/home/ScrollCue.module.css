@@ -1,6 +1,6 @@
 /*
- * "Scroll ↓" at the bottom centre of the opening photo: an off-white tag with bordeaux type, so it
- * reads on any painting. The arrow drifts down gently; it stays still with reduced motion.
+ * "Scroll ↓" at the bottom centre of the opening photo: a tag in the same pink as the header band,
+ * with ink type like the header, so it reads on any painting. The arrow drifts down gently; it stays still with reduced motion.
  */
 .cue {
   position: absolute;
@@ -11,8 +11,8 @@
   align-items: center;
   gap: var(--space-sm);
   padding: 12px 20px;
-  background: var(--color-off-white);
-  color: var(--color-bordeaux);
+  background: var(--color-pink);
+  color: var(--color-ink);
   transform: translateX(-50%);
   transition:
     opacity 300ms var(--ease),
