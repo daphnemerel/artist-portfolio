@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
+import { Highlight } from "./Highlight";
 import { HomeLinks } from "./HomeLinks";
 import { ScrollCue } from "./ScrollCue";
 import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
-import { getFeaturedWorks, getSite } from "@/lib/content";
+import { getFeaturedWorks, getSite, getWork } from "@/lib/content";
 import styles from "@/app/home.module.css";
 
 type Picture = { src: string; width: number; height: number };
@@ -32,6 +33,13 @@ export const STUDIO_HERO: HomeHero = {
 /** The homepage: a full-bleed opening photo, a short introduction and the selected works. */
 export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
   const site = getSite();
+  const highlight = site.highlight;
+  const highlightWork = highlight && getWork(highlight.work);
+  if (highlight && !highlightWork) {
+    throw new Error(
+      `site.yaml highlight.work "${highlight.work}" is not a folder in content/works`,
+    );
+  }
   // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
   const works = getFeaturedWorks().slice(0, 8); // max. 8 on the homepage
 
@@ -105,7 +113,12 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
       {/* 2. Socials: a thin band */}
       <SocialStrip site={site} />
 
-      {/* 3. Recent works, with Commissions and Exhibitions below (pinned together) */}
+      {/* 3. Current exhibition */}
+      {highlight && highlightWork && (
+        <Highlight highlight={highlight} work={highlightWork} />
+      )}
+
+      {/* 4. Recent works, with Commissions and Exhibitions below */}
       {works.length === 0 && <HomeLinks />}
       {works.length > 0 && (
         <WorksCarousel

@@ -29,6 +29,16 @@ const siteSchema = z.object({
   bio: z.string().min(1),
   /** Short introduction on the homepage. */
   intro: z.string().optional(),
+  /** A current exhibition highlighted on the homepage, with one of the works in it. */
+  highlight: z
+    .object({
+      eyebrow: z.string().min(1),
+      title: z.string().min(1),
+      text: z.string().min(1),
+      work: z.string().min(1), // folder name in content/works
+      link: z.object({ label: z.string().min(1), href: z.string().min(1) }),
+    })
+    .optional(),
 });
 
 const imageEntrySchema = z.object({

@@ -1,0 +1,127 @@
+/*
+ * Current exhibition on the homepage: a pale pink band from edge to edge, the work large on the
+ * left (uncropped), the note beside it. Same eyebrow / serif title language as elsewhere.
+ */
+.band {
+  margin-inline: calc(-1 * var(--margin));
+  padding: var(--space-xl) var(--margin);
+  background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.work {
+  grid-column: 2 / 7;
+  display: block;
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto; /* natural proportions */
+  max-height: 70svh;
+  object-fit: contain;
+  transition: transform 220ms var(--ease);
+}
+
+.work:hover .image {
+  transform: scale(1.01);
+}
+
+.info {
+  grid-column: 8 / -1;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+.eyebrow::after {
+  content: "";
+  width: 24px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.rule {
+  width: 48px;
+  border-top: 1px solid var(--color-pink);
+}
+
+.text {
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: var(--leading-body);
+  color: var(--color-bordeaux);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-xs);
+  padding: 16px 28px;
+  border: 1px solid var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button:hover,
+.button:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+@media (max-width: 900px) {
+  .work {
+    grid-column: 1 / 7;
+  }
+
+  .info {
+    grid-column: 7 / -1;
+  }
+}
+
+@media (max-width: 700px) {
+  .band {
+    padding-block: var(--space-lg);
+  }
+
+  .work,
+  .info {
+    grid-column: 1 / -1;
+  }
+
+  .info {
+    margin-block-start: var(--space-lg);
+  }
+}

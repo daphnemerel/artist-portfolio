@@ -28,3 +28,15 @@ intro: >-
   I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
   My work combines layered, tactile surfaces with delicate figurative details, creating quiet
   stories within bold material worlds.
+
+# Highlighted on the homepage between Socials and Recent works. Remove to hide it.
+highlight:
+  eyebrow: Selected exhibition — 2026
+  title: Now at CODA Museum Apeldoorn
+  text: >-
+    One of my mixed media works has been selected for exhibition at CODA Museum as part of
+    055 Apeldoorn Art.
+  work: work-4
+  link:
+    label: View exhibition
+    href: /exhibitions
