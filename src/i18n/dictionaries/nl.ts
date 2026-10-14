@@ -66,6 +66,13 @@ export const nl: Dictionary = {
       alt: "Poster voor Gigalerie × ACEC, 18.12 – 20.12.2026: grote zwarte letters naast een onscherpe close-up van roze, blauwe en groene verf.",
     },
   },
+  venue: {
+    address: "Adres",
+    hours: "Openingstijden",
+    website: "Bekijk website",
+    location: "Bekijk locatie",
+    map: "Kaart: {name}",
+  },
   works: {
     title: "Werken",
     filter: "Filter op serie",

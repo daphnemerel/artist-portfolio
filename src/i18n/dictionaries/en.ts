@@ -66,6 +66,13 @@ export const en = {
       alt: "Poster for Gigalerie × ACEC, 18.12 – 20.12.2026: large black lettering beside a blurred close-up of pink, blue and green paint.",
     },
   },
+  venue: {
+    address: "Address",
+    hours: "Opening hours",
+    website: "Visit website",
+    location: "View location",
+    map: "Map: {name}",
+  },
   works: {
     title: "Works",
     filter: "Filter by series",

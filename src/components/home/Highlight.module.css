@@ -1,35 +1,30 @@
 /*
- * Current exhibition on the homepage: a pale pink band on the same column grid as Recent works
- * below it, so the work is exactly as wide as one work card (1 of 4 / 3 / 2 columns). Eyebrow +
- * title + text beside it, the button on the right. Same eyebrow / serif title language as elsewhere.
+ * Current exhibition on the homepage, on a pale pink band. Wide screens: the work (as wide as one
+ * Recent works card) | eyebrow, title, text and button | the venue behind a hairline | a small map
+ * with a "View location" button. Narrower screens fold it into two rows, phones into one column.
  */
 .band {
+  --card: calc((100% - 3 * var(--gutter)) / 4); /* = one card of the Recent works strip */
   margin-inline: calc(-1 * var(--margin));
-  padding: var(--space-lg) var(--margin);
+  padding: var(--space-xl) var(--margin);
   background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
 }
 
 .inner {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)); /* = the Recent works strip */
+  grid-template-columns: var(--card) minmax(0, 1fr);
   align-items: center;
   column-gap: var(--gutter);
+  row-gap: var(--space-lg);
+}
+
+.band[data-venue] .inner {
+  grid-template-columns: var(--card) minmax(0, 1fr) minmax(13rem, auto) var(--card);
 }
 
 .work {
-  grid-column: 1;
   display: block;
   overflow: hidden;
-}
-
-.info {
-  grid-column: 2 / 4;
-  padding-inline-start: var(--space-lg);
-}
-
-.buttonSide {
-  grid-column: 4;
-  justify-self: end;
 }
 
 .image {
@@ -43,10 +38,13 @@
   transform: scale(1.02);
 }
 
+/* ---------- the note ---------- */
+
 .info {
   display: grid;
   justify-items: start;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
+  padding-inline: var(--space-lg) var(--space-md);
 }
 
 .eyebrow {
@@ -68,31 +66,28 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.08;
   color: var(--color-bordeaux);
 }
 
-.rule {
-  display: none;
-}
-
 .text {
-  max-width: 52ch;
-  margin-block-start: var(--space-xs);
+  max-width: 46ch;
   font-family: var(--font-serif);
   font-size: var(--type-body);
   line-height: var(--leading-body);
   color: var(--color-muted);
 }
 
-.button {
+.button,
+.mapButton {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-sm);
-  height: 44px;
-  padding-inline: 22px;
+  min-height: 48px;
+  padding-inline: 26px;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
@@ -105,113 +100,206 @@
     color var(--duration) var(--ease);
 }
 
+.button {
+  margin-block-start: var(--space-sm);
+}
+
 .button:hover,
-.button:focus-visible {
+.button:focus-visible,
+.mapButton:hover,
+.mapButton:focus-visible {
   background: transparent;
   color: var(--color-bordeaux);
 }
 
-/* Tablet: 3 columns like the strip; the button moves under the text */
-@media (max-width: 1100px) {
-  .inner {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+/* ---------- the venue ---------- */
+
+.venue {
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  gap: var(--space-md);
+  padding-inline-start: var(--space-lg);
+  border-left: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+}
+
+.venueName {
+  font-family: var(--font-serif);
+  font-size: var(--type-heading-md);
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.venueLines {
+  display: grid;
+  margin-block-start: calc(-1 * var(--space-sm));
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.venueRule {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-md);
+  margin: 0;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: 1.6;
+  letter-spacing: var(--tracking-caption);
+}
+
+.fact .icon {
+  grid-row: 1 / 3;
+}
+
+.fact dt {
+  grid-column: 2;
+  color: var(--color-bordeaux);
+}
+
+.fact dd {
+  grid-column: 2;
+  display: grid;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.icon {
+  flex: none;
+  color: var(--color-bordeaux);
+}
+
+.venueLinks {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.venueLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  color: var(--color-bordeaux);
+  transition: color var(--duration) var(--ease);
+}
+
+.venueLinks a:hover {
+  color: var(--color-turquoise);
+}
+
+/* ---------- the map ---------- */
+
+.map {
+  display: grid;
+}
+
+.mapFrame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 0;
+  background: var(--color-off-white);
+}
+
+/* ---------- smaller screens ---------- */
+
+/* Up to 1500px: the work and the note on the first row, the venue and the map on the second. */
+@media (max-width: 1500px) {
+  .band[data-venue] .inner {
+    grid-template-columns: var(--card) minmax(0, 1fr) var(--card);
   }
 
-  .button {
-    margin-block-start: var(--space-sm);
-  }
-
-  .info {
-    grid-row: 1;
+  .band[data-venue] .info {
     grid-column: 2 / -1;
   }
-}
 
-/* Phone: small work beside the eyebrow and title, text and button underneath */
-@media (max-width: 700px) {
-  .inner {
-    column-gap: var(--gutter);
+  .venue {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    padding-inline-start: 0;
+    padding-block-start: var(--space-lg);
+    border-left: 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    column-gap: var(--space-lg);
   }
 
-  .work {
-    align-self: start;
+  .venueName,
+  .venueLines,
+  .venueRule {
+    grid-column: 1 / -1;
   }
 
-  .title {
-    font-size: 1.5rem;
+  .map {
+    grid-column: 3;
+    grid-row: 2;
   }
-
-  .text {
-    font-size: 0.9375rem;
-  }
-}
-
-/* One button: on the right on wide screens, under the text on smaller ones. */
-.buttonInline {
-  display: none;
 }
 
 @media (max-width: 1100px) {
-  .buttonSide {
-    display: none;
-  }
-
-  .buttonInline {
-    display: inline-flex;
+  .band {
+    --card: calc((100% - 2 * var(--gutter)) / 3);
   }
 }
 
-/* Phone: text and button span the full width under the small work + title */
+/* Phones: one column; the small work beside the eyebrow and title, everything else full width. */
 @media (max-width: 700px) {
   .band {
-    padding-block: var(--title-gap);
+    --card: calc((100% - var(--gutter)) / 2);
+    padding-block: var(--space-lg);
   }
 
-  .info {
-    display: contents;
+  .inner,
+  .band[data-venue] .inner {
+    grid-template-columns: var(--card) minmax(0, 1fr);
+    row-gap: var(--space-md);
   }
 
-  .inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns like the strip */
-    grid-template-areas:
-      "work head"
-      "text text"
-      "btn btn";
-    row-gap: var(--space-sm);
+  .info,
+  .band[data-venue] .info {
+    grid-column: 1 / -1;
+    padding-inline: 0;
   }
 
   .work {
-    grid-area: work;
+    grid-column: 1;
   }
 
-  .eyebrow,
+  .info {
+    grid-row: 2;
+  }
+
+  .venue {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .map {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .mapFrame {
+    aspect-ratio: 4 / 3;
+  }
+
   .title {
-    grid-area: head;
-  }
-
-  .eyebrow {
-    align-self: start;
-    font-size: 0.625rem;
-    letter-spacing: 0.18em;
-    gap: var(--space-xs);
-  }
-
-  .eyebrow::before {
-    display: none; /* room for the label on one line */
-  }
-
-  .title {
-    align-self: end;
-  }
-
-  .text {
-    grid-area: text;
-    max-width: none;
-  }
-
-  .buttonInline {
-    grid-area: btn;
-    justify-self: start;
-    margin-block-start: var(--space-xs);
+    font-size: 1.75rem;
   }
 }

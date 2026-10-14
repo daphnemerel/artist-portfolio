@@ -119,7 +119,7 @@ export async function HomeView({ hero }: { hero: HomeHero }) {
 
       {/* 3. Current exhibition */}
       {highlight && highlightWork && (
-        <Highlight highlight={highlight} work={highlightWork} locale={locale} />
+        <Highlight highlight={highlight} work={highlightWork} locale={locale} t={t} />
       )}
 
       {/* 4. Recent works, with Commissions and Exhibitions below */}

@@ -70,6 +70,18 @@ const siteSchema = z.object({
       text: localized,
       work: z.string().min(1), // folder name in content/works
       link: z.object({ label: localized, href: z.string().min(1) }),
+      /** The venue beside it: name, details, address, opening hours, website and a map. */
+      venue: z
+        .object({
+          name: z.string().min(1),
+          lines: z.array(localized).default([]),
+          address: z.array(z.string()).min(1),
+          hours: z.array(localized).default([]),
+          website: z.url().optional(),
+          /** Search text for the map and the "View location" link. */
+          map: z.string().min(1),
+        })
+        .optional(),
     })
     .optional(),
 });
