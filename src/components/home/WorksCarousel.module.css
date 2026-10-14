@@ -81,9 +81,10 @@
   color: var(--color-bordeaux);
 }
 
-/* Without the scroll animation: a native horizontal strip with snap points. */
+/* A native horizontal strip with snap points: swipe with a finger, drag with the mouse. */
 .viewport {
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
@@ -92,15 +93,27 @@
   display: none;
 }
 
-.viewport[data-pinned="true"] {
-  overflow: hidden;
+/* Mouse: the strip can be dragged sideways */
+@media (pointer: fine) {
+  .viewport {
+    cursor: grab;
+  }
+}
+
+.viewport[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none; /* follow the mouse freely; it settles on a work afterwards */
+  user-select: none;
+}
+
+.viewport[data-dragging] a {
+  cursor: grabbing;
 }
 
 .track {
   --cols: 4;
   display: flex;
   gap: var(--gutter);
-  will-change: transform;
 }
 
 .item {
