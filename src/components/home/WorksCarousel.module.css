@@ -84,6 +84,7 @@
 /* A native horizontal strip with snap points: swipe with a finger, drag with the mouse. */
 .viewport {
   overflow-x: auto;
+  overflow-y: hidden; /* the strip itself never moves up or down */
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -91,6 +92,13 @@
 
 .viewport::-webkit-scrollbar {
   display: none;
+}
+
+/* Touch screens: a swipe on the strip only goes sideways, never up or down. */
+@media (pointer: coarse) {
+  .viewport {
+    touch-action: pan-x;
+  }
 }
 
 /* Mouse: the strip can be dragged sideways */
