@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getImageProps } from "next/image";
 import { WorkCard } from "@/components/works/WorkCard";
 import { HomeLinks } from "./HomeLinks";
+import { ScrollCue } from "./ScrollCue";
 import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
 import { getFeaturedWorks, getSite } from "@/lib/content";
@@ -69,12 +70,17 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
             }
           />
         </picture>
+        <ScrollCue target="intro" />
       </section>
       {hero.caption && <p className={styles.studioCaption}>{hero.caption}</p>}
 
       {/* 1. Introduction: portrait in a circle, a few words beside it */}
       {site.intro && (
-        <section className={styles.intro} aria-labelledby="intro-title">
+        <section
+          id="intro"
+          className={styles.intro}
+          aria-labelledby="intro-title"
+        >
           <Image
             src="/images/portrait-daphne.jpg"
             alt="Daphne Merel, smiling, in the open door of a red vintage car."

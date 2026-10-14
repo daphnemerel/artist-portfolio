@@ -168,3 +168,59 @@
     white-space: nowrap;
   }
 }
+
+/* "Swipe to see more →" under the strip, until the visitor has moved it once. */
+.hint {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-block-start: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+  transition: opacity 400ms var(--ease);
+}
+
+.hint[data-hidden] {
+  opacity: 0;
+}
+
+.hintTouch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .hintMouse {
+    display: none;
+  }
+
+  .hintTouch {
+    display: inline;
+  }
+}
+
+.hintArrow {
+  display: inline-block;
+  font-size: 1rem;
+  letter-spacing: 0;
+  animation: nudge 1.6s var(--ease) infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hintArrow {
+    animation: none;
+  }
+}

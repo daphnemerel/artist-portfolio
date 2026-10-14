@@ -23,6 +23,12 @@ main {
   flex: 1;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth; /* e.g. the "Scroll" cue on the homepage */
+  }
+}
+
 /* Short pages (About, Contact) sit in the middle of any leftover height, so the white above and
    below them stays equal on tall screens. */
 main:has([data-tight-footer]) {

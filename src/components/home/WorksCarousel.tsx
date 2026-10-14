@@ -24,6 +24,7 @@ export function WorksCarousel({
   const track = useRef<HTMLUListElement>(null);
   const [index, setIndex] = useState(0);
   const [pages, setPages] = useState(0); // number of steps to the right
+  const [touched, setTouched] = useState(false); // the visitor has moved the strip themselves
 
   const measure = () => {
     const t = track.current!;
@@ -40,7 +41,37 @@ export function WorksCarousel({
   useEffect(() => {
     const v = viewport.current!;
     const update = () => setPages(measure().steps);
-    const onScroll = () => setIndex(Math.round(v.scrollLeft / measure().step));
+    const onScroll = () => {
+      setIndex(Math.round(v.scrollLeft / measure().step));
+      if (v.scrollLeft > 8 && !nudging) setTouched(true);
+    };
+
+    // Once, when the strip first comes into view: a small nudge to the side, so it's clear it moves.
+    let nudging = false;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || reduced || measure().max <= 0) return;
+        io.disconnect();
+        setTimeout(() => {
+          if (v.scrollLeft > 0) return;
+          nudging = true;
+          v.dataset.dragging = "true"; // no snapping during the nudge
+          v.scrollTo({ left: 72, behavior: "smooth" });
+          setTimeout(() => {
+            v.scrollTo({ left: 0, behavior: "smooth" });
+            setTimeout(() => {
+              delete v.dataset.dragging;
+              nudging = false;
+            }, 600);
+          }, 550);
+        }, 400);
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(v);
     update();
 
     // Mouse drag. Touch and trackpads already scroll the strip natively.
@@ -96,6 +127,7 @@ export function WorksCarousel({
     v.addEventListener("dragstart", noImageDrag);
     window.addEventListener("resize", update);
     return () => {
+      io.disconnect();
       v.removeEventListener("scroll", onScroll);
       v.removeEventListener("pointerdown", onDown);
       v.removeEventListener("pointermove", onMove);
@@ -157,6 +189,19 @@ export function WorksCarousel({
             ))}
           </ul>
         </div>
+        {pages > 0 && (
+          <p
+            className={styles.hint}
+            data-hidden={touched || undefined}
+            aria-hidden="true"
+          >
+            <span className={styles.hintMouse}>
+              Drag or use the arrows to see more
+            </span>
+            <span className={styles.hintTouch}>Swipe to see more</span>
+            <span className={styles.hintArrow}>→</span>
+          </p>
+        )}
       </section>
       {after}
     </div>

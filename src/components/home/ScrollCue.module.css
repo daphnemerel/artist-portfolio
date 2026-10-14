@@ -1,0 +1,68 @@
+/*
+ * "Scroll ↓" at the bottom centre of the opening photo: an off-white tag with bordeaux type, so it
+ * reads on any painting. The arrow drifts down gently; it stays still with reduced motion.
+ */
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-lg);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 12px 20px;
+  background: var(--color-off-white);
+  color: var(--color-bordeaux);
+  transform: translateX(-50%);
+  transition:
+    opacity 300ms var(--ease),
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.cue:hover,
+.cue:focus-visible {
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.cue[data-hidden] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.arrow {
+  animation: drift 1.8s var(--ease) infinite;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+/* Phones: a little smaller, closer to the edge, above the browser's own bar */
+@media (max-width: 700px) {
+  .cue {
+    bottom: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+    padding: 10px 16px;
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    animation: none;
+  }
+}
