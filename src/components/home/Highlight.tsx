@@ -43,8 +43,8 @@ const map = (
 );
 
 /**
- * A current exhibition on the homepage: the work, a short note and button, then the venue
- * (name, address, opening hours, links) and a small map, on a pale pink band.
+ * A current exhibition on the homepage, in one slim pale pink band (as tall as a work card): the
+ * work, a short note and button, the venue (name, address, opening hours, links) and a small map.
  */
 export function Highlight({
   highlight,

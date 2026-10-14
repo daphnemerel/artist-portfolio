@@ -148,7 +148,7 @@
   }
 
   .title {
-    font-size: 1.375rem;
+    font-size: 1.25rem; /* room for the longer Dutch "Recente werken" + "Bekijk werken" */
     white-space: nowrap;
   }
 

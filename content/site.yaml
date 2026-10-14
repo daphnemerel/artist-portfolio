@@ -51,8 +51,8 @@ highlight:
     nl: Geselecteerd voor expositie — 2026
     en: Selected exhibition — 2026
   title:
-    nl: Vanaf 10 december in CODA Museum Apeldoorn
-    en: From 10 December at CODA Museum Apeldoorn
+    nl: Binnenkort in CODA Museum Apeldoorn
+    en: Soon at CODA Museum Apeldoorn
   text:
     nl: >-
       Een van mijn mixed media werken is geselecteerd voor een expositie in CODA Museum, als onderdeel
@@ -66,13 +66,11 @@ highlight:
       nl: Bekijk expositie
       en: View exhibition
     href: /exhibitions
-  # Address and opening hours checked 14 Oct 2026 on coda-apeldoorn.nl. Hanging date from Daphne.
+  # Address and opening hours checked 14 Oct 2026 on coda-apeldoorn.nl (the work hangs from 10 Dec 2026).
   venue:
     name: CODA Museum
     lines:
       - 055 Apeldoorn Art
-      - nl: Vanaf 10 december 2026
-        en: From 10 December 2026
     address:
       - Vosselmanstraat 299
       - 7311 CL Apeldoorn
