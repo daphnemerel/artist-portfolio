@@ -145,6 +145,7 @@ export function WorksCarousel({
     const target = Math.max(0, Math.min(steps, to));
     viewport.current!.scrollTo({ left: target * step, behavior: "smooth" });
     setIndex(target);
+    setTouched(true); // the visitor has found the arrows: the hint can go
   };
 
   return (
@@ -154,6 +155,17 @@ export function WorksCarousel({
           <h2 id="works-title" className={styles.title}>
             {title}
           </h2>
+          {pages > 0 && (
+            <p
+              className={styles.hint}
+              data-hidden={touched || undefined}
+              aria-hidden="true"
+            >
+              <span className={styles.hintMouse}>{t.home.hintMouse}</span>
+              <span className={styles.hintTouch}>{t.home.hintTouch}</span>
+              <span className={styles.hintArrow}>→</span>
+            </p>
+          )}
           <div className={styles.controls}>
             {pages > 0 && (
               <>
@@ -191,17 +203,6 @@ export function WorksCarousel({
             ))}
           </ul>
         </div>
-        {pages > 0 && (
-          <p
-            className={styles.hint}
-            data-hidden={touched || undefined}
-            aria-hidden="true"
-          >
-            <span className={styles.hintMouse}>{t.home.hintMouse}</span>
-            <span className={styles.hintTouch}>{t.home.hintTouch}</span>
-            <span className={styles.hintArrow}>→</span>
-          </p>
-        )}
       </section>
       {after}
     </div>
