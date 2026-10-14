@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/i18n/client";
 import styles from "./ScrollCue.module.css";
 
 /** A small "Scroll" badge at the bottom of the opening photo; it fades away once you scroll. */
 export function ScrollCue({ target }: { target: string }) {
+  const { t } = useI18n();
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -19,9 +21,9 @@ export function ScrollCue({ target }: { target: string }) {
       href={`#${target}`}
       className={styles.cue}
       data-hidden={hidden || undefined}
-      aria-label="Scroll down to the introduction"
+      aria-label={t.home.scrollLabel}
     >
-      <span className={styles.label}>Scroll</span>
+      <span className={styles.label}>{t.home.scroll}</span>
       <svg
         className={styles.arrow}
         viewBox="0 0 16 24"

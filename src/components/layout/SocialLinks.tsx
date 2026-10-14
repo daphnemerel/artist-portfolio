@@ -3,7 +3,13 @@ import { SocialIcon, socialAccounts, type SocialPlatform } from "./social";
 import styles from "./SocialLinks.module.css";
 
 /** Icon-only links for the header: the accounts filled in content/site.yaml, plus email. */
-export function SocialLinks({ site }: { site: Pick<Site, SocialPlatform | "email"> }) {
+export function SocialLinks({
+  site,
+  emailLabel,
+}: {
+  site: Pick<Site, SocialPlatform | "email">;
+  emailLabel: string;
+}) {
   const links = socialAccounts(site).filter((account) => account.href);
 
   if (links.length === 0 && !site.email) return null;
@@ -19,7 +25,7 @@ export function SocialLinks({ site }: { site: Pick<Site, SocialPlatform | "email
       ))}
       {site.email && (
         <li>
-          <a href={`mailto:${site.email}`} className={styles.link} aria-label="Email">
+          <a href={`mailto:${site.email}`} className={styles.link} aria-label={emailLabel}>
             <SocialIcon>
               <rect x="3" y="5" width="18" height="14" />
               <path d="m3 6 9 7 9-7" />

@@ -1,9 +1,11 @@
-/** Main sections, shared by the header and the footer. */
-export const navLinks = [
-  { href: "/works", label: "Works" },
-  { href: "/exhibitions", label: "Exhibitions" },
-  { href: "/commissions", label: "Commissions" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/experimental", label: "Experimental" },
+import type { Dictionary } from "@/i18n/dictionaries";
+
+/** Main sections, shared by the header and the footer (paths without language; labels per language). */
+export const navLinks: { href: string; key: keyof Dictionary["nav"] }[] = [
+  { href: "/works", key: "works" },
+  { href: "/exhibitions", key: "exhibitions" },
+  { href: "/commissions", key: "commissions" },
+  { href: "/about", key: "about" },
+  { href: "/contact", key: "contact" },
+  { href: "/experimental", key: "experimental" },
 ];

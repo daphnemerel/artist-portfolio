@@ -1,12 +1,15 @@
 import Link from "next/link";
+import { format } from "@/i18n/config";
+import { getI18n } from "@/i18n/server";
 import { getSite } from "@/lib/content";
 import { navLinks } from "./navigation";
 import { SocialIcon, socialAccounts } from "./social";
 import styles from "./Footer.module.css";
 
 /** Full-width bordeaux band closing every page: name, the main sections, email and social links. */
-export function Footer() {
-  const site = getSite();
+export async function Footer() {
+  const { locale, t, href: localize } = await getI18n();
+  const site = getSite(locale);
   // Facebook only appears once an account is filled in; the others are always shown.
   const social = socialAccounts(site).filter((a) => a.href || a.platform !== "facebook");
 
@@ -15,14 +18,14 @@ export function Footer() {
       <div className={`${styles.main} container`}>
         <div>
           <p className={styles.name}>{site.name}</p>
-          <p className={styles.role}>Dutch Mixed Media Artist</p>
+          <p className={styles.role}>{t.footer.role}</p>
         </div>
 
-        <nav aria-label="Footer">
+        <nav aria-label={t.footer.nav}>
           <ul className={styles.nav}>
-            {navLinks.map(({ href, label }) => (
+            {navLinks.map(({ href, key }) => (
               <li key={href}>
-                <Link href={href}>{label}</Link>
+                <Link href={localize(href)}>{t.nav[key]}</Link>
               </li>
             ))}
           </ul>
@@ -31,14 +34,14 @@ export function Footer() {
         <div className={styles.contact}>
           {site.email && (
             <div>
-              <p className={styles.label}>Email</p>
+              <p className={styles.label}>{t.footer.email}</p>
               <a href={`mailto:${site.email}`} className={styles.email}>
                 {site.email}
               </a>
             </div>
           )}
           <div>
-            <p className={styles.label}>Follow</p>
+            <p className={styles.label}>{t.footer.follow}</p>
             <ul className={styles.social}>
               {social.map(({ platform, label, href, icon }) => (
                 <li key={platform}>
@@ -47,7 +50,7 @@ export function Footer() {
                       <SocialIcon size={26}>{icon}</SocialIcon>
                     </a>
                   ) : (
-                    <span className={styles.pending} title={`${label}: account to be added`}>
+                    <span className={styles.pending} title={format(t.footer.pending, { label })}>
                       <SocialIcon size={26}>{icon}</SocialIcon>
                     </span>
                   )}

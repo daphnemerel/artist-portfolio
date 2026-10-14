@@ -1,0 +1,35 @@
+/*
+ * A small round flag in the header: a hairline ring like the other header details, no shadow.
+ * The 44px link keeps a comfortable touch target around the 28px circle.
+ */
+.switch {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+}
+
+.switch svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  box-sizing: border-box;
+  border: var(--border-hairline);
+  border-radius: 50%;
+  overflow: hidden;
+  transition:
+    border-color var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.switch:hover svg,
+.switch:focus-visible svg {
+  border-color: var(--color-bordeaux);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .switch:hover svg {
+    transform: scale(1.06);
+  }
+}

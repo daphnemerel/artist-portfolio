@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { format } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import type { WorkLayer } from "@/lib/content";
 import styles from "./WorkLayers.module.css";
 
@@ -11,7 +13,9 @@ export function WorkLayers({
   title,
   layers,
   isPageTitle = false,
+  t,
 }: {
+  t: Dictionary;
   title: string;
   layers: WorkLayer[];
   /** Render the title as the page's h1 (when no other heading names the work). */
@@ -20,7 +24,7 @@ export function WorkLayers({
   const Heading = isPageTitle ? "h1" : "p";
 
   return (
-    <section className={styles.layers} aria-label={`${title}: layers`}>
+    <section className={styles.layers} aria-label={format(t.works.layersLabel, { title })}>
       <ul className={styles.strip}>
         {layers.map(({ image, zoom, focus, phone }, i) => (
           <li
@@ -54,8 +58,8 @@ export function WorkLayers({
           ))}
         </Heading>
         <hr className={styles.rule} />
-        <p className={styles.text}>Scroll to move through the layers of {title}.</p>
-        <a href="#about" className={styles.arrow} aria-label="Scroll to the work">
+        <p className={styles.text}>{format(t.works.layersText, { title })}</p>
+        <a href="#about" className={styles.arrow} aria-label={t.works.scrollToWork}>
           ↓
         </a>
       </div>

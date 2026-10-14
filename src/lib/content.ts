@@ -6,14 +6,47 @@ import { load as loadYaml } from "js-yaml";
 import { imageSize } from "image-size";
 import { marked } from "marked";
 import { z } from "zod";
+import type { Locale } from "@/i18n/config";
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
+
+/*
+ * Languages: the content files are written in English. A text that differs per language is
+ * written as { nl: "…", en: "…" } in YAML; works and texts can have a Dutch companion file
+ * (index.nl.md / name.nl.md) that overrides their written content. Artwork titles stay as they are.
+ */
+
+/** A text in one language for both, or a separate text per language. */
+const localized = z.union([z.string(), z.object({ nl: z.string(), en: z.string() })]);
+
+/** The type after picking one language: every { nl, en } becomes a plain string. */
+type Resolved<T> = T extends { nl: string; en: string }
+  ? string
+  : T extends Date
+    ? T
+    : T extends (infer U)[]
+      ? Resolved<U>[]
+      : T extends object
+        ? { [K in keyof T]: Resolved<T[K]> }
+        : T;
+
+function pick<T>(value: T, locale: Locale): Resolved<T> {
+  if (Array.isArray(value)) return value.map((v) => pick(v, locale)) as Resolved<T>;
+  if (value && typeof value === "object" && !(value instanceof Date)) {
+    const keys = Object.keys(value);
+    if (keys.length === 2 && "nl" in value && "en" in value) {
+      return (value as Record<Locale, unknown>)[locale] as Resolved<T>;
+    }
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, pick(v, locale)])) as Resolved<T>;
+  }
+  return value as Resolved<T>;
+}
 
 /* ---------- schemas ---------- */
 
 const siteSchema = z.object({
   name: z.string().min(1),
-  description: z.string().min(1),
+  description: localized,
   location: z.string().optional(),
   email: z.union([z.email(), z.literal("")]),
   instagram: z.string().optional(),
@@ -26,17 +59,17 @@ const siteSchema = z.object({
     .array(z.object({ name: z.string(), city: z.string(), url: z.url().optional() }))
     .default([]),
   cv: z.string().optional(),
-  bio: z.string().min(1),
+  bio: localized,
   /** Short introduction on the homepage. */
-  intro: z.string().optional(),
+  intro: localized.optional(),
   /** A current exhibition highlighted on the homepage, with one of the works in it. */
   highlight: z
     .object({
-      eyebrow: z.string().min(1),
-      title: z.string().min(1),
-      text: z.string().min(1),
+      eyebrow: localized,
+      title: localized,
+      text: localized,
       work: z.string().min(1), // folder name in content/works
-      link: z.object({ label: z.string().min(1), href: z.string().min(1) }),
+      link: z.object({ label: localized, href: z.string().min(1) }),
     })
     .optional(),
 });
@@ -102,9 +135,9 @@ const workSchema = z.object({
 
 const exhibitionSchema = z.object({
   year: z.number().int().optional(),
-  title: z.string().min(1),
-  venue: z.string().min(1),
-  city: z.string().min(1),
+  title: localized,
+  venue: localized,
+  city: localized,
   type: z.enum(["solo", "group", "fair", "screening"]),
   works: z.array(z.string()).default([]),
   url: z.url().optional(),
@@ -120,17 +153,37 @@ const textSchema = z.object({
 });
 
 const experimentSchema = z.object({
-  title: z.string().min(1),
+  title: localized,
   href: z.string().startsWith("/", "Experiment href must be a path on the site, e.g. /catching-waves-preview"),
   date: z.coerce.date().optional(),
+  summary: localized.optional(),
+});
+
+/** index.nl.md next to a work's index.md: Dutch versions of its written content (all optional). */
+const workTranslationSchema = z.object({
+  medium: z.string().optional(),
+  dimensions: z.string().optional(),
+  edition: z.string().optional(),
+  series: z.string().optional(),
   summary: z.string().optional(),
+  /** By position, matching `images` in index.md. */
+  images: z.array(z.object({ alt: z.string().optional(), caption: z.string().optional(), credit: z.string().optional() })).optional(),
+  layers: z.array(z.object({ alt: z.string().optional() })).optional(),
+  journey: z
+    .object({
+      eyebrow: z.string().optional(),
+      title: z.string().optional(),
+      intro: z.string().optional(),
+      items: z.array(z.object({ alt: z.string().optional(), label: z.string().optional(), text: z.string().optional() })).optional(),
+    })
+    .optional(),
 });
 
 /* ---------- types ---------- */
 
-export type Site = z.infer<typeof siteSchema>;
-export type Exhibition = z.infer<typeof exhibitionSchema>;
-export type Experiment = z.infer<typeof experimentSchema> & { number: string };
+export type Site = Resolved<z.infer<typeof siteSchema>>;
+export type Exhibition = Resolved<z.infer<typeof exhibitionSchema>>;
+export type Experiment = Resolved<z.infer<typeof experimentSchema>> & { number: string };
 
 export type WorkImage = z.infer<typeof imageEntrySchema> & {
   url: string;
@@ -185,22 +238,53 @@ function renderMarkdown(body: string): string {
 
 /* ---------- site ---------- */
 
-let siteCache: Site | undefined;
+let siteCache: z.infer<typeof siteSchema> | undefined;
 
-export function getSite(): Site {
+export function getSite(locale: Locale): Site {
   siteCache ??= parse(siteSchema, readYaml("site.yaml"), "content/site.yaml");
-  return siteCache;
+  return pick(siteCache, locale);
 }
 
 /* ---------- works ---------- */
 
-let worksCache: Work[] | undefined;
+const worksCache: Partial<Record<Locale, Work[]>> = {};
 
-function loadWork(slug: string): Work {
-  const dir = path.join(CONTENT_DIR, "works", slug);
+/** Reads index.md, then (for Dutch) lays index.nl.md over it where present. */
+function readWorkSource(dir: string, slug: string, locale: Locale) {
   const source = `content/works/${slug}/index.md`;
   const { data, content } = matter(readFileSync(path.join(dir, "index.md"), "utf8"));
   const meta = parse(workSchema, data, source);
+  const translationFile = path.join(dir, `index.${locale}.md`);
+  if (locale === "en" || !existsSync(translationFile)) return { meta, content, source };
+
+  const translated = matter(readFileSync(translationFile, "utf8"));
+  const tr = parse(workTranslationSchema, translated.data, `content/works/${slug}/index.${locale}.md`);
+  const merged: typeof meta = {
+    ...meta,
+    ...(tr.medium && { medium: tr.medium }),
+    ...(tr.dimensions && { dimensions: tr.dimensions }),
+    ...(tr.edition && { edition: tr.edition }),
+    ...(tr.series && { series: tr.series }),
+    ...(tr.summary && { summary: tr.summary }),
+    images: meta.images.map((image, i) => ({ ...image, ...defined(tr.images?.[i]) })),
+    layers: meta.layers?.map((layer, i) => ({ ...layer, ...defined(tr.layers?.[i]) })),
+    journey: meta.journey && {
+      ...meta.journey,
+      ...defined({ eyebrow: tr.journey?.eyebrow, title: tr.journey?.title, intro: tr.journey?.intro }),
+      items: meta.journey.items.map((item, i) => ({ ...item, ...defined(tr.journey?.items?.[i]) })),
+    },
+  };
+  return { meta: merged, content: translated.content.trim() ? translated.content : content, source };
+}
+
+/** Drops undefined keys, so they don't overwrite the English value. */
+function defined<T extends object>(value: T | undefined): Partial<T> {
+  return Object.fromEntries(Object.entries(value ?? {}).filter(([, v]) => v !== undefined)) as Partial<T>;
+}
+
+function loadWork(slug: string, locale: Locale): Work {
+  const dir = path.join(CONTENT_DIR, "works", slug);
+  const { meta, content, source } = readWorkSource(dir, slug, locale);
 
   const resolve = (src: string) => {
     const file = path.join(dir, src);
@@ -228,42 +312,40 @@ function loadWork(slug: string): Work {
 }
 
 /** All published works, newest first, then by `order`. */
-export function getWorks(): Work[] {
-  worksCache ??= readdirSync(path.join(CONTENT_DIR, "works"), { withFileTypes: true })
+export function getWorks(locale: Locale): Work[] {
+  worksCache[locale] ??= readdirSync(path.join(CONTENT_DIR, "works"), { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => loadWork(entry.name))
+    .map((entry) => loadWork(entry.name, locale))
     .filter((work) => !work.draft)
     .sort((a, b) =>
       a.number !== undefined && b.number !== undefined
         ? b.number - a.number // newest first
         : byYearDesc(a, b) || a.order - b.order,
     );
-  return worksCache;
+  return worksCache[locale];
 }
 
-export function getWork(slug: string): Work | undefined {
-  return getWorks().find((work) => work.slug === slug);
+export function getWork(slug: string, locale: Locale): Work | undefined {
+  return getWorks(locale).find((work) => work.slug === slug);
 }
 
-export function getFeaturedWorks(): Work[] {
-  return getWorks().filter((work) => work.featured);
+export function getFeaturedWorks(locale: Locale): Work[] {
+  return getWorks(locale).filter((work) => work.featured);
 }
 
 /* ---------- exhibitions ---------- */
 
-export function getExhibitions(): Exhibition[] {
+export function getExhibitions(locale: Locale): Exhibition[] {
   const data = readYaml("exhibitions.yaml");
-  return parse(z.array(exhibitionSchema), data, "content/exhibitions.yaml").sort(
-    byYearDesc,
-  );
+  return pick(parse(z.array(exhibitionSchema), data, "content/exhibitions.yaml"), locale).sort(byYearDesc);
 }
 
 /* ---------- experiments ---------- */
 
 /** Experiments in the order of content/experiments.yaml, numbered 01, 02, … */
-export function getExperiments(): Experiment[] {
+export function getExperiments(locale: Locale): Experiment[] {
   const data = readYaml("experiments.yaml") ?? [];
-  return parse(z.array(experimentSchema), data, "content/experiments.yaml").map((e, i) => ({
+  return pick(parse(z.array(experimentSchema), data, "content/experiments.yaml"), locale).map((e, i) => ({
     ...e,
     number: String(i + 1).padStart(2, "0"),
   }));
@@ -271,23 +353,31 @@ export function getExperiments(): Experiment[] {
 
 /* ---------- texts ---------- */
 
-let textsCache: Text[] | undefined;
+const textsCache: Partial<Record<Locale, Text[]>> = {};
 
-export function getTexts(): Text[] {
-  textsCache ??= readdirSync(path.join(CONTENT_DIR, "texts"))
-    .filter((file) => file.endsWith(".md"))
+/** Texts in content/texts/*.md; for Dutch, name.nl.md (title and body) replaces name.md where present. */
+export function getTexts(locale: Locale): Text[] {
+  const dir = path.join(CONTENT_DIR, "texts");
+  textsCache[locale] ??= readdirSync(dir)
+    .filter((file) => file.endsWith(".md") && !/\.(nl|en)\.md$/.test(file))
     .map((file) => {
       const slug = file.replace(/\.md$/, "");
-      const { data, content } = matter(readFileSync(path.join(CONTENT_DIR, "texts", file), "utf8"));
+      const { data, content } = matter(readFileSync(path.join(dir, file), "utf8"));
       const meta = parse(textSchema, data, `content/texts/${file}`);
+      const translated = path.join(dir, `${slug}.${locale}.md`);
+      if (locale !== "en" && existsSync(translated)) {
+        const tr = matter(readFileSync(translated, "utf8"));
+        const trMeta = parse(textSchema.partial(), tr.data, `content/texts/${slug}.${locale}.md`);
+        return { ...meta, ...defined(trMeta), slug, html: renderMarkdown(tr.content.trim() ? tr.content : content) };
+      }
       return { ...meta, slug, html: renderMarkdown(content) };
     })
     .sort((a, b) => a.order - b.order || byYearDesc(a, b));
-  return textsCache;
+  return textsCache[locale];
 }
 
-export function getText(slug: string): Text | undefined {
-  return getTexts().find((text) => text.slug === slug);
+export function getText(slug: string, locale: Locale): Text | undefined {
+  return getTexts(locale).find((text) => text.slug === slug);
 }
 
 /* ---------- years ---------- */

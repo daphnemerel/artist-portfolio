@@ -7,6 +7,8 @@ import { HomeLinks } from "./HomeLinks";
 import { ScrollCue } from "./ScrollCue";
 import { SocialStrip } from "./SocialStrip";
 import { WorksCarousel } from "./WorksCarousel";
+import { dictionaries } from "@/i18n/dictionaries";
+import { getI18n } from "@/i18n/server";
 import { getFeaturedWorks, getSite, getWork } from "@/lib/content";
 import styles from "@/app/home.module.css";
 
@@ -23,25 +25,27 @@ export type HomeHero = {
   position?: string;
 };
 
-export const STUDIO_HERO: HomeHero = {
+/** The earlier studio photo (used by the "studio" homepage concept), with texts per language. */
+export const studioHero = (locale: keyof typeof dictionaries): HomeHero => ({
   portrait: { src: "/images/studio-portrait.jpg", width: 941, height: 1672 },
   landscape: { src: "/images/studio-landscape.jpg", width: 1672, height: 941 },
-  alt: "The artist at her easel in a sunlit studio, painting Catching Waves.",
-  caption: "Studio view with Catching Waves, 2026",
-};
+  alt: dictionaries[locale].home.studioAlt,
+  caption: dictionaries[locale].home.studioCaption,
+});
 
 /** The homepage: a full-bleed opening photo, a short introduction and the selected works. */
-export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
-  const site = getSite();
+export async function HomeView({ hero }: { hero: HomeHero }) {
+  const { locale, t, href } = await getI18n();
+  const site = getSite(locale);
   const highlight = site.highlight;
-  const highlightWork = highlight && getWork(highlight.work);
+  const highlightWork = highlight && getWork(highlight.work, locale);
   if (highlight && !highlightWork) {
     throw new Error(
       `site.yaml highlight.work "${highlight.work}" is not a folder in content/works`,
     );
   }
   // Works with `featured: true`, newest (highest number) on the left; shown by number only for now.
-  const works = getFeaturedWorks().slice(0, 8); // max. 8 on the homepage
+  const works = getFeaturedWorks(locale).slice(0, 8); // max. 8 on the homepage
 
   // Art direction: a landscape photo for wide screens, a portrait one for tall screens.
   const common = { alt: hero.alt, sizes: "100vw", quality: 90, priority: true };
@@ -62,7 +66,7 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
         className={styles.studio}
         data-hero="bleed"
         data-hero-glass
-        aria-label="Studio"
+        aria-label={t.home.studio}
       >
         <picture>
           {landscape && (
@@ -91,7 +95,7 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
         >
           <Image
             src="/images/portrait-daphne.jpg"
-            alt="Daphne Merel, smiling, in the open door of a red vintage car."
+            alt={t.home.portraitAlt}
             width={1000}
             height={1000}
             sizes="(max-width: 700px) 200px, 340px"
@@ -103,32 +107,33 @@ export function HomeView({ hero = STUDIO_HERO }: { hero?: HomeHero }) {
               {site.name}
             </h2>
             <p className={styles.introText}>{site.intro}</p>
-            <Link href="/about" className={styles.more}>
-              About me <span aria-hidden="true">→</span>
+            <Link href={href("/about")} className={styles.more}>
+              {t.home.aboutMe} <span aria-hidden="true">→</span>
             </Link>
           </div>
         </section>
       )}
 
       {/* 2. Socials: a thin band */}
-      <SocialStrip site={site} />
+      <SocialStrip site={site} t={t} />
 
       {/* 3. Current exhibition */}
       {highlight && highlightWork && (
-        <Highlight highlight={highlight} work={highlightWork} />
+        <Highlight highlight={highlight} work={highlightWork} locale={locale} />
       )}
 
       {/* 4. Recent works, with Commissions and Exhibitions below */}
       {works.length === 0 && <HomeLinks />}
       {works.length > 0 && (
         <WorksCarousel
-          title="Recent works"
+          title={t.home.recentWorks}
           after={<HomeLinks />}
           items={works.map((work) => ({
             key: work.slug,
             card: (
               <WorkCard
                 work={work}
+                locale={locale}
                 label={work.number ? String(work.number) : undefined}
               />
             ),

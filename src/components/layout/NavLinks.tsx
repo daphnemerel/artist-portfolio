@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
+import { useI18n } from "@/i18n/client";
 import { navLinks } from "./navigation";
 import styles from "./Header.module.css";
 
@@ -10,6 +11,7 @@ import styles from "./Header.module.css";
 /** Centred navigation, right-hand actions, and a text Menu toggle that folds both away on mobile. */
 export function NavLinks({ actions }: { actions: ReactNode }) {
   const pathname = usePathname();
+  const { t, href: localize } = useI18n();
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,7 +23,7 @@ export function NavLinks({ actions }: { actions: ReactNode }) {
         aria-controls="main-nav header-actions"
         onClick={() => setOpen((o) => !o)}
       >
-        {open ? "Close" : "Menu"}
+        {open ? t.nav.close : t.nav.menu}
         <svg viewBox="0 0 24 16" width="22" height="15" aria-hidden="true">
           {open ? (
             <path d="M5 1l14 14M19 1L5 15" stroke="currentColor" strokeWidth="1.25" />
@@ -30,9 +32,11 @@ export function NavLinks({ actions }: { actions: ReactNode }) {
           )}
         </svg>
       </button>
-      <nav id="main-nav" aria-label="Main" className={styles.nav} data-open={open}>
+      <nav id="main-nav" aria-label={t.nav.main} className={styles.nav} data-open={open}>
         <ul>
-          {navLinks.map(({ href, label }) => {
+          {navLinks.map(({ href: path, key }) => {
+            const href = localize(path);
+            const label = t.nav[key];
             const active = pathname === href || pathname.startsWith(`${href}/`);
             return (
               <li key={href}>

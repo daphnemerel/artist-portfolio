@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { localePath, type Locale } from "@/i18n/config";
 import type { WorkSummary } from "@/lib/content";
 import { FadeImage } from "@/components/media/FadeImage";
 import styles from "./WorkCard.module.css";
@@ -9,17 +10,19 @@ import styles from "./WorkCard.module.css";
  */
 export function WorkCard({
   work,
+  locale,
   priority = false,
   label,
 }: {
   work: WorkSummary;
+  locale: Locale;
   priority?: boolean;
   /** Replaces the title and hides the metadata (e.g. just a number on the homepage). */
   label?: string;
 }) {
   const image = work.images[0];
   return (
-    <Link href={`/works/${work.slug}`} className={styles.card}>
+    <Link href={localePath(locale, `/works/${work.slug}`)} className={styles.card}>
       <span className={styles.wall}>
         <span className={styles.frame}>
           <FadeImage

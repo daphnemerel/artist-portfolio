@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import type { WorkImage } from "@/lib/content";
+import { format } from "@/i18n/config";
+import { useI18n } from "@/i18n/client";
 import { FadeImage } from "./FadeImage";
 import { Lightbox } from "./Lightbox";
 import styles from "./media.module.css";
 
 /** Images of a single work, stacked vertically at natural proportions. Click to view full screen. */
 export function ImageSequence({ images }: { images: WorkImage[] }) {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
 
   return (
@@ -20,7 +23,7 @@ export function ImageSequence({ images }: { images: WorkImage[] }) {
                 type="button"
                 className={styles.zoom}
                 onClick={() => setOpen(index)}
-                aria-label={`View full screen: ${image.alt}`}
+                aria-label={format(t.works.viewFullScreen, { alt: image.alt })}
               >
                 <FadeImage
                   src={image.url}

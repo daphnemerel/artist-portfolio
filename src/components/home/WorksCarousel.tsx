@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useI18n } from "@/i18n/client";
 import styles from "./WorksCarousel.module.css";
 
 /**
@@ -20,6 +21,7 @@ export function WorksCarousel({
   /** Content shown directly under the strip. */
   after?: ReactNode;
 }) {
+  const { t, href } = useI18n();
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLUListElement>(null);
   const [index, setIndex] = useState(0);
@@ -160,7 +162,7 @@ export function WorksCarousel({
                   className={styles.arrow}
                   onClick={() => go(index - 1)}
                   disabled={index <= 0}
-                  aria-label="Previous works"
+                  aria-label={t.home.previous}
                 >
                   ←
                 </button>
@@ -169,14 +171,14 @@ export function WorksCarousel({
                   className={styles.arrow}
                   onClick={() => go(index + 1)}
                   disabled={index >= pages}
-                  aria-label="Next works"
+                  aria-label={t.home.next}
                 >
                   →
                 </button>
               </>
             )}
-            <Link href="/works" className={styles.more}>
-              View works
+            <Link href={href("/works")} className={styles.more}>
+              {t.home.viewWorks}
             </Link>
           </div>
         </div>
@@ -195,10 +197,8 @@ export function WorksCarousel({
             data-hidden={touched || undefined}
             aria-hidden="true"
           >
-            <span className={styles.hintMouse}>
-              Drag or use the arrows to see more
-            </span>
-            <span className={styles.hintTouch}>Swipe to see more</span>
+            <span className={styles.hintMouse}>{t.home.hintMouse}</span>
+            <span className={styles.hintTouch}>{t.home.hintTouch}</span>
             <span className={styles.hintArrow}>→</span>
           </p>
         )}
