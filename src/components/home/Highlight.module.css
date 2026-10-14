@@ -1,23 +1,24 @@
 /*
- * Current exhibition on the homepage: a pale pink band from edge to edge, the work large on the
- * left (uncropped), the note beside it. Same eyebrow / serif title language as elsewhere.
+ * Current exhibition on the homepage: a slim pale pink band, about as tall as the Commissions /
+ * Exhibitions band. A small work (uncropped) on the left, eyebrow + title + one line beside it,
+ * the button on the right. Same eyebrow / serif title language as elsewhere.
  */
 .band {
   margin-inline: calc(-1 * var(--margin));
-  padding: var(--space-xl) var(--margin);
+  padding: var(--title-gap) var(--margin);
   background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
 }
 
 .inner {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
+  gap: var(--space-xl);
 }
 
 .work {
-  grid-column: 2 / 7;
   display: block;
+  width: 168px;
   overflow: hidden;
 }
 
@@ -25,20 +26,17 @@
   display: block;
   width: 100%;
   height: auto; /* natural proportions */
-  max-height: 70svh;
-  object-fit: contain;
   transition: transform 220ms var(--ease);
 }
 
 .work:hover .image {
-  transform: scale(1.01);
+  transform: scale(1.02);
 }
 
 .info {
-  grid-column: 8 / -1;
   display: grid;
   justify-items: start;
-  gap: var(--space-md);
+  gap: var(--space-xs);
 }
 
 .eyebrow {
@@ -52,7 +50,7 @@
   color: var(--color-bordeaux);
 }
 
-.eyebrow::after {
+.eyebrow::before {
   content: "";
   width: 24px;
   border-top: 1px solid var(--color-bordeaux);
@@ -60,36 +58,38 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
   font-weight: 400;
   line-height: 1.1;
   color: var(--color-bordeaux);
 }
 
 .rule {
-  width: 48px;
-  border-top: 1px solid var(--color-pink);
+  display: none;
 }
 
 .text {
-  max-width: 40ch;
+  max-width: 52ch;
+  margin-block-start: var(--space-xs);
   font-family: var(--font-serif);
-  font-size: 1.125rem;
+  font-size: var(--type-body);
   line-height: var(--leading-body);
-  color: var(--color-bordeaux);
+  color: var(--color-muted);
 }
 
 .button {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-block-start: var(--space-xs);
-  padding: 16px 28px;
+  height: 44px;
+  padding-inline: 22px;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
-  font-family: var(--font-serif);
-  font-size: 1.0625rem;
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  white-space: nowrap;
   transition:
     background-color var(--duration) var(--ease),
     color var(--duration) var(--ease);
@@ -101,27 +101,105 @@
   color: var(--color-bordeaux);
 }
 
-@media (max-width: 900px) {
-  .work {
-    grid-column: 1 / 7;
+/* Tablet: the button moves under the text */
+@media (max-width: 1100px) {
+  .inner {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .button {
+    margin-block-start: var(--space-sm);
   }
 
   .info {
-    grid-column: 7 / -1;
+    grid-row: 1;
+    grid-column: 2;
   }
 }
 
+/* Phone: small work beside the eyebrow and title, text and button underneath */
 @media (max-width: 700px) {
-  .band {
-    padding-block: var(--space-lg);
+  .inner {
+    gap: var(--space-md);
   }
 
-  .work,
-  .info {
-    grid-column: 1 / -1;
+  .work {
+    width: 104px;
+    align-self: start;
   }
 
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .text {
+    font-size: 0.9375rem;
+  }
+}
+
+/* One button: on the right on wide screens, under the text on smaller ones. */
+.buttonInline {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .buttonSide {
+    display: none;
+  }
+
+  .buttonInline {
+    display: inline-flex;
+  }
+}
+
+/* Phone: text and button span the full width under the small work + title */
+@media (max-width: 700px) {
   .info {
-    margin-block-start: var(--space-lg);
+    display: contents;
+  }
+
+  .inner {
+    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-areas:
+      "work head"
+      "text text"
+      "btn btn";
+    row-gap: var(--space-sm);
+  }
+
+  .work {
+    grid-area: work;
+  }
+
+  .eyebrow,
+  .title {
+    grid-area: head;
+  }
+
+  .eyebrow {
+    align-self: start;
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    gap: var(--space-xs);
+  }
+
+  .eyebrow::before {
+    display: none; /* room for the label on one line */
+  }
+
+  .title {
+    align-self: end;
+  }
+
+  .text {
+    grid-area: text;
+    max-width: none;
+  }
+
+  .buttonInline {
+    grid-area: btn;
+    justify-self: start;
+    margin-block-start: var(--space-xs);
   }
 }
