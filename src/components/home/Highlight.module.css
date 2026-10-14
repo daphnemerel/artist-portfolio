@@ -114,93 +114,97 @@
   color: var(--color-bordeaux);
 }
 
-/* ---------- the venue: compact, behind a hairline ---------- */
+/* ---------- the venue: set like a museum label ---------- */
 
 .venue {
   align-self: stretch;
   display: grid;
   align-content: center;
-  gap: var(--space-sm);
   padding-inline-start: var(--space-lg);
-  border-left: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+  border-left: var(--border-hairline);
+}
+
+.venueEyebrow {
+  margin-block-end: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
 }
 
 .venueName {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   line-height: 1.1;
   color: var(--color-bordeaux);
 }
 
-.venueLines {
-  display: grid;
-  margin-block-start: -6px;
+.venueLine {
+  margin-block-start: 4px;
   font-family: var(--font-serif);
   font-size: var(--type-body);
-  line-height: 1.4;
+  font-style: italic;
   color: var(--color-muted);
 }
 
-.venueRule {
-  width: 100%;
-  margin-block: 0 var(--space-xs);
-  border: 0;
-  border-top: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+.address {
+  display: grid;
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-sm);
+  border-top: var(--border-hairline);
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  font-style: normal;
+  line-height: 1.45;
+  color: var(--color-ink);
 }
 
-.facts {
-  display: grid;
-  gap: var(--space-sm);
-  margin: 0;
-}
-
-.fact {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  column-gap: var(--space-sm);
+/* Opening hours as a small timetable: days left, times right, hairlines between. */
+.hours {
+  margin: var(--space-sm) 0 0;
   font-family: var(--font-sans);
   font-size: var(--type-caption);
-  line-height: 1.5;
   letter-spacing: var(--tracking-caption);
+  font-variant-numeric: tabular-nums;
 }
 
-.fact .icon {
-  grid-row: 1 / 4;
+.hoursRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: 5px;
+  border-top: var(--border-hairline);
 }
 
-.fact dt {
-  grid-column: 2;
-  color: var(--color-bordeaux);
+.hoursRow:last-child {
+  border-bottom: var(--border-hairline);
 }
 
-.fact dd {
-  grid-column: 2;
-  display: grid;
-  margin: 0;
+.hoursRow dt {
   color: var(--color-muted);
 }
 
-.icon {
-  flex: none;
-  width: 20px;
-  height: 20px;
-  color: var(--color-bordeaux);
+.hoursRow dd {
+  margin: 0;
+  color: var(--color-ink);
 }
 
 .venueLinks {
-  display: grid;
-  gap: 6px;
-  margin-block-start: var(--space-xs);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-md);
+  margin-block-start: var(--space-md);
 }
 
 .venueLinks a {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-sm);
   font-family: var(--font-sans);
-  font-size: var(--type-caption);
-  letter-spacing: var(--tracking-caption);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
   color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
   transition: color var(--duration) var(--ease);
 }
 
@@ -208,18 +212,68 @@
   color: var(--color-turquoise);
 }
 
-/* ---------- the map: a small square, the button under it ---------- */
+/* ---------- the map: the street plan tinted in the band's pink, a bordeaux pin ---------- */
 
 .map {
   display: grid;
+  color: var(--color-bordeaux);
 }
 
-.mapFrame {
+.mapPlan {
+  position: relative;
   display: block;
-  width: 100%;
   aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--color-bordeaux);
+}
+
+/* Google's own buttons sit at the top; the plan is shifted up to hide them (the attribution at
+   the bottom stays visible). The map is a picture here: the whole tile links to the route. */
+.mapFrame {
+  position: absolute;
+  inset: -64px 0 0;
+  width: 100%;
+  height: calc(100% + 64px);
   border: 0;
-  background: var(--color-off-white);
+  pointer-events: none;
+  filter: grayscale(1) contrast(1.05) brightness(1.06);
+}
+
+.mapTint {
+  position: absolute;
+  inset: 0;
+  background: var(--color-pink);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.map:hover .mapTint {
+  opacity: 0.4;
+}
+
+.mapCaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.map:hover .mapCaption,
+.map:focus-visible .mapCaption {
+  background: transparent;
+  color: var(--color-bordeaux);
+  outline: 1px solid var(--color-bordeaux);
+  outline-offset: -1px;
 }
 
 /* ---------- smaller screens ---------- */
@@ -283,17 +337,27 @@
 
   .venue {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: var(--gutter);
     padding-inline-start: 0;
     padding-block-start: var(--space-md);
     border-left: 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+    border-top: var(--border-hairline);
   }
 
+  .venueEyebrow,
   .venueName,
-  .venueLines,
-  .venueRule {
+  .venueLine {
+    grid-column: 1 / -1;
+  }
+
+  .address {
+    grid-column: 1 / -1;
+  }
+
+  .hours {
+    grid-column: 1 / -1;
+  }
+
+  .venueLinks {
     grid-column: 1 / -1;
   }
 }

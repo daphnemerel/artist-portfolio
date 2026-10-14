@@ -67,6 +67,8 @@ export const nl: Dictionary = {
     },
   },
   venue: {
+    visit: "Bezoek",
+    route: "Route",
     address: "Adres",
     hours: "Openingstijden",
     website: "Bekijk website",

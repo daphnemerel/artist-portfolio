@@ -1,46 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { format, localePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Site, Work } from "@/lib/content";
 import styles from "./Highlight.module.css";
-
-const Icon = ({ children }: { children: ReactNode }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="22"
-    height="22"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.4"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    className={styles.icon}
-  >
-    {children}
-  </svg>
-);
-const pin = (
-  <>
-    <path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11Z" />
-    <circle cx="12" cy="10" r="2.3" />
-  </>
-);
-const clock = (
-  <>
-    <circle cx="12" cy="12" r="8.5" />
-    <path d="M12 7.5V12l3 2" />
-  </>
-);
-const external = <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />;
-const map = (
-  <>
-    <path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2Z" />
-    <path d="M9 4v14M15 6v14" />
-  </>
-);
 
 /**
  * A current exhibition on the homepage, in one slim pale pink band (as tall as a work card): the
@@ -96,76 +59,69 @@ export function Highlight({
 
         {venue && (
           <>
+            {/* The venue, set like a museum label: no icons, hairlines and tidy columns. */}
             <div className={styles.venue}>
+              <p className={styles.venueEyebrow}>{t.venue.visit}</p>
               <p className={styles.venueName}>{venue.name}</p>
-              {venue.lines.length > 0 && (
-                <p className={styles.venueLines}>
-                  {venue.lines.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
+              {venue.lines.map((line) => (
+                <p key={line} className={styles.venueLine}>
+                  {line}
                 </p>
+              ))}
+              <address className={styles.address}>
+                {venue.address.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </address>
+              {venue.hours.length > 0 && (
+                <dl className={styles.hours} aria-label={t.venue.hours}>
+                  {venue.hours.map((line) => {
+                    const [days, ...time] = line.split(": ");
+                    return (
+                      <div key={line} className={styles.hoursRow}>
+                        <dt>{days}</dt>
+                        <dd>{time.join(": ")}</dd>
+                      </div>
+                    );
+                  })}
+                </dl>
               )}
-              <hr className={styles.venueRule} />
-              <dl className={styles.facts}>
-                <div className={styles.fact}>
-                  <Icon>{pin}</Icon>
-                  <dt className="visually-hidden">{t.venue.address}</dt>
-                  <dd>
-                    {venue.address.map((line) => (
-                      <span key={line}>{line}</span>
-                    ))}
-                  </dd>
-                </div>
-                {venue.hours.length > 0 && (
-                  <div className={styles.fact}>
-                    <Icon>{clock}</Icon>
-                    <dt>{t.venue.hours}</dt>
-                    <dd>
-                      {venue.hours.map((line) => (
-                        <span key={line}>{line}</span>
-                      ))}
-                    </dd>
-                  </div>
-                )}
-              </dl>
-              <ul className={styles.venueLinks}>
+              <p className={styles.venueLinks}>
                 {venue.website && (
-                  <li>
-                    <a href={venue.website} target="_blank" rel="noopener noreferrer">
-                      <Icon>{external}</Icon>
-                      {t.venue.website} <span aria-hidden="true">→</span>
-                    </a>
-                  </li>
-                )}
-                <li>
-                  <a href={mapsLink} target="_blank" rel="noopener noreferrer">
-                    <Icon>{map}</Icon>
-                    {t.venue.location} <span aria-hidden="true">→</span>
+                  <a href={venue.website} target="_blank" rel="noopener noreferrer">
+                    {t.venue.website} <span aria-hidden="true">↗</span>
                   </a>
-                </li>
-              </ul>
+                )}
+                <a href={mapsLink} target="_blank" rel="noopener noreferrer">
+                  {t.venue.route} <span aria-hidden="true">↗</span>
+                </a>
+              </p>
             </div>
 
-            <div className={styles.map}>
-              <iframe
-                src={mapsEmbed}
-                title={format(t.venue.map, { name: venue.name })}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className={styles.mapFrame}
-              />
-              <a
-                href={mapsLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.mapButton}
-                tabIndex={-1}
-                aria-hidden="true"
-              >
-                <Icon>{pin}</Icon>
-                {t.venue.location} <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {/* A quiet map: the street plan in the band's own pink, the venue marked in bordeaux. */}
+            <a
+              href={mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.map}
+              aria-label={`${t.venue.location}: ${venue.name}`}
+            >
+              <span className={styles.mapPlan}>
+                <iframe
+                  src={mapsEmbed}
+                  title={format(t.venue.map, { name: venue.name })}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  tabIndex={-1}
+                  className={styles.mapFrame}
+                />
+                <span className={styles.mapTint} aria-hidden="true" />
+              </span>
+              <span className={styles.mapCaption} aria-hidden="true">
+                <span>{t.venue.location}</span>
+                <span>→</span>
+              </span>
+            </a>
           </>
         )}
       </div>

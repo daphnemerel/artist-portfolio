@@ -67,6 +67,8 @@ export const en = {
     },
   },
   venue: {
+    visit: "Visit",
+    route: "Route",
     address: "Address",
     hours: "Opening hours",
     website: "Visit website",
