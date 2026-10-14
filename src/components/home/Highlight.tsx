@@ -26,7 +26,7 @@ export function Highlight({
             alt={image.alt}
             width={image.width}
             height={image.height}
-            sizes="(max-width: 700px) 104px, 168px"
+            sizes="(max-width: 700px) 50vw, (max-width: 1100px) 33vw, 25vw"
             quality={90}
             className={styles.image}
           />

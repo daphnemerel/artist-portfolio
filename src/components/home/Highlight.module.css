@@ -1,25 +1,35 @@
 /*
- * Current exhibition on the homepage: a slim pale pink band, about as tall as the Commissions /
- * Exhibitions band. A small work (uncropped) on the left, eyebrow + title + one line beside it,
- * the button on the right. Same eyebrow / serif title language as elsewhere.
+ * Current exhibition on the homepage: a pale pink band on the same column grid as Recent works
+ * below it, so the work is exactly as wide as one work card (1 of 4 / 3 / 2 columns). Eyebrow +
+ * title + text beside it, the button on the right. Same eyebrow / serif title language as elsewhere.
  */
 .band {
   margin-inline: calc(-1 * var(--margin));
-  padding: var(--title-gap) var(--margin);
+  padding: var(--space-lg) var(--margin);
   background: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
 }
 
 .inner {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* = the Recent works strip */
   align-items: center;
-  gap: var(--space-xl);
+  column-gap: var(--gutter);
 }
 
 .work {
+  grid-column: 1;
   display: block;
-  width: 168px;
   overflow: hidden;
+}
+
+.info {
+  grid-column: 2 / 4;
+  padding-inline-start: var(--space-lg);
+}
+
+.buttonSide {
+  grid-column: 4;
+  justify-self: end;
 }
 
 .image {
@@ -58,7 +68,7 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+  font-size: clamp(2rem, 3.2vw, 3rem);
   font-weight: 400;
   line-height: 1.1;
   color: var(--color-bordeaux);
@@ -101,11 +111,10 @@
   color: var(--color-bordeaux);
 }
 
-/* Tablet: the button moves under the text */
+/* Tablet: 3 columns like the strip; the button moves under the text */
 @media (max-width: 1100px) {
   .inner {
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--space-lg);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .button {
@@ -114,18 +123,17 @@
 
   .info {
     grid-row: 1;
-    grid-column: 2;
+    grid-column: 2 / -1;
   }
 }
 
 /* Phone: small work beside the eyebrow and title, text and button underneath */
 @media (max-width: 700px) {
   .inner {
-    gap: var(--space-md);
+    column-gap: var(--gutter);
   }
 
   .work {
-    width: 104px;
     align-self: start;
   }
 
@@ -155,12 +163,16 @@
 
 /* Phone: text and button span the full width under the small work + title */
 @media (max-width: 700px) {
+  .band {
+    padding-block: var(--title-gap);
+  }
+
   .info {
     display: contents;
   }
 
   .inner {
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 columns like the strip */
     grid-template-areas:
       "work head"
       "text text"
