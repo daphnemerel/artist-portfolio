@@ -212,7 +212,7 @@
   color: var(--color-turquoise);
 }
 
-/* ---------- the map: the street plan tinted in the band's pink, a bordeaux pin ---------- */
+/* ---------- the map: in its normal colours, in a bordeaux frame ---------- */
 
 .map {
   display: grid;
@@ -236,21 +236,11 @@
   height: calc(100% + 64px);
   border: 0;
   pointer-events: none;
-  filter: grayscale(1) contrast(1.05) brightness(1.06);
 }
 
+/* The map in its own colours (at the artist's request); kept as an empty hook. */
 .mapTint {
-  position: absolute;
-  inset: 0;
-  background: var(--color-pink);
-  mix-blend-mode: multiply;
-  opacity: 0.55;
-  pointer-events: none;
-  transition: opacity var(--duration) var(--ease);
-}
-
-.map:hover .mapTint {
-  opacity: 0.4;
+  display: none;
 }
 
 .mapCaption {

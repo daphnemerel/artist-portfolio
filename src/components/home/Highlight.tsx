@@ -98,7 +98,7 @@ export function Highlight({
               </p>
             </div>
 
-            {/* A quiet map: the street plan in the band's own pink, the venue marked in bordeaux. */}
+            {/* A small map in its own colours, in a bordeaux frame; the whole tile opens the route. */}
             <a
               href={mapsLink}
               target="_blank"
