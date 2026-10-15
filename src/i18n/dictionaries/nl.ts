@@ -57,7 +57,7 @@ export const nl: Dictionary = {
       title: "Opdrachten",
       text: "Interesse in een werk op maat of een samenwerking?",
       label: "Bekijk opdrachten",
-      alt: "Een glazen paneel beschilderd met roze, witte en dieprode bloemen en groene bladeren, op een stenen werkblad in zacht zonlicht.",
+      alt: "Een caféraam met beschilderde wilde bloemen langs de randen — paars, roze, geel en wit — en in het midden een roze ovaal met een dieproze rand.",
     },
     exhibitions: {
       title: "Exposities",
