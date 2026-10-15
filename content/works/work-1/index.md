@@ -1,8 +1,13 @@
 ---
-# Title, year, medium and dimensions still to be confirmed — shown as "1" for now.
-title: "1"
+# Details confirmed by Daphne, 15 Oct 2026.
+title: "Flying Goose"
+year: 2026
+medium: Acrylic
+dimensions: 15 × 15 cm
+availability: Unavailable
+available: false
+price: TBC
 number: 1
-medium: Medium to be added
 featured: true
 images:
   - src: ./images/01.jpg

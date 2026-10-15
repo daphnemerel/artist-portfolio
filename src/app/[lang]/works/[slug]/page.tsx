@@ -116,12 +116,14 @@ export default async function WorkPage({ params }: Props) {
         <figure className={styles.artwork}>
           <span className={styles.wall}>
             <WorkSlideshow
-              images={work.images.filter((i) => i.slideshow).map(({ url, width, height, alt }) => ({
-                url,
-                width,
-                height,
-                alt,
-              }))}
+              images={work.images
+                .filter((i) => i.slideshow)
+                .map(({ url, width, height, alt }) => ({
+                  url,
+                  width,
+                  height,
+                  alt,
+                }))}
               sizes="(max-width: 900px) 100vw, 58vw"
             />
           </span>
@@ -151,12 +153,21 @@ export default async function WorkPage({ params }: Props) {
               </div>
             ))}
           </dl>
-          <Link
-            href={`${href("/contact")}?onderwerp=${subject}`}
-            className={styles.cta}
-          >
-            {t.inquire} <span aria-hidden="true">→</span>
-          </Link>
+          {work.available ? (
+            <Link
+              href={`${href("/contact")}?onderwerp=${subject}`}
+              className={styles.cta}
+            >
+              {t.inquire} <span aria-hidden="true">→</span>
+            </Link>
+          ) : (
+            <span
+              className={`${styles.cta} ${styles.ctaDisabled}`}
+              aria-disabled="true"
+            >
+              {t.unavailable}
+            </span>
+          )}
         </div>
       </section>
 

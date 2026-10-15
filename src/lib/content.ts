@@ -147,6 +147,8 @@ const workSchema = z.object({
   price: z.string().optional(),
   /** e.g. "Available" / "Sold". Shown as "to be added" while empty. */
   availability: z.string().optional(),
+  /** false: the enquiry button is replaced by a quiet "not available" label. */
+  available: z.boolean().default(true),
   /** The three short texts on the work page (Markdown). Shown as "to be added" while empty. */
   story: z.string().optional(),
   details: z.string().optional(),

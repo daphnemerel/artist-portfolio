@@ -134,7 +134,7 @@ export async function HomeView({ hero }: { hero: HomeHero }) {
               <WorkCard
                 work={work}
                 locale={locale}
-                label={work.number ? String(work.number) : undefined}
+                label={work.title}
               />
             ),
           }))}

@@ -209,8 +209,17 @@
     color var(--duration) var(--ease);
 }
 
-.cta:hover,
-.cta:focus-visible {
+/* Not for sale: the same shape, quiet and inert. */
+.ctaDisabled,
+.ctaDisabled:hover {
+  border-color: var(--color-rule);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: default;
+}
+
+.cta:not(.ctaDisabled):hover,
+.cta:not(.ctaDisabled):focus-visible {
   background: transparent;
   color: var(--color-bordeaux);
 }

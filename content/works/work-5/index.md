@@ -1,8 +1,13 @@
 ---
-# Title, year, medium and dimensions still to be confirmed — shown as "5" for now.
-title: "5"
+# Details confirmed by Daphne, 15 Oct 2026.
+title: "Jungle Toekan"
+year: 2026
+medium: Acrylic
+dimensions: 30 × 30 cm
+availability: Unavailable
+available: false
+price: TBC
 number: 5
-medium: Medium to be added
 featured: true
 images:
   - src: ./images/01.jpg

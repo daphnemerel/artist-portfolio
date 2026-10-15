@@ -110,6 +110,7 @@ export const nl: Dictionary = {
     closeViewer: "Sluiten",
   },
   product: {
+    unavailable: "Niet beschikbaar",
     slideshow: "Foto's van het werk",
     previousPhoto: "Vorige foto",
     nextPhoto: "Volgende foto",

@@ -110,6 +110,7 @@ export const en = {
     closeViewer: "Close",
   },
   product: {
+    unavailable: "Not available",
     slideshow: "Photos of the work",
     previousPhoto: "Previous photo",
     nextPhoto: "Next photo",

@@ -1,7 +1,9 @@
 ---
 # Nederlandse teksten bij index.md (CONCEPT, door Claude vertaald). De titel, het werk en de
 # beelden blijven gelijk; hier staan alleen de vertalingen. images: in dezelfde volgorde als index.md.
-medium: Materiaal volgt nog
+medium: Acryl
+availability: Niet beschikbaar
+price: N.T.B.
 story: >-
   Een studie van de zee van bovenaf: dikke turquoise verf, getrokken tot golven, met kleine zwemmers
   en surfers op het oppervlak. Geïnspireerd door het werk van Werner Bronkhorst en Golsa Golchini.

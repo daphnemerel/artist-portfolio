@@ -1,8 +1,13 @@
 ---
-# Title, year, medium and dimensions still to be confirmed — shown as "4" for now.
-title: "4"
+# Details confirmed by Daphne, 15 Oct 2026.
+title: "Gewichtloze Vleugels"
+year: 2026
+medium: Acrylic
+dimensions: 30 × 30 cm
+availability: Unavailable
+available: false
+price: TBC
 number: 4
-medium: Medium to be added
 featured: true
 images:
   - src: ./images/01.jpg

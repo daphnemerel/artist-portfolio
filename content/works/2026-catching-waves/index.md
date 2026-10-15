@@ -1,13 +1,15 @@
 ---
-# Date of the work: 13 September 2026. Medium and dimensions still to be confirmed.
-title: Catching Waves
+# Details confirmed by Daphne, 15 Oct 2026.
+title: "Catching Waves"
 year: 2026
-medium: Medium to be added
+medium: Acrylic
+dimensions: 30 × 30 cm
+availability: Unavailable
+available: false
+price: TBC
 featured: true
 number: 3
 summary: A playful scene of tiny swimmers and surfers on a textured sea of layered paint.
-# PLACEHOLDER price taken from the design mock-up — replace with the real price.
-price: €999,99
 # Texts on the work page (from the earlier "What / How / Inspiration" text).
 story: >-
   A study of the sea seen from above: thick turquoise paint pulled into waves, with tiny swimmers
