@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Highlight } from "@/components/home/Highlight";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
-import {
-  getExhibitions,
-  getSite,
-  getWork,
-  type Exhibition,
-} from "@/lib/content";
+import { getExhibitions, getWork, type Exhibition } from "@/lib/content";
 import type { Locale } from "@/i18n/config";
 import styles from "./exhibitions.module.css";
 
@@ -24,18 +18,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /**
- * Exhibitions: the current exhibition in the pale pink band (as on the homepage), then
- * "Upcoming" and "Past" as CV-like rows (year | title, venue, text | small image | link).
+ * Exhibitions: the title, then "Upcoming" (on pale pink rows) and, below a hairline, "Past" as CV-like rows (year | title, venue, text | small image | link).
  * The rows come from content/exhibitions.yaml; an empty list shows a quiet note.
  */
 export default async function ExhibitionsPage() {
   const { locale, t, href } = await getI18n();
-  const site = getSite(locale);
   const exhibitions = getExhibitions(locale);
   const upcoming = exhibitions.filter((e) => e.status === "upcoming").reverse(); // soonest first
   const past = exhibitions.filter((e) => e.status === "past"); // newest first
-  const highlight = site.highlight;
-  const highlightWork = highlight && getWork(highlight.work, locale);
 
   return (
     <div className={`${styles.page} container`} data-tight-footer="">
@@ -43,19 +33,6 @@ export default async function ExhibitionsPage() {
         <h1 className={styles.title}>{t.exhibitions.title}</h1>
         <p className={styles.lead}>{t.exhibitions.lead}</p>
       </header>
-
-      {highlight && highlightWork && (
-        <Highlight
-          highlight={highlight}
-          work={highlightWork}
-          locale={locale}
-          t={t}
-          link={{
-            label: t.exhibitions.viewWork,
-            href: `/works/${highlightWork.slug}`,
-          }}
-        />
-      )}
 
       <Section
         id="upcoming"
