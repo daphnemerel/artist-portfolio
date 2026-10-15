@@ -255,3 +255,10 @@
     display: none;
   }
 }
+
+/* Phones: room under the cards so the titles are never cut off by the strip's edge. */
+@media (max-width: 700px) {
+  .track {
+    padding-block-end: var(--space-sm);
+  }
+}

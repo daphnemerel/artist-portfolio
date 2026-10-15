@@ -56,3 +56,11 @@
   letter-spacing: var(--tracking-caption);
   color: var(--color-muted);
 }
+
+/* Phones: the title a little larger, so it reads easily under the small cards. */
+@media (max-width: 700px) {
+  .title {
+    font-size: 0.9375rem;
+    line-height: 1.35;
+  }
+}
