@@ -63,7 +63,7 @@ export const nl: Dictionary = {
       title: "Exposities",
       text: "Bekijk huidige en eerdere exposities en projecten.",
       label: "Bekijk exposities",
-      alt: "Poster voor Gigalerie × ACEC, 18.12 – 20.12.2026: grote zwarte letters naast een onscherpe close-up van roze, blauwe en groene verf.",
+      alt: "Open call 055: Apeldoorn Art in CODA: een gele balk met de titel boven een expositiezaal met donkerblauwe wanden, schilderijen en in het midden een sculptuur vol speelgoedfiguren.",
     },
   },
   venue: {

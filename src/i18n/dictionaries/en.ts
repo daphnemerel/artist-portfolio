@@ -63,7 +63,7 @@ export const en = {
       title: "Exhibitions",
       text: "View current and past exhibitions and projects.",
       label: "View exhibitions",
-      alt: "Poster for Gigalerie × ACEC, 18.12 – 20.12.2026: large black lettering beside a blurred close-up of pink, blue and green paint.",
+      alt: "Open call 055: Apeldoorn Art at CODA: a yellow band with the title above an exhibition room with dark blue walls, paintings and, in the middle, a sculpture full of toy figures.",
     },
   },
   venue: {
