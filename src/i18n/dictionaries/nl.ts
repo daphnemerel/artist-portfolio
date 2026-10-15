@@ -142,8 +142,15 @@ export const nl: Dictionary = {
   },
   exhibitions: {
     title: "Exposities",
-    solo: "Solotentoonstellingen",
-    group: "Groepstentoonstellingen",
+    lead: "Een overzicht van mijn solo- en groepstentoonstellingen, aankomende exposities en eerdere projecten.",
+    upcomingTitle: "Komende exposities",
+    upcomingText: "Hier vind je mijn geplande tentoonstellingen en projecten. Ik kijk ernaar uit je daar te ontmoeten.",
+    upcomingEmpty: "Op dit moment staan er geen exposities gepland.",
+    pastTitle: "Eerdere exposities",
+    pastText: "Een selectie van eerdere tentoonstellingen, samenwerkingen en projecten.",
+    pastEmpty: "Nog geen eerdere exposities — deze lijst wordt in de loop van de tijd aangevuld.",
+    moreInfo: "Meer informatie",
+    viewWork: "Bekijk het werk",
     yearToBeAdded: "Jaar volgt nog",
   },
   commissions: {

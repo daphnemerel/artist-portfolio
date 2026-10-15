@@ -158,12 +158,20 @@ const workSchema = z.object({
 });
 
 const exhibitionSchema = z.object({
+  /** "upcoming": under Komende exposities; "past": under Eerdere exposities. */
+  status: z.enum(["upcoming", "past"]),
   year: z.number().int().optional(),
+  /** Shown under the year, e.g. "sept – okt" or "Binnenkort". */
+  period: localized.optional(),
   title: localized,
   venue: localized,
   city: localized,
-  type: z.enum(["solo", "group", "fair", "screening"]),
+  type: z.enum(["solo", "group", "fair", "screening"]).optional(),
+  /** One or two sentences about the exhibition. */
+  text: localized.optional(),
+  /** Work folder names; the first one gives the small image and the "more information" link. */
   works: z.array(z.string()).default([]),
+  /** Used for the link when there is no work, e.g. the venue's page about the exhibition. */
   url: z.url().optional(),
 });
 

@@ -142,8 +142,15 @@ export const en = {
   },
   exhibitions: {
     title: "Exhibitions",
-    solo: "Solo exhibitions",
-    group: "Group exhibitions",
+    lead: "An overview of my solo and group exhibitions, upcoming exhibitions and past projects.",
+    upcomingTitle: "Upcoming exhibitions",
+    upcomingText: "My planned exhibitions and projects. I look forward to meeting you there.",
+    upcomingEmpty: "No exhibitions are planned at the moment.",
+    pastTitle: "Past exhibitions",
+    pastText: "A selection of past exhibitions, collaborations and projects.",
+    pastEmpty: "No past exhibitions yet — this list will grow over time.",
+    moreInfo: "More information",
+    viewWork: "View the work",
     yearToBeAdded: "Year to be added",
   },
   commissions: {
