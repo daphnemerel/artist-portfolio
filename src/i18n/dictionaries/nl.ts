@@ -110,6 +110,7 @@ export const nl: Dictionary = {
     closeViewer: "Sluiten",
   },
   product: {
+    replay: "Opnieuw bekijken",
     breadcrumb: "Kruimelpad",
     home: "Home",
     works: "Werken",

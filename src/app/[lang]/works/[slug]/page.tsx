@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 import { OtherWorks } from "@/components/works/OtherWorks";
+import { LivingParrots } from "@/components/works/living/LivingParrots";
 import { format } from "@/i18n/config";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
@@ -43,6 +44,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+
+/** Works whose page opens with a short animation made from their own photograph. */
+const LIVING: Record<string, typeof LivingParrots | undefined> = { "work-5": LivingParrots };
 
 type Supporting = {
   url: string;
@@ -155,16 +159,23 @@ export default async function WorkPage({ params }: Props) {
       <section className={styles.hero} aria-labelledby="work-title">
         <figure className={styles.artwork}>
           <span className={styles.wall}>
-            <Image
-              src={image.url}
-              alt={image.alt}
-              width={image.width}
-              height={image.height}
-              sizes="(max-width: 900px) 100vw, 58vw"
-              quality={90}
-              priority
-              className={styles.artworkImage}
-            />
+            {LIVING[work.slug] ? (
+              (() => {
+                const Living = LIVING[work.slug]!;
+                return <Living image={image} sizes="(max-width: 900px) 100vw, 58vw" />;
+              })()
+            ) : (
+              <Image
+                src={image.url}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                sizes="(max-width: 900px) 100vw, 58vw"
+                quality={90}
+                priority
+                className={styles.artworkImage}
+              />
+            )}
           </span>
           <figcaption className={styles.plate}>
             <span>{work.title}</span>
