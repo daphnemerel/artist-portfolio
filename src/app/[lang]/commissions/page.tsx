@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 /** Works shown under "Possibilities" as an impression of the style (Daphne's own works). */
-const EXAMPLES = ["work-4", "work-5", "watercolour-house"];
+const EXAMPLES = ["2026-catching-waves", "work-5", "watercolour-house"];
 
 const Icon = ({ children }: { children: ReactNode }) => (
   <span className={styles.icon} aria-hidden="true">
@@ -37,10 +37,10 @@ const Icon = ({ children }: { children: ReactNode }) => (
   </span>
 );
 const icons = [
-  // a flower
+  // a canvas on an easel
   <>
-    <circle cx="12" cy="12" r="2" />
-    <path d="M12 10c-2-3-1-6 0-7 1 1 2 4 0 7Zm2 2c3-2 6-1 7 0-1 1-4 2-7 0Zm-2 2c2 3 1 6 0 7-1-1-2-4 0-7Zm-2-2c-3 2-6 1-7 0 1-1 4-2 7 0Z" />
+    <rect x="5" y="4" width="14" height="11" />
+    <path d="M9 15 7 21M15 15l2 6M12 15v4" />
   </>,
   // a brush
   <>
@@ -67,7 +67,7 @@ export default async function CommissionsPage() {
 
   return (
     <div className={`${styles.page} container`} data-tight-footer="">
-      {/* 1. Opening: title, lead and button beside the floral glass panel */}
+      {/* 1. Opening: title, lead and button beside a photo of Daphne at work */}
       <section className={styles.hero}>
         <div className={styles.heroText}>
           <h1 className={styles.title}>{t.title}</h1>
@@ -77,10 +77,10 @@ export default async function CommissionsPage() {
           </Link>
         </div>
         <Image
-          src="/images/commissions-floral-glass.jpg"
+          src="/images/studio-landscape.jpg"
           alt={t.photoAlt}
-          width={1254}
-          height={1254}
+          width={1672}
+          height={941}
           sizes="(max-width: 900px) 100vw, 45vw"
           quality={90}
           priority
