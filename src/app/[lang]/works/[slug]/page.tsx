@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ImageSequence } from "@/components/media/ImageSequence";
-import { Prose } from "@/components/type/Prose";
-import { OtherWorks } from "@/components/works/OtherWorks";
-import { WorkJourney } from "@/components/works/WorkJourney";
-import { WorkPurchase } from "@/components/works/WorkPurchase";
-import { WorkLayers } from "@/components/works/WorkLayers";
+import { marked } from "marked";
+import { WorkCard } from "@/components/works/WorkCard";
 import { format } from "@/i18n/config";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
-import { getSite, getWork, getWorks } from "@/lib/content";
+import { getWork, getWorks, type Work } from "@/lib/content";
 import styles from "./work.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -30,25 +27,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const alt = alternates(locale, `/works/${slug}`);
   return {
     title: work.year ? `${work.title}, ${work.year}` : work.title,
-    description: [work.medium, work.dimensions].filter(Boolean).join(", "),
+    description: work.summary ?? [work.medium, work.dimensions].filter(Boolean).join(", "),
     ...alt,
-    openGraph: {
-      ...alt.openGraph,
-      images: [
-        {
-          url: image.url,
-          width: image.width,
-          height: image.height,
-          alt: image.alt,
-        },
-      ],
-    },
+    openGraph: { ...alt.openGraph, images: [{ url: image.url, width: image.width, height: image.height, alt: image.alt }] },
   };
 }
 
+type Supporting = { url: string; width: number; height: number; alt: string; caption?: string };
+
+/** Three real photos below the work: the "inside the work" photos where a work has them, otherwise its next images. */
+function supportingImages(work: Work): Supporting[] {
+  const journey = work.journey?.items;
+  if (journey && journey.length >= 3) {
+    const pick = ["Texture", "Studio", "Process", "Textuur", "Atelier", "Proces"];
+    const chosen = journey.filter((item) => pick.includes(item.label));
+    return (chosen.length >= 3 ? chosen : journey).slice(0, 3).map((item) => ({ ...item, caption: item.label }));
+  }
+  return work.images.slice(1, 4);
+}
+
+/** Placeholder values in the content ("Medium to be added", "Materiaal volgt nog") look like the empty ones. */
+const isPlaceholder = (value: string | number) => /to be added|volgt nog/i.test(String(value));
+
+const md = (text?: string) => (text ? marked.parse(text.trim(), { async: false }) : undefined);
+
+/**
+ * A work page set like a museum catalogue entry: breadcrumb and previous / next, the whole work
+ * beside its label and facts, three short texts, three supporting photos, and related works.
+ * Images are always shown whole, at their own proportions.
+ */
 export default async function WorkPage({ params }: Props) {
   const { slug } = await params;
-  const { locale, t, href } = await getI18n();
+  const { locale, t: dict, href } = await getI18n();
+  const t = dict.product;
   const work = getWork(slug, locale);
   if (!work) notFound();
 
@@ -56,103 +67,153 @@ export default async function WorkPage({ params }: Props) {
   const index = works.findIndex((w) => w.slug === slug);
   const prev = works[index - 1];
   const next = works[index + 1];
+  const related = works.filter((w) => w.slug !== slug).slice(0, 3);
+  const image = work.images[0];
+  const supporting = supportingImages(work);
+  const subject = encodeURIComponent(format(t.inquireSubject, { title: work.title }));
 
-  const story = Boolean(work.layers?.length);
+  const facts: [string, string | number | undefined][] = [
+    [t.year, work.year],
+    [t.medium, work.medium],
+    [t.dimensions, work.dimensions],
+    [t.availability, work.availability],
+    [t.price, work.price],
+  ];
+  const texts: [string, string | undefined][] = [
+    [t.story, md(work.story)],
+    [t.details, md(work.details)],
+    [t.process, md(work.process)],
+  ];
 
   return (
-    <article
-      className={`${styles.work} ${story ? styles.story : ""} container`}
-    >
-      {story && (
-        <WorkLayers
-          title={work.title}
-          layers={work.layers!}
-          isPageTitle={Boolean(work.journey)}
-          t={t}
-        />
-      )}
-
-      {/* With a journey section, that section replaces the text-and-images layout below. */}
-      {work.journey && (
-        <>
-          <WorkJourney journey={work.journey} />
-          <WorkPurchase work={work} email={getSite(locale).email} t={t} />
-          <OtherWorks
-            works={works.filter((w) => w.slug !== work.slug).slice(0, 3)}
-            t={t}
-            href={href}
-          />
-        </>
-      )}
-
-      {!work.journey && (
-        <>
-          <header className={styles.details} id="about">
-            <h1 className={styles.title}>{work.title}</h1>
-            <dl className={styles.meta}>
-              {work.year && (
-                <>
-                  <dt className="visually-hidden">{t.works.year}</dt>
-                  <dd>{work.year}</dd>
-                </>
-              )}
-              <dt className="visually-hidden">{t.works.medium}</dt>
-              <dd>{work.medium}</dd>
-              {work.dimensions && (
-                <>
-                  <dt className="visually-hidden">{t.works.dimensions}</dt>
-                  <dd>{work.dimensions}</dd>
-                </>
-              )}
-              {work.edition && (
-                <>
-                  <dt className="visually-hidden">{t.works.edition}</dt>
-                  <dd>{work.edition}</dd>
-                </>
-              )}
-              {work.series && (
-                <>
-                  <dt className="visually-hidden">{t.works.series}</dt>
-                  <dd>{format(t.works.fromSeries, { series: work.series })}</dd>
-                </>
-              )}
-            </dl>
-            {!story && <Prose html={work.html} />}
-          </header>
-
-          {/* Story layout: the text (What / How / Inspiration) gets its own columns next to the title. */}
-          {story && (
-            <div className={styles.about}>
-              <Prose html={work.html} />
-            </div>
+    <article className={`${styles.page} container`}>
+      {/* 5. Navigation: breadcrumb left, previous / next right */}
+      <nav className={styles.topnav} aria-label={t.breadcrumb}>
+        <ol className={styles.crumbs}>
+          <li>
+            <Link href={href("/")}>{t.home}</Link>
+          </li>
+          <li>
+            <Link href={href("/works")}>{t.works}</Link>
+          </li>
+          <li aria-current="page">{work.title}</li>
+        </ol>
+        <p className={styles.prevNext}>
+          {prev ? (
+            <Link href={href(`/works/${prev.slug}`)} rel="prev">
+              <span aria-hidden="true">←</span> {t.previous}
+            </Link>
+          ) : (
+            <span className={styles.disabled}>
+              <span aria-hidden="true">←</span> {t.previous}
+            </span>
           )}
+          {next ? (
+            <Link href={href(`/works/${next.slug}`)} rel="next">
+              {t.next} <span aria-hidden="true">→</span>
+            </Link>
+          ) : (
+            <span className={styles.disabled}>
+              {t.next} <span aria-hidden="true">→</span>
+            </span>
+          )}
+        </p>
+      </nav>
 
-          <div className={styles.images}>
-            <ImageSequence images={work.images} />
-          </div>
-
-          <nav className={styles.pager} aria-label={t.works.moreWorks}>
-            {prev ? (
-              <Link href={href(`/works/${prev.slug}`)}>← {prev.title}</Link>
-            ) : (
-              <span />
-            )}
-            <Link href={href("/works")}>{t.works.index}</Link>
-            {next ? (
-              <Link href={href(`/works/${next.slug}`)}>{next.title} →</Link>
-            ) : (
-              <span />
-            )}
-          </nav>
-
-          {/* At the very bottom of every work page: three other works. */}
-          <OtherWorks
-            works={works.filter((w) => w.slug !== work.slug).slice(0, 3)}
-            t={t}
-            href={href}
-            className={styles.others}
+      {/* 1. The work, whole, beside its label */}
+      <section className={styles.hero} aria-labelledby="work-title">
+        <div className={styles.artwork}>
+          <Image
+            src={image.url}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            sizes="(max-width: 900px) 100vw, 58vw"
+            quality={90}
+            priority
+            className={styles.artworkImage}
           />
-        </>
+        </div>
+
+        <div className={styles.label}>
+          <p className={styles.eyebrow}>{t.label}</p>
+          <h1 id="work-title" className={styles.title}>
+            {work.title}
+          </h1>
+          {work.summary && <p className={styles.summary}>{work.summary}</p>}
+          <dl className={styles.facts}>
+            {facts.map(([label, value]) => (
+              <div key={label} className={styles.fact}>
+                <dt>{label}</dt>
+                <dd className={!value || isPlaceholder(value) ? styles.pending : undefined}>
+                  {value ?? t.toBeAdded}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <Link href={`${href("/contact")}?onderwerp=${subject}`} className={styles.cta}>
+            {t.inquire} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* 2. Three short texts */}
+      <section className={styles.texts}>
+        {texts.map(([heading, html]) => (
+          <div key={heading} className={styles.textBlock}>
+            <h2 className={styles.textHeading}>{heading}</h2>
+            {html ? (
+              <div className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
+            ) : (
+              <p className={`${styles.prose} ${styles.pending}`}>{t.textToBeAdded}</p>
+            )}
+          </div>
+        ))}
+      </section>
+
+      {/* 3. Supporting photos, whole, each with a short caption */}
+      {supporting.length > 0 && (
+        <section className={styles.supporting} aria-label={t.images}>
+          <ul className={styles.supportingList}>
+            {supporting.map((img) => (
+              <li key={img.url}>
+                <figure className={styles.figure}>
+                  <Image
+                    src={img.url}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    sizes="(max-width: 700px) 100vw, 30vw"
+                    quality={85}
+                    className={styles.supportingImage}
+                  />
+                  {img.caption && <figcaption className={styles.caption}>{img.caption}</figcaption>}
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* 4. Related work */}
+      {related.length > 0 && (
+        <section className={styles.related} aria-labelledby="related-title">
+          <div className={styles.relatedHead}>
+            <h2 id="related-title" className={styles.relatedTitle}>
+              {t.related}
+            </h2>
+            <Link href={href("/works")} className={styles.allWorks}>
+              {t.allWorks} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <ul className={styles.relatedList}>
+            {related.map((w) => (
+              <li key={w.slug}>
+                <WorkCard work={w} locale={locale} />
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </article>
   );

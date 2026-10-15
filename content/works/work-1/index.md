@@ -11,8 +11,11 @@ images:
       among loose strokes of pink, ochre and gold.
   - src: ./images/02.jpg
     alt: The swan painting seen from the side, showing the painted edge of the canvas.
+    caption: Side view
   - src: ./images/03.jpg
     alt: The swan painting seen at an angle, with the textured pink and ochre strokes on the right.
+    caption: At an angle
   - src: ./images/04.jpg
     alt: The swan painting hanging on a light wall.
+    caption: On the wall
 ---

@@ -143,6 +143,12 @@ const workSchema = z.object({
   summary: z.string().optional(),
   /** Price as shown, e.g. "€1.200". Leave out while the work is not for sale. */
   price: z.string().optional(),
+  /** e.g. "Available" / "Sold". Shown as "to be added" while empty. */
+  availability: z.string().optional(),
+  /** The three short texts on the work page (Markdown). Shown as "to be added" while empty. */
+  story: z.string().optional(),
+  details: z.string().optional(),
+  process: z.string().optional(),
 });
 
 const exhibitionSchema = z.object({
@@ -178,6 +184,11 @@ const workTranslationSchema = z.object({
   edition: z.string().optional(),
   series: z.string().optional(),
   summary: z.string().optional(),
+  price: z.string().optional(),
+  availability: z.string().optional(),
+  story: z.string().optional(),
+  details: z.string().optional(),
+  process: z.string().optional(),
   /** By position, matching `images` in index.md. */
   images: z.array(z.object({ alt: z.string().optional(), caption: z.string().optional(), credit: z.string().optional() })).optional(),
   layers: z.array(z.object({ alt: z.string().optional() })).optional(),
@@ -278,6 +289,11 @@ function readWorkSource(dir: string, slug: string, locale: Locale) {
     ...(tr.edition && { edition: tr.edition }),
     ...(tr.series && { series: tr.series }),
     ...(tr.summary && { summary: tr.summary }),
+    ...(tr.price && { price: tr.price }),
+    ...(tr.availability && { availability: tr.availability }),
+    ...(tr.story && { story: tr.story }),
+    ...(tr.details && { details: tr.details }),
+    ...(tr.process && { process: tr.process }),
     images: meta.images.map((image, i) => ({ ...image, ...defined(tr.images?.[i]) })),
     layers: meta.layers?.map((layer, i) => ({ ...layer, ...defined(tr.layers?.[i]) })),
     journey: meta.journey && {

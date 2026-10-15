@@ -2,14 +2,21 @@
 # Nederlandse teksten bij index.md (CONCEPT, door Claude vertaald). De titel, het werk en de
 # beelden blijven gelijk; hier staan alleen de vertalingen. images: in dezelfde volgorde als index.md.
 medium: Materiaal volgt nog
+story: >-
+  Een studie van de zee van bovenaf: dikke turquoise verf, getrokken tot golven, met kleine zwemmers
+  en surfers op het oppervlak. Geïnspireerd door het werk van Werner Bronkhorst en Golsa Golchini.
+process: Beschrijving van het proces en de materialen volgt nog.
 summary: Een speelse scène van kleine zwemmers en surfers op een zee van gelaagde, reliëfrijke verf.
 images:
   - alt: >-
       Dikke lichtturquoise verf in brede, geribbelde streken, met kleine zwemmers en surfers op
       kleurige planken verspreid over het oppervlak.
   - alt: Detail van een kleine surfer op een groene plank die over een gebogen rug van turquoise verf glijdt.
+    caption: Detail, surfer op een groene plank
   - alt: Detail van een kleine zwemster in bikini met één arm omhoog, op een klein roze plankje.
+    caption: Detail, zwemster op een roze plank
   - alt: Detail van een klein figuurtje in een zwart wetsuit op een oranje plank, met een wit kielzog erachter.
+    caption: Detail, figuur op een oranje plank
   - alt: Detail van een kleine surfer op een paarse plank, gehurkt terwijl hij een bocht maakt in de verf.
   - alt: Detail van twee kleine surfers zittend op een roze en een groene plank tussen ruggen van verf.
   - alt: Catching Waves aan een warm getinte muur.
@@ -45,16 +52,3 @@ journey:
       label: Proces
       text: Laag voor laag krijgt het landschap vorm.
 ---
-
-## Wat
-
-Een studie van de zee van bovenaf: dikke turquoise verf, getrokken tot golven, met kleine zwemmers
-en surfers op het oppervlak.
-
-## Hoe
-
-Beschrijving van het proces en de materialen volgt nog.
-
-## Inspiratie
-
-Geïnspireerd door het werk van Werner Bronkhorst en Golsa Golchini.

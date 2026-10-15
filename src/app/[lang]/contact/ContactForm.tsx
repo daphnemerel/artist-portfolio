@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useI18n } from "@/i18n/client";
 import styles from "./contact.module.css";
 
@@ -16,6 +16,13 @@ export function ContactForm({ email }: { email: string }) {
   const { t: dict } = useI18n();
   const t = dict.contact.form;
   const [status, setStatus] = useState<Status>("idle");
+  const subjectRef = useRef<HTMLInputElement>(null);
+
+  // Arriving from a work page ("Informeer naar dit werk"): the subject is filled in already.
+  useEffect(() => {
+    const subject = new URLSearchParams(window.location.search).get("onderwerp");
+    if (subject && subjectRef.current && !subjectRef.current.value) subjectRef.current.value = subject;
+  }, []);
   const [reason, setReason] = useState("");
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -103,7 +110,7 @@ export function ContactForm({ email }: { email: string }) {
       </label>
       <label className={styles.field}>
         <span className={styles.fieldLabel}>{t.subject}</span>
-        <input name="subject" type="text" placeholder={t.subjectPlaceholder} />
+        <input ref={subjectRef} name="subject" type="text" placeholder={t.subjectPlaceholder} />
       </label>
       <label className={styles.field}>
         <span className={styles.fieldLabel}>

@@ -11,4 +11,5 @@ images:
       coral and white along the edges, and two tiny red, blue and green parrots in flight at the centre.
   - src: ./images/02.jpg
     alt: Detail of the two tiny parrots in flight over the textured green surface.
+    caption: Detail, the parrots
 ---

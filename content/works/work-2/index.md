@@ -11,8 +11,11 @@ images:
       stems on a soft peach ground edged in bright pink.
   - src: ./images/02.jpg
     alt: The blueberry painting seen from the side, showing its dark painted edge.
+    caption: Side view
   - src: ./images/03.jpg
     alt: The blueberry painting seen at an angle on a light wall.
+    caption: At an angle
   - src: ./images/04.jpg
     alt: The blueberry painting hanging on a light wall.
+    caption: On the wall
 ---

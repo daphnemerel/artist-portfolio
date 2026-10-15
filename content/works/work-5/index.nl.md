@@ -7,4 +7,5 @@ images:
       Een vierkant doek in zacht groen met een verhoogde, gekraste textuur, dikke toetsen groen, oker,
       koraal en wit langs de randen, en in het midden twee kleine rood-blauw-groene papegaaien in vlucht.
   - alt: Detail van de twee kleine papegaaien in vlucht boven het groene reliëfoppervlak.
+    caption: Detail, de papegaaien
 ---
