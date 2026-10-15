@@ -41,8 +41,12 @@ export default async function ContactPage() {
           <h1 className={styles.title}>{t.contact.title}</h1>
           <p className={styles.text}>{t.contact.text}</p>
           <span className={styles.rule} aria-hidden="true" />
+          {/* Phones only: the details move below the form, so point to them here. */}
+          <a href="#contact-details" className={styles.toDetails}>
+            {t.contact.toDetails} <span aria-hidden="true">↓</span>
+          </a>
 
-          <dl className={styles.details}>
+          <dl id="contact-details" className={styles.details}>
             {site.email && (
               <div className={styles.detail}>
                 {icon(
@@ -109,7 +113,10 @@ export default async function ContactPage() {
             <p id="message-title" className={styles.eyebrow}>
               {t.contact.messageEyebrow}
             </p>
-            <p className={styles.lead}>{t.contact.lead}</p>
+            <p className={styles.lead}>
+              <span className={styles.leadFull}>{t.contact.lead}</span>
+              <span className={styles.leadShort}>{t.contact.leadShort}</span>
+            </p>
             <ContactForm email={site.email} />
           </section>
         )}

@@ -143,6 +143,11 @@
   line-height: var(--leading-body);
 }
 
+.leadShort,
+.toDetails {
+  display: none;
+}
+
 .form {
   display: grid;
   gap: var(--space-md);
@@ -272,22 +277,64 @@
 /* ---------- phone: one column ---------- */
 
 @media (max-width: 700px) {
-  .intro,
-  .photo {
-    grid-column: 1 / -1;
+  /* Phones: title and text, then the form, then e-mail and Instagram at the bottom. */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+    padding-block-end: 0; /* only the footer's own small gap below */
   }
 
   .intro {
-    padding-block-start: 0;
+    display: contents;
   }
 
+  .eyebrow,
+  .title {
+    align-self: flex-start;
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .toDetails {
+    display: inline;
+    align-self: flex-start;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--color-bordeaux);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+    text-decoration-color: var(--color-pink);
+  }
+
+  .details {
+    order: 2;
+    margin-block-start: 0;
+    padding-block-start: var(--title-gap);
+    scroll-margin-top: var(--space-xl);
+    border-top: 1px solid var(--color-pink);
+  }
+
+  .leadFull {
+    display: none;
+  }
+
+  .leadShort {
+    display: inline;
+  }
+
+  /* Phones: no studio photo; the details lead straight to the form. */
   .photo {
-    margin-block-start: var(--space-lg);
-    aspect-ratio: 4 / 5;
+    display: none;
   }
 
   .message {
-    margin-block-start: var(--space-lg);
+    order: 1;
+    margin-block-start: 0;
   }
 }
 
