@@ -333,7 +333,7 @@
 
   .message {
     order: 1;
-    margin-block-start: var(--space-md);
+    margin-block-start: 0;
   }
 }
 
