@@ -324,12 +324,12 @@
     padding-inline: 0;
   }
 
-  .eyebrow {
-    font-size: 0.625rem;
-    letter-spacing: 0.18em;
-  }
-
-  .eyebrow::before {
+  /* Phones: only the work, the title and the button; below, between hairlines, the venue,
+     the exhibition and the address. No eyebrow, opening hours or links. */
+  .eyebrow,
+  .venueEyebrow,
+  .hours,
+  .venueLinks {
     display: none;
   }
 
@@ -359,11 +359,7 @@
     grid-column: 1 / -1;
   }
 
-  .hours {
-    grid-column: 1 / -1;
-  }
-
-  .venueLinks {
-    grid-column: 1 / -1;
+  .address {
+    margin-block-start: var(--space-sm);
   }
 }
