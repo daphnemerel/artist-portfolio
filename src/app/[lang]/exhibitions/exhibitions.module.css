@@ -85,21 +85,14 @@
   color: var(--color-bordeaux);
 }
 
-.intro {
-  max-width: 70ch;
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
-  line-height: 1.5;
-  color: var(--color-muted);
-}
-
 .list {
   margin-block-start: var(--space-md);
   border-top: var(--border-hairline);
 }
 
+/* A little space between the hairline and the pink rows. */
 .list:has(> [data-highlighted]) {
-  border-top: 0;
+  padding-block-start: var(--space-sm);
 }
 
 /* year | title, venue, text | image | link */

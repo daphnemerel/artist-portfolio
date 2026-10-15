@@ -59,7 +59,6 @@ export default async function ExhibitionsPage() {
       <Section
         id="upcoming"
         title={t.exhibitions.upcomingTitle}
-        text={t.exhibitions.upcomingText}
         empty={t.exhibitions.upcomingEmpty}
         items={upcoming}
         highlighted
@@ -70,7 +69,6 @@ export default async function ExhibitionsPage() {
       <Section
         id="past"
         title={t.exhibitions.pastTitle}
-        text={t.exhibitions.pastText}
         empty={t.exhibitions.pastEmpty}
         items={past}
         locale={locale}
@@ -84,7 +82,6 @@ export default async function ExhibitionsPage() {
 function Section({
   id,
   title,
-  text,
   empty,
   items,
   highlighted,
@@ -94,7 +91,6 @@ function Section({
 }: {
   id: string;
   title: string;
-  text: string;
   empty: string;
   items: Exhibition[];
   highlighted?: boolean;
@@ -110,7 +106,6 @@ function Section({
       <h2 id={`${id}-title`} className={styles.heading}>
         {title}
       </h2>
-      <p className={styles.intro}>{text}</p>
 
       {items.length === 0 ? (
         <p className={styles.empty}>{empty}</p>
