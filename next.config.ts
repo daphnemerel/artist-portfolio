@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // The watercolour house moved from the experiments to the works.
+  async redirects() {
+    return [{ source: "/:lang(nl|en)/watercolour-house", destination: "/:lang/works/watercolour-house", permanent: true }];
+  },
   images: {
     // Artwork images are copied from content/ into public/media/ by scripts/sync-images.mjs
     localPatterns: [

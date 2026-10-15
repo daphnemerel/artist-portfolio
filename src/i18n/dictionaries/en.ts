@@ -76,6 +76,8 @@ export const en = {
     map: "Map: {name}",
   },
   works: {
+    paintings: "Paintings",
+    drawings: "Drawings",
     title: "Works",
     filter: "Filter by series",
     all: "All",
@@ -207,9 +209,6 @@ export const en = {
     scrollToExplore: "Scroll to explore",
     livingTitle: "Catching Waves — living artwork (experiment)",
     previewTitle: "Catching Waves (preview)",
-    watercolourTitle: "Watercolour house (experiment)",
-    watercolourAlt:
-      "Ink and watercolour drawing of a pink corner house with tall windows, a lantern and potted plants along an old street.",
     redCarTitle: "Homepage concept — red car",
     studioTitle: "Homepage concept — studio",
   },

@@ -76,6 +76,8 @@ export const nl: Dictionary = {
     map: "Kaart: {name}",
   },
   works: {
+    paintings: "Schilderijen",
+    drawings: "Tekeningen",
     title: "Werken",
     filter: "Filter op serie",
     all: "Alle",
@@ -207,9 +209,6 @@ export const nl: Dictionary = {
     scrollToExplore: "Scroll om te kijken",
     livingTitle: "Catching Waves — levend kunstwerk (experiment)",
     previewTitle: "Catching Waves (preview)",
-    watercolourTitle: "Aquarelhuis (experiment)",
-    watercolourAlt:
-      "Inkt- en aquareltekening van een roze hoekhuis met hoge ramen, een lantaarn en planten in potten langs een oude straat.",
     redCarTitle: "Homepageconcept — rode auto",
     studioTitle: "Homepageconcept — atelier",
   },
