@@ -1,12 +1,287 @@
-.commissions {
-  display: grid;
-  justify-items: start;
-  gap: var(--space-lg);
-  max-width: var(--measure);
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
+/*
+ * Commissions page. Pale pink bands (as on the homepage) alternate with off-white; hairlines
+ * between sections; serif headings in bordeaux; the site's square bordeaux buttons.
+ */
+.page {
+  --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
 }
 
-.muted {
+/* Full-width pale pink band, content kept on the page grid. */
+.hero,
+.options,
+.cta {
+  margin-inline: calc(-1 * var(--margin));
+  padding-inline: var(--margin);
+}
+
+/* ---------- 1. opening ---------- */
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  padding-block: var(--space-xl);
+  background: var(--band);
+}
+
+.heroText {
+  grid-column: 1 / 6;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+}
+
+.heroImage {
+  grid-column: 7 / -1;
+  width: 100%;
+  height: auto;
+  max-height: 60svh;
+  object-fit: contain;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-bordeaux);
+}
+
+.lead {
+  max-width: 40ch;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 48px;
+  padding-inline: 24px;
+  border: 1px solid var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button:hover,
+.button:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+/* ---------- 2. made to measure ---------- */
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-lg);
+  align-items: start;
+  padding-block: var(--space-xl) var(--space-lg);
+}
+
+.intro > div {
+  grid-column: 1 / 7;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+  text-wrap: balance;
+}
+
+.text {
+  max-width: 58ch;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-ink);
+}
+
+.features {
+  grid-column: 8 / -1;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: start;
+}
+
+/* A small pink disc with a line drawing, like the Socials band. */
+.icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--band);
+  color: var(--color-bordeaux);
+}
+
+.featureTitle {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--color-bordeaux);
+}
+
+.featureText {
+  max-width: 48ch;
+  margin-block-start: 2px;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: 1.45;
   color: var(--color-muted);
+}
+
+/* ---------- 3. how it works ---------- */
+
+.steps {
+  padding-block: var(--title-gap) var(--space-xl);
+  border-top: var(--border-hairline);
+}
+
+.stepList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg) var(--gutter);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-md);
+  align-items: baseline;
+}
+
+.stepNumber {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 3.4vw, 3rem);
+  line-height: 1;
+  color: var(--color-pink);
+  font-variant-numeric: lining-nums;
+}
+
+.stepTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-bordeaux);
+}
+
+/* ---------- 4. possibilities ---------- */
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-lg);
+  align-items: center;
+  padding-block: var(--space-xl);
+  background: var(--band);
+}
+
+.optionsText {
+  grid-column: 1 / 4;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.optionsList {
+  grid-column: 4 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+/* ---------- 5. invitation ---------- */
+
+.cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-2xl);
+  padding-block: var(--space-xl);
+  border-top: 1px solid color-mix(in srgb, var(--color-pink) 60%, var(--color-off-white));
+  background: var(--band);
+}
+
+.ctaTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--color-bordeaux);
+}
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 1100px) {
+  .optionsText,
+  .optionsList {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .heroText,
+  .heroImage,
+  .intro > div,
+  .features {
+    grid-column: 1 / -1;
+  }
+
+  .hero {
+    row-gap: var(--space-lg);
+    padding-block: var(--space-lg);
+  }
+
+  .stepList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .intro {
+    padding-block: var(--space-lg);
+  }
+
+  .optionsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .optionsList > li:nth-child(3) {
+    display: none;
+  }
+
+  .options,
+  .cta {
+    padding-block: var(--space-lg);
+  }
+
+  .cta {
+    justify-content: flex-start;
+  }
 }
