@@ -87,13 +87,9 @@
 
 .list {
   margin-block-start: var(--space-md);
-  border-top: var(--border-hairline);
 }
 
-/* A little space between the hairline and the pink rows. */
-.list:has(> [data-highlighted]) {
-  padding-block-start: var(--space-sm);
-}
+
 
 /* year | title, venue, text | image | link */
 .row {
@@ -204,8 +200,7 @@
 /* No exhibitions in this list (yet). */
 .empty {
   margin-block-start: var(--space-md);
-  padding-block: var(--space-sm);
-  border-block: var(--border-hairline);
+  padding-block: 0 var(--space-sm);
   font-family: var(--font-serif);
   font-style: italic;
   font-size: var(--type-body);
