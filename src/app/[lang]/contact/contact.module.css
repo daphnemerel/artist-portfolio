@@ -281,9 +281,9 @@
     padding-block-start: 0;
   }
 
+  /* Phones: no studio photo; the details lead straight to the form. */
   .photo {
-    margin-block-start: var(--space-lg);
-    aspect-ratio: 4 / 5;
+    display: none;
   }
 
   .message {
