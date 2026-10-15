@@ -110,7 +110,11 @@ export const en = {
     closeViewer: "Close",
   },
   product: {
-    replay: "Watch again",
+    slideshow: "Photos of the work",
+    previousPhoto: "Previous photo",
+    nextPhoto: "Next photo",
+    pause: "Pause",
+    play: "Play",
     breadcrumb: "Breadcrumb",
     home: "Home",
     works: "Works",

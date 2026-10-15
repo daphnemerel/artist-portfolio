@@ -77,7 +77,7 @@
 .wall {
   display: grid;
   place-items: center;
-  padding: clamp(var(--space-lg), 6vw, var(--space-2xl));
+  padding: var(--space-lg) var(--space-lg) var(--space-sm);
   background: var(--color-image-bg);
 }
 
@@ -416,5 +416,20 @@
   .caption {
     flex-direction: column;
     gap: 0;
+  }
+}
+
+/* Desktop: the top of the page fits one screen. The header (~76px), the breadcrumb row and the
+   spacing take ~290px; the slideshow (stage + controls) gets the rest. */
+@media (min-width: 901px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .wall :global([aria-roledescription="carousel"]) > div:first-child {
+    height: calc(100svh - 350px);
+    max-height: none;
+    width: auto;
+    max-width: 100%;
   }
 }

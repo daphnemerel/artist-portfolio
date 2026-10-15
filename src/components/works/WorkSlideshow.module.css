@@ -1,0 +1,74 @@
+/*
+ * One photo at a time inside a square stage; each photo is fitted whole (object-fit: contain), so
+ * nothing is ever cropped, and the stage keeps its size so the page does not jump.
+ */
+.root {
+  display: grid;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 1;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+
+.slide[data-active] {
+  opacity: 1;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-bordeaux);
+}
+
+.controls button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: color var(--duration) var(--ease);
+}
+
+.controls button:hover {
+  color: var(--color-turquoise);
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+}
+
+.controls .pause {
+  margin-inline-start: var(--space-sm);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+}
