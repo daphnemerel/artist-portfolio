@@ -191,6 +191,8 @@ export const nl: Dictionary = {
     lead: "Liever direct een bericht sturen? Gebruik het formulier hieronder, dan reageer ik zo snel mogelijk.",
     /** The same, shorter, on phones. */
     leadShort: "Gebruik het formulier hieronder, dan reageer ik zo snel mogelijk.",
+    /** Phones: a link at the top to the e-mail address and Instagram at the bottom. */
+    toDetails: "Liever mailen of een DM? Mijn e-mail en Instagram staan onderaan",
     form: {
       name: "Naam",
       namePlaceholder: "Je naam",

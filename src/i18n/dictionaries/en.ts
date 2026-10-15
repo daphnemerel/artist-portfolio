@@ -191,6 +191,8 @@ export const en = {
     lead: "Prefer to send a direct message? Use the form below and I’ll get back to you as soon as possible.",
     /** The same, shorter, on phones. */
     leadShort: "Use the form below and I’ll get back to you as soon as possible.",
+    /** Phones: a link at the top to the e-mail address and Instagram at the bottom. */
+    toDetails: "Prefer e-mail or a DM? My e-mail and Instagram are at the bottom",
     form: {
       name: "Name",
       namePlaceholder: "Your name",

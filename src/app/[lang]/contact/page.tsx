@@ -41,8 +41,12 @@ export default async function ContactPage() {
           <h1 className={styles.title}>{t.contact.title}</h1>
           <p className={styles.text}>{t.contact.text}</p>
           <span className={styles.rule} aria-hidden="true" />
+          {/* Phones only: the details move below the form, so point to them here. */}
+          <a href="#contact-details" className={styles.toDetails}>
+            {t.contact.toDetails} <span aria-hidden="true">↓</span>
+          </a>
 
-          <dl className={styles.details}>
+          <dl id="contact-details" className={styles.details}>
             {site.email && (
               <div className={styles.detail}>
                 {icon(
