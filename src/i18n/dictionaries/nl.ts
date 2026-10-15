@@ -164,7 +164,7 @@ export const nl: Dictionary = {
     features: [
       { title: "Schilderij op maat", text: "Een uniek werk, helemaal afgestemd op jouw wensen." },
       { title: "Kleur en sfeer in overleg", text: "We bespreken samen de stijl, kleuren en het onderwerp." },
-      { title: "Prijs en formaat op aanvraag", text: "Elk werk is uniek, dus de prijs is afhankelijk van formaat en complexiteit." },
+      { title: "Prijs en formaat op aanvraag", text: "Elk werk is uniek, dus prijs en formaat verschillen per opdracht." },
     ],
     steps: [
       { title: "Idee", text: "Jij deelt je wensen, sfeer, kleuren of inspiratie." },

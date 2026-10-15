@@ -164,7 +164,7 @@ export const en = {
     features: [
       { title: "A painting made for you", text: "A unique work, fully tailored to your wishes." },
       { title: "Colour and mood together", text: "We discuss the style, colours and subject together." },
-      { title: "Price and size on request", text: "Every work is unique, so the price depends on size and complexity." },
+      { title: "Price and size on request", text: "Every work is unique, so price and size differ per commission." },
     ],
     steps: [
       { title: "Idea", text: "You share your wishes, mood, colours or inspiration." },
