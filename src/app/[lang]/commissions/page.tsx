@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { WorkCard } from "@/components/works/WorkCard";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
 import { getWork } from "@/lib/content";
@@ -17,18 +16,26 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** Works shown under "Possibilities" as an impression of the style (Daphne's own works). */
-const EXAMPLES = ["2026-catching-waves", "work-5", "watercolour-house"];
+/**
+ * Works shown under "Possibilities": Daphne's own works, each in a photo of it on the wall.
+ * The photo is cut to a wide frame around the canvas (`focus` = object-position), so the
+ * painting itself always stays whole; only plain wall is left out.
+ */
+const EXAMPLES = [
+  { slug: "work-1", photo: "04.jpg", focus: "50% 39%" },
+  { slug: "2026-catching-waves", photo: "new-07.jpg", focus: "50% 52%" },
+  { slug: "work-2", photo: "04.jpg", focus: "50% 52%" },
+];
 
 const Icon = ({ children }: { children: ReactNode }) => (
   <span className={styles.icon} aria-hidden="true">
     <svg
       viewBox="0 0 24 24"
-      width="22"
-      height="22"
+      width="24"
+      height="24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.3"
+      strokeWidth="1.2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -53,21 +60,50 @@ const icons = [
   </>,
 ];
 
+/** A simple line drawing of a sprig, drawn for this page. */
+const Sprig = () => (
+  <svg
+    className={styles.sprig}
+    viewBox="0 0 320 90"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.1"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M6 72C70 64 150 50 230 34c30-6 56-12 84-20" />
+    <path d="M60 64c-4-14 2-26 16-32-2 14-6 25-16 32Z" />
+    <path d="M70 62c10-8 24-8 34-2-12 6-23 7-34 2Z" />
+    <path d="M120 54c-2-16 6-28 20-32 0 14-6 26-20 32Z" />
+    <path d="M132 52c12-6 26-4 34 4-12 3-24 2-34-4Z" />
+    <path d="M182 44c0-15 8-25 22-28-2 13-9 23-22 28Z" />
+    <path d="M196 41c11-4 23-1 30 7-11 2-22 0-30-7Z" />
+    <path d="M250 29c4-10 13-15 23-14-4 9-12 14-23 14Z" />
+    <circle cx="300" cy="14" r="7" />
+    <circle cx="300" cy="14" r="2.5" />
+    <path d="M293 10c-3-5-1-10 4-11M307 18c4 3 9 2 11-2" />
+  </svg>
+);
+
 /**
- * Commissions: what a commission is, how it works in three steps, a few works as an impression of
- * the style, and an invitation to get in touch. Texts in src/i18n/dictionaries (nl = draft).
+ * Commissions: an opening band, what a commission is, how it works in three steps, a few of
+ * Daphne's own works as an impression, and an invitation. Texts in src/i18n/dictionaries.
  */
 export default async function CommissionsPage() {
   const { locale, t: dict, href } = await getI18n();
   const t = dict.commissions;
   const contact = `${href("/contact")}?onderwerp=${encodeURIComponent(t.subject)}`;
-  const examples = EXAMPLES.map((slug) => getWork(slug, locale)).filter(
-    (w) => w !== undefined,
-  );
+  const examples = EXAMPLES.flatMap(({ slug, photo, focus }) => {
+    const work = getWork(slug, locale);
+    const image =
+      work?.images.find((i) => i.url.endsWith(`/${photo}`)) ?? work?.images[0];
+    return work && image ? [{ work, image, focus }] : [];
+  });
 
   return (
     <div className={`${styles.page} container`} data-tight-footer="">
-      {/* 1. Opening: title, lead and button beside a photo of Daphne at work */}
+      {/* 1. Opening: text on the pink band, the studio photo fading in from the right */}
       <section className={styles.hero}>
         <div className={styles.heroText}>
           <h1 className={styles.title}>{t.title}</h1>
@@ -76,21 +112,22 @@ export default async function CommissionsPage() {
             {t.ask} <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <Image
-          src="/images/studio-landscape.jpg"
-          alt={t.photoAlt}
-          width={1672}
-          height={941}
-          sizes="(max-width: 900px) 100vw, 45vw"
-          quality={90}
-          priority
-          className={styles.heroImage}
-        />
+        <div className={styles.heroPhoto}>
+          <Image
+            src="/images/studio-landscape.jpg"
+            alt={t.photoAlt}
+            fill
+            sizes="(max-width: 900px) 100vw, 62vw"
+            quality={90}
+            priority
+            className={styles.heroImage}
+          />
+        </div>
       </section>
 
       {/* 2. Made to measure: text left, three points right */}
       <section className={styles.intro}>
-        <div>
+        <div className={styles.introText}>
           <h2 className={styles.heading}>{t.introTitle}</h2>
           <p className={styles.text}>{t.introText}</p>
         </div>
@@ -107,7 +144,7 @@ export default async function CommissionsPage() {
         </ul>
       </section>
 
-      {/* 3. How it works */}
+      {/* 3. How it works: three steps joined by a hairline */}
       <section className={styles.steps} aria-label={t.stepsLabel}>
         <ol className={styles.stepList}>
           {t.steps.map((s, i) => (
@@ -115,7 +152,7 @@ export default async function CommissionsPage() {
               <span className={styles.stepNumber}>
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div>
+              <div className={styles.stepBody}>
                 <h3 className={styles.stepTitle}>{s.title}</h3>
                 <p className={styles.featureText}>{s.text}</p>
               </div>
@@ -124,7 +161,7 @@ export default async function CommissionsPage() {
         </ol>
       </section>
 
-      {/* 4. Possibilities: a few of Daphne's own works as an impression of the style */}
+      {/* 4. Possibilities: a few of Daphne's own works, on the wall */}
       <section className={styles.options} aria-labelledby="options-title">
         <div className={styles.optionsText}>
           <h2 id="options-title" className={styles.heading}>
@@ -133,9 +170,25 @@ export default async function CommissionsPage() {
           <p className={styles.text}>{t.optionsText}</p>
         </div>
         <ul className={styles.optionsList}>
-          {examples.map((work) => (
+          {examples.map(({ work, image, focus }) => (
             <li key={work.slug}>
-              <WorkCard work={work} locale={locale} label={work.title} />
+              <Link href={href(`/works/${work.slug}`)} className={styles.option}>
+                <span className={styles.optionPhoto}>
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 700px) 100vw, (max-width: 1100px) 33vw, 24vw"
+                    quality={85}
+                    className={styles.optionImage}
+                    style={{ objectPosition: focus }}
+                  />
+                </span>
+                <span className={styles.optionLabel}>
+                  <span>{work.title}</span>
+                  <span aria-hidden="true">→</span>
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
@@ -143,7 +196,8 @@ export default async function CommissionsPage() {
 
       {/* 5. Invitation */}
       <section className={styles.cta}>
-        <div>
+        <Sprig />
+        <div className={styles.ctaText}>
           <h2 className={styles.ctaTitle}>{t.ctaTitle}</h2>
           <p className={styles.featureText}>{t.ctaText}</p>
         </div>

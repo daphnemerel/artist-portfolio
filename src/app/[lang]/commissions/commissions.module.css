@@ -1,57 +1,72 @@
 /*
- * Commissions page. Pale pink bands (as on the homepage) alternate with off-white; hairlines
- * between sections; serif headings in bordeaux; the site's square bordeaux buttons.
+ * Commissions page, after Daphne's mockup: pale pink bands (as on the homepage) alternate with
+ * off-white; serif headings in bordeaux; the site's square bordeaux buttons; hairlines.
+ * Deliberate deviation, asked for by the mockup: the opening photo fades softly into the band
+ * (a mask on the studio photo — never on an artwork).
  */
 .page {
   --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
+  --band-line: color-mix(in srgb, var(--color-pink) 55%, var(--color-off-white));
 }
 
-/* Full-width pale pink band, content kept on the page grid. */
+/* Full-width pink bands, content kept on the page margin. */
 .hero,
 .options,
 .cta {
   margin-inline: calc(-1 * var(--margin));
   padding-inline: var(--margin);
+  background: var(--band);
 }
 
 /* ---------- 1. opening ---------- */
 
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
   align-items: center;
+  min-height: clamp(440px, 62svh, 600px);
   padding-block: var(--space-xl);
-  background: var(--band);
+  overflow: hidden;
 }
 
 .heroText {
+  position: relative;
+  z-index: 1;
   grid-column: 1 / 6;
   display: grid;
   justify-items: start;
   gap: var(--space-md);
 }
 
+.heroPhoto {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: 62%;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+}
+
 .heroImage {
-  grid-column: 7 / -1;
-  width: 100%;
-  height: auto;
-  max-height: 60svh;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: 68% 50%;
 }
 
 .title {
   font-family: var(--font-serif);
-  font-size: clamp(3rem, 6vw, 5rem);
+  font-size: clamp(3rem, 6.4vw, 5.5rem);
   font-weight: 400;
   line-height: 1;
+  letter-spacing: -0.01em;
   color: var(--color-bordeaux);
 }
 
 .lead {
-  max-width: 40ch;
+  max-width: 34ch;
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: clamp(1.125rem, 1.5vw, 1.3125rem);
   line-height: 1.45;
   color: var(--color-ink);
 }
@@ -61,6 +76,7 @@
   align-items: center;
   gap: var(--space-sm);
   min-height: 48px;
+  margin-block-start: var(--space-xs);
   padding-inline: 24px;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
@@ -86,11 +102,11 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
   row-gap: var(--space-lg);
-  align-items: start;
-  padding-block: var(--space-xl) var(--space-lg);
+  align-items: center;
+  padding-block: var(--space-xl);
 }
 
-.intro > div {
+.introText {
   grid-column: 1 / 7;
   display: grid;
   gap: var(--space-md);
@@ -106,7 +122,7 @@
 }
 
 .text {
-  max-width: 58ch;
+  max-width: 56ch;
   font-family: var(--font-serif);
   font-size: var(--type-body);
   line-height: var(--leading-body);
@@ -116,22 +132,22 @@
 .features {
   grid-column: 8 / -1;
   display: grid;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .feature {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: 64px minmax(0, 1fr);
   gap: var(--space-md);
-  align-items: start;
+  align-items: center;
 }
 
-/* A small pink disc with a line drawing, like the Socials band. */
+/* A pink disc with a line drawing. */
 .icon {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: var(--band);
   color: var(--color-bordeaux);
@@ -146,7 +162,7 @@
 }
 
 .featureText {
-  max-width: 48ch;
+  max-width: 46ch;
   margin-block-start: 2px;
   font-family: var(--font-serif);
   font-size: var(--type-body);
@@ -157,7 +173,7 @@
 /* ---------- 3. how it works ---------- */
 
 .steps {
-  padding-block: var(--title-gap) var(--space-xl);
+  padding-block: var(--space-lg) var(--space-xl);
   border-top: var(--border-hairline);
 }
 
@@ -167,19 +183,39 @@
   gap: var(--space-lg) var(--gutter);
 }
 
+/* Number, then a hairline running on to the next step; title and text below. */
 .step {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-md);
-  align-items: baseline;
+  column-gap: var(--space-md);
+  row-gap: var(--space-sm);
+  align-items: center;
+}
+
+.step::after {
+  content: "";
+  grid-row: 1;
+  grid-column: 2;
+  margin-inline-end: calc(-1 * var(--gutter));
+  border-top: 1px solid var(--band-line);
+}
+
+.step:last-child::after {
+  margin-inline-end: 0;
+  visibility: hidden;
 }
 
 .stepNumber {
   font-family: var(--font-serif);
-  font-size: clamp(2.25rem, 3.4vw, 3rem);
+  font-size: clamp(2.5rem, 3.6vw, 3.25rem);
   line-height: 1;
   color: var(--color-pink);
   font-variant-numeric: lining-nums;
+}
+
+.stepBody {
+  grid-column: 1 / -1;
+  padding-inline-end: var(--space-lg);
 }
 
 .stepTitle {
@@ -199,7 +235,6 @@
   row-gap: var(--space-lg);
   align-items: center;
   padding-block: var(--space-xl);
-  background: var(--band);
 }
 
 .optionsText {
@@ -215,17 +250,66 @@
   gap: var(--gutter);
 }
 
+.option {
+  display: grid;
+  gap: var(--space-sm);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+/* A wide frame around the canvas on the wall: the painting stays whole, only wall is left out. */
+.optionPhoto {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 5;
+  overflow: hidden;
+}
+
+.optionImage {
+  object-fit: cover;
+  transition: transform 240ms var(--ease);
+}
+
+.option:hover .optionImage {
+  transform: scale(1.01);
+}
+
+.optionLabel {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--color-bordeaux);
+}
+
+.option:hover .optionLabel,
+.option:focus-visible .optionLabel {
+  color: var(--color-turquoise);
+}
+
 /* ---------- 5. invitation ---------- */
 
 .cta {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) auto;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-md) var(--space-2xl);
+  gap: var(--space-md) var(--space-xl);
   padding-block: var(--space-xl);
-  border-top: 1px solid color-mix(in srgb, var(--color-pink) 60%, var(--color-off-white));
-  background: var(--band);
+  border-top: 1px solid var(--band-line);
+}
+
+.sprig {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  color: var(--color-bordeaux);
+  opacity: 0.8;
+}
+
+.ctaText {
+  display: grid;
+  gap: var(--space-xs);
 }
 
 .ctaTitle {
@@ -243,45 +327,69 @@
   .optionsList {
     grid-column: 1 / -1;
   }
+
+  .heroText {
+    grid-column: 1 / 7;
+  }
 }
 
 @media (max-width: 900px) {
-  .heroText,
-  .heroImage,
-  .intro > div,
+  .introText,
   .features {
     grid-column: 1 / -1;
   }
 
+  /* The photo moves under the text, full width, fading in from the top. */
   .hero {
+    min-height: 0;
+    padding-block: var(--space-lg) 0;
     row-gap: var(--space-lg);
-    padding-block: var(--space-lg);
+  }
+
+  .heroText {
+    grid-column: 1 / -1;
+  }
+
+  .heroPhoto {
+    position: relative;
+    grid-column: 1 / -1;
+    width: auto;
+    margin-inline: calc(-1 * var(--margin));
+    aspect-ratio: 16 / 10;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
   }
 
   .stepList {
     grid-template-columns: 1fr;
   }
+
+  .step:last-child::after {
+    visibility: visible;
+  }
+
+  .step::after {
+    margin-inline-end: 0;
+  }
+
+  .cta {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .sprig {
+    max-width: 240px;
+  }
 }
 
 @media (max-width: 700px) {
-  .intro {
-    padding-block: var(--space-lg);
-  }
-
-  .optionsList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .optionsList > li:nth-child(3) {
-    display: none;
-  }
-
+  .intro,
   .options,
   .cta {
     padding-block: var(--space-lg);
   }
 
-  .cta {
-    justify-content: flex-start;
+  .optionsList {
+    grid-template-columns: 1fr;
   }
 }
