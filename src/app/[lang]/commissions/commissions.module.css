@@ -1,89 +1,141 @@
 /*
- * Commissions page — a precise copy of Daphne's reference layout (one desktop screen).
- *
- * Measured from the reference (1672 × 941, content 1354 px wide, 890 px tall below the header):
- * horizontal positions are fractions of the content width; vertical sizes are in em, where
- * 1em = 16 px of the reference. The page's font size follows the window height, so the whole
- * page always fits one screen. Below 900 px wide it becomes a simple column (to be refined).
- *
- * Deliberate deviations from the codebook, asked for by Daphne: tighter spacing than the
- * spacing scale, and the studio photo fades out (a mask on that photo, never on an artwork).
+ * Commissions: one screen, laid out as a catalogue spread.
+ *   Left (cols 1–5), on off-white: title, lead, a label with the practical facts, the three
+ *   steps between hairlines, and the button.
+ *   Right (cols 7–12 to the window edge), a pale pink band from header to footer: the studio
+ *   photo, whole, with a caption, and three earlier works, whole, as small squares.
+ * Sizes are in em and the page's font size follows the window height, so the spread always
+ * fits one screen. No fades, no overlaps, no icons; artworks are never cropped.
+ * Below 900px wide it becomes a simple column (to be refined later).
  */
 .page {
   --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
-  --band-line: color-mix(in srgb, var(--color-pink) 55%, var(--color-off-white));
-  font-size: clamp(10px, calc((100svh - 76px) * 0.0175), 18px);
-}
-
-/* ---------- 1. opening (header bottom → 279 px) ---------- */
-
-.top {
-  position: relative;
-}
-
-/* From 29.2 % of the content to the right edge of the window; fades out left and bottom. */
-.heroPhoto {
-  position: absolute;
-  top: 0;
-  left: calc(396 / 1354 * 100%);
-  right: calc(-1 * var(--margin));
-  height: 33em;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, #000 20%),
-    linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0%, #000 20%),
-    linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
-  mask-composite: intersect;
-  pointer-events: none;
-}
-
-.heroImage {
-  object-fit: cover;
-  object-position: 55% 0%;
-}
-
-.hero {
-  position: relative;
-  padding-block: 1.75em 1.6em;
-}
-
-.heroText {
   display: grid;
-  justify-items: start;
-  gap: 1.25em;
-  width: calc(345 / 1354 * 100%);
-  min-width: 18em;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  /* header (76px) and the 24px gap above the footer: the spread ends exactly at the screen edge */
+  min-height: calc(100svh - 100px);
+  font-size: clamp(11px, calc((100svh - 76px) / 55), 17px);
+}
+
+/* ---------- left: the text ---------- */
+
+.text {
+  grid-column: 1 / 6;
+  align-self: center;
+  padding-block: 2em;
 }
 
 .title {
   font-family: var(--font-serif);
-  font-size: 4em;
+  font-size: 4.5em;
   font-weight: 400;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   color: var(--color-bordeaux);
 }
 
 .lead {
+  max-width: 40ch;
+  margin-block: 0.9em 1.6em;
+  font-family: var(--font-serif);
+  font-size: 1.1875em;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+/* Facts, set like the label on a work page: hairlines, a small sans term, a serif value. */
+.facts {
+  border-bottom: var(--border-hairline);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 9em minmax(0, 1fr);
+  gap: 1em;
+  align-items: baseline;
+  padding-block: 0.7em;
+  border-top: var(--border-hairline);
+}
+
+.fact dt {
+  font-size: 0.8125em;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+}
+
+.fact dd {
+  font-family: var(--font-serif);
+  font-size: 1em;
+  color: var(--color-ink);
+}
+
+.stepsLabel {
+  margin-block: 1.75em 0.4em;
+  font-family: var(--font-serif);
+  font-size: 1.375em;
+  font-weight: 400;
+  color: var(--color-bordeaux);
+}
+
+/* number | title, with the text under the title */
+.steps {
+  display: grid;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2.25em minmax(0, 1fr);
+  column-gap: 0.75em;
+  padding-block: 0.55em;
+}
+
+.step + .step {
+  border-top: var(--border-hairline);
+}
+
+.stepNumber {
+  grid-row: span 2;
+  font-family: var(--font-serif);
+  font-size: 1.75em;
+  line-height: 1;
+  color: var(--color-pink);
+  font-variant-numeric: lining-nums;
+}
+
+.stepTitle {
   font-family: var(--font-serif);
   font-size: 1.0625em;
-  line-height: 1.41;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--color-bordeaux);
+}
+
+.stepText {
+  font-family: var(--font-serif);
+  font-size: 0.9375em;
+  line-height: 1.45;
   color: var(--color-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1em 1.75em;
+  margin-block-start: 1.6em;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
-  gap: 0.75em;
-  min-height: 2.45em;
-  padding-inline: 1.3em;
+  min-height: 2.9em;
+  padding-inline: 1.5em;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
   font-family: var(--font-serif);
-  font-size: 0.97em;
+  font-size: 1em;
   white-space: nowrap;
   transition:
     background-color var(--duration) var(--ease),
@@ -96,356 +148,125 @@
   color: var(--color-bordeaux);
 }
 
-/* ---------- 2. made to measure, on a light panel (279 → 494 px) ---------- */
-
-.intro {
-  position: relative;
-  display: grid;
-  grid-template-columns: calc(455 / 1354 * 100%) calc(104 / 1354 * 100%) calc(404 / 1354 * 100%);
-  align-items: start;
-  padding-block: 1em 0.75em;
-}
-
-/* The panel: from the left edge of the window to 71 % of the content. */
-.intro::before {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: calc(-1 * var(--margin));
-  width: calc(var(--margin) + 963 / 1354 * 100%);
-  background: var(--color-off-white);
-}
-
-.introText,
-.features {
-  position: relative;
-}
-
-.introText {
-  grid-column: 1;
-  display: grid;
-  gap: 0.625em;
-}
-
-.heading {
-  font-family: var(--font-serif);
-  font-size: 2.125em;
-  font-weight: 400;
-  line-height: 1;
-  color: var(--color-bordeaux);
-}
-
-.text {
+.link {
   font-family: var(--font-serif);
   font-size: 1em;
-  line-height: 1.33;
-  color: var(--color-ink);
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color var(--duration) var(--ease);
 }
 
-.features {
-  grid-column: 3;
-  display: grid;
-  gap: 0.95em;
-  padding-block-start: 0.4em;
+.link:hover,
+.link:focus-visible {
+  color: var(--color-turquoise);
 }
 
-.feature {
-  display: grid;
-  grid-template-columns: 3em minmax(0, 1fr);
-  column-gap: 1.5em;
-  align-items: start;
-}
+/* ---------- right: the pink band ---------- */
 
-/* A pink disc with a line drawing. */
-.icon {
+.band {
+  grid-column: 7 / -1;
+  margin-inline-end: calc(-1 * var(--margin));
+  margin-block-end: -24px; /* runs on through the gap above the footer */
   display: grid;
-  place-items: center;
-  width: 3em;
-  height: 3em;
-  border-radius: 50%;
+  align-content: center;
+  justify-items: center;
+  gap: 2.25em;
+  padding: 2.5em 3em;
   background: var(--band);
-  color: var(--color-bordeaux);
 }
 
-.icon svg {
-  width: 1.625em;
-  height: 1.625em;
+/* The photo and the works share one column width, as wide as fits. */
+.studio,
+.examples {
+  width: min(100%, 36em);
 }
 
-.featureTitle {
-  font-family: var(--font-serif);
-  font-size: 0.9375em;
-  font-weight: 400;
-  line-height: 1.3;
-  color: var(--color-bordeaux);
+.studioImage {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.featureText {
-  max-width: 17em;
-  font-family: var(--font-serif);
+.caption {
+  margin-block-start: 0.6em;
   font-size: 0.8125em;
-  line-height: 1.27;
+  letter-spacing: 0.02em;
   color: var(--color-muted);
 }
 
-/* ---------- 3. how it works (494 → 591 px) ---------- */
-
-.steps {
-  padding-block: 1.25em 1em;
-}
-
-.stepList {
-  display: grid;
-  grid-template-columns: calc(455 / 1354 * 100%) calc(505 / 1354 * 100%) minmax(0, 1fr);
-}
-
-/* number | title and text | a hairline running on to the next step */
-.step {
-  display: grid;
-  grid-template-columns: 4.3em auto minmax(1em, 1fr);
-  align-items: start;
-}
-
-.step::after {
-  content: "";
-  align-self: center;
-  margin-inline: 1.5em;
-  border-top: 1px solid var(--band-line);
-}
-
-.step:last-child::after {
-  visibility: hidden;
-}
-
-.stepNumber {
+.examplesTitle {
+  margin-block-end: 0.75em;
   font-family: var(--font-serif);
-  font-size: 2.6em;
-  line-height: 0.9;
-  color: var(--color-pink);
-  font-variant-numeric: lining-nums;
-}
-
-.stepBody {
-  max-width: 16em;
-}
-
-.stepTitle {
-  font-family: var(--font-serif);
-  font-size: 1.125em;
+  font-size: 1.375em;
   font-weight: 400;
-  line-height: 1.2;
   color: var(--color-bordeaux);
 }
 
-.stepBody .featureText {
-  max-width: none;
-  font-size: 0.875em;
-  line-height: 1.3;
-}
-
-/* ---------- 4. possibilities, on the pink band (591 → 797 px) ---------- */
-
-.options {
-  display: grid;
-  grid-template-columns: calc(392 / 1354 * 100%) minmax(0, 1fr);
-  align-items: start;
-  margin-inline: calc(-1 * var(--margin));
-  padding: 0.75em var(--margin) 0.625em;
-  background: var(--band);
-}
-
-.optionsText {
-  display: grid;
-  gap: 0.75em;
-  padding-block-start: 0.8em;
-  padding-inline-end: calc(56 / 392 * 100%);
-}
-
-.optionsText .text {
-  font-size: 0.9375em;
-  line-height: 1.33;
-  color: var(--color-muted);
-}
-
-.optionsList {
+.exampleList {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: calc(25 / 962 * 100%);
+  gap: 1.5em;
 }
 
-.option {
+.example {
   display: grid;
-  gap: 0.6em;
-  color: var(--color-ink);
+  gap: 0.5em;
   text-decoration: none;
 }
 
-/* A wide frame around the canvas on the wall: the painting stays whole, only wall is left out. */
-.optionPhoto {
-  position: relative;
-  display: block;
-  aspect-ratio: 2.05;
-  overflow: hidden;
+/* A square in which the work sits whole. */
+.exampleFrame {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
 }
 
-.optionImage {
-  object-fit: cover;
+.exampleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   transition: transform 240ms var(--ease);
 }
 
-.option:hover .optionImage {
+.example:hover .exampleImage {
   transform: scale(1.01);
 }
 
-.optionLabel {
-  display: flex;
-  justify-content: space-between;
-  gap: 1em;
+.exampleTitle {
   font-family: var(--font-serif);
   font-size: 0.9375em;
-  line-height: 1.2;
   color: var(--color-ink);
   transition: color var(--duration) var(--ease);
 }
 
-.option:hover .optionLabel,
-.option:focus-visible .optionLabel {
+.example:hover .exampleTitle,
+.example:focus-visible .exampleTitle {
   color: var(--color-turquoise);
-}
-
-/* ---------- 5. invitation (797 → 890 px) ---------- */
-
-.cta {
-  position: relative;
-  display: grid;
-  grid-template-columns: calc(294 / 1354 * 100%) minmax(0, 1fr) auto;
-  align-items: center;
-  padding-block: 1.4em;
-}
-
-/* The drawn branch, bottom left, reaching a little into the pink band above. */
-.sprig {
-  position: absolute;
-  left: calc(-1 * var(--margin) + 1.5em);
-  bottom: 0;
-  width: 15em;
-  height: auto;
-  color: var(--color-bordeaux);
-  opacity: 0.45;
-  transform: scaleX(-1);
-  pointer-events: none;
-}
-
-.ctaText {
-  grid-column: 2;
-  display: grid;
-  gap: 0.2em;
-}
-
-.ctaTitle {
-  font-family: var(--font-serif);
-  font-size: 1.625em;
-  font-weight: 400;
-  line-height: 1.15;
-  color: var(--color-bordeaux);
-}
-
-.ctaText .featureText {
-  max-width: none;
-  font-size: 0.875em;
-}
-
-.cta .button {
-  grid-column: 3;
-  min-height: 2.7em;
 }
 
 /* ---------- smaller screens: a simple column for now ---------- */
 
 @media (max-width: 900px) {
   .page {
+    display: block;
+    min-height: 0;
     font-size: 16px;
   }
 
-  .top {
-    display: flex;
-    flex-direction: column;
+  .text {
+    padding-block: 2em 3em;
   }
 
-  .hero {
-    order: 1;
-    padding-block: 2em 1.5em;
-  }
-
-  .heroText {
-    width: auto;
-  }
-
-  .heroPhoto {
-    order: 2;
-    position: relative;
-    left: auto;
-    right: auto;
-    height: auto;
+  .band {
+    margin-block-end: 0;
     margin-inline: calc(-1 * var(--margin));
-    aspect-ratio: 3 / 2;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    padding: 2em var(--margin);
   }
 
-  .intro {
-    order: 3;
-    grid-template-columns: 1fr;
-    row-gap: 2em;
-    padding-block: 1em 2em;
-  }
-
-  .intro::before {
-    display: none;
-  }
-
-  .introText,
-  .features {
-    grid-column: 1;
-  }
-
-  .stepList,
-  .options,
-  .optionsList,
-  .cta {
-    grid-template-columns: 1fr;
-  }
-
-  .stepList,
-  .optionsList {
-    row-gap: 1.5em;
-  }
-
-  .step::after {
-    display: none;
-  }
-
-  .options {
-    row-gap: 1.5em;
-    padding-block: 2em;
-  }
-
-  .optionsText {
-    padding-inline-end: 0;
-  }
-
-  .cta {
-    justify-items: start;
-    row-gap: 1.25em;
-    padding-block: 2em;
-  }
-
-  .ctaText,
-  .cta .button {
-    grid-column: 1;
-  }
-
-  .sprig {
-    display: none;
+  .studio,
+  .examples {
+    width: 100%;
   }
 }
