@@ -1,13 +1,20 @@
 ---
-# Date of the work: 13 September 2026. Medium and dimensions still to be confirmed.
-title: Catching Waves
+# Details confirmed by Daphne, 15 Oct 2026.
+title: "Catching Waves"
 year: 2026
-medium: Medium to be added
+medium: Acrylic
+dimensions: 30 × 30 cm
+availability: Unavailable
+available: false
+price: TBC
 featured: true
 number: 3
 summary: A playful scene of tiny swimmers and surfers on a textured sea of layered paint.
-# PLACEHOLDER price taken from the design mock-up — replace with the real price.
-price: €999,99
+# Texts on the work page (from the earlier "What / How / Inspiration" text).
+story: >-
+  A study of the sea seen from above: thick turquoise paint pulled into waves, with tiny swimmers
+  and surfers placed on its surface. Inspired by the work of Werner Bronkhorst and Golsa Golchini.
+process: Description of the process and materials to be added.
 order: 0
 images:
   - src: ./images/new-01.jpg
@@ -16,10 +23,13 @@ images:
       colourful boards scattered across the surface.
   - src: ./images/new-02.jpg
     alt: Detail of a tiny surfer on a green board riding a curved ridge of turquoise paint.
+    caption: Detail, surfer on a green board
   - src: ./images/new-03.jpg
     alt: Detail of a tiny swimmer in a bikini with one arm raised, on a small pink board.
+    caption: Detail, swimmer on a pink board
   - src: ./images/new-04.jpg
     alt: Detail of a tiny figure in a black wetsuit lying on an orange board, a white wake behind.
+    caption: Detail, figure on an orange board
   - src: ./images/new-05.jpg
     alt: Detail of a tiny surfer on a purple board, crouching as he turns on the paint.
   - src: ./images/new-06.jpg
@@ -34,6 +44,8 @@ images:
   - src: ./images/02.jpg
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
+    # Only for the experiment; not in the slideshow on the work page.
+    slideshow: false
 # Opening strip on the work page: from close up out to the studio.
 layers:
   - src: ./images/layer-01.jpg
@@ -76,16 +88,3 @@ journey:
       label: Process
       text: Layer by layer, the landscape takes shape.
 ---
-
-## What
-
-A study of the sea seen from above: thick turquoise paint pulled into waves, with tiny swimmers
-and surfers placed on its surface.
-
-## How
-
-Description of the process and materials to be added.
-
-## Inspiration
-
-Inspired by the work of Werner Bronkhorst and Golsa Golchini.

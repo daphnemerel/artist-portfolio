@@ -90,7 +90,7 @@
 }
 
 .image {
-  object-fit: cover;
+  object-fit: contain; /* the whole work, never cropped */
   transition: transform var(--duration) var(--ease);
 }
 

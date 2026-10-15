@@ -1,140 +1,444 @@
-/* Text column left (sticky), images right — like a catalogue spread. */
-.work {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--gutter);
-  row-gap: var(--title-gap);
-  padding-block-start: var(--title-gap); /* same gap under the header as the page titles */
+/*
+ * A work page, set like a museum catalogue entry. Artwork images are always shown whole at their
+ * own proportions (width 100%, height auto): never cropped or stretched.
+ */
+/* As little white as elsewhere on the site: --title-gap between the parts. */
+.page {
+  padding-block: var(--title-gap) 0; /* the footer's own small gap closes the page */
 }
 
-/* Story layout (e.g. Catching Waves) opens with its image strip right under the header. */
-.story {
-  padding-block-start: 0;
-}
+/* ---------- 5. breadcrumb and previous / next ---------- */
 
-.details {
-  grid-column: 1 / 4;
-  align-self: start;
-  position: sticky;
-  top: var(--space-md);
-  display: grid;
-  gap: var(--title-gap);
+.topnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-xs) var(--space-lg);
+  padding-block-end: var(--title-gap);
+  border-bottom: var(--border-hairline);
+  font-family: var(--font-sans);
   font-size: var(--type-caption);
-  line-height: var(--leading-caption);
   letter-spacing: var(--tracking-caption);
 }
 
-.title {
-  font-size: var(--type-heading-md);
-  font-weight: 400;
-  line-height: var(--leading-heading-md);
-  letter-spacing: var(--tracking-heading-md);
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  color: var(--color-muted);
+}
+
+.crumbs li + li::before {
+  content: "→";
+  margin-inline-end: var(--space-xs);
+  color: var(--color-muted);
+}
+
+.crumbs [aria-current] {
   color: var(--color-bordeaux);
 }
 
-.meta dd {
-  color: var(--color-muted);
+.crumbs a,
+.prevNext a {
+  transition: color var(--duration) var(--ease);
 }
 
-.images {
-  grid-column: 5 / -1;
+.crumbs a:hover,
+.prevNext a:hover {
+  color: var(--color-turquoise);
 }
 
-.pager {
-  grid-column: 1 / -1;
+.prevNext {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.disabled {
+  opacity: 0.35;
+}
+
+/* ---------- 1. the work and its label ---------- */
+
+.hero {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: var(--space-md);
-  margin-block-start: var(--space-2xl);
-  padding-block-start: var(--space-sm);
-  border-top: var(--border-hairline);
-  font-size: var(--type-nav);
-  letter-spacing: var(--tracking-nav);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  padding-block: var(--title-gap);
 }
 
-.pager > :last-child {
-  text-align: end;
-}
-
-/* ---------- story layout (works with layers) ---------- */
-
-.story > :first-child {
-  grid-column: 1 / -1;
-}
-
-.story .details {
-  position: static;
-  scroll-margin-top: var(--space-xl);
-}
-
-.story .title {
-  font-size: var(--type-heading-lg);
-  line-height: var(--leading-heading-lg);
-  letter-spacing: var(--tracking-heading-lg);
-}
-
-/* Markdown sections (## What, ## How, ## Inspiration) set side by side as columns. */
-.about {
-  grid-column: 5 / -1;
-}
-
-.about > div {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  gap: var(--space-sm) var(--space-lg);
-  max-width: none;
-}
-
-.about > div > h2 {
+.artwork {
+  grid-column: 1 / 8;
   margin: 0;
+}
+
+/* The work hangs on a quiet wall: a lightly toned field with air around it. */
+.wall {
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg) var(--space-lg) var(--space-sm);
+  background: var(--color-image-bg);
+}
+
+.artworkImage {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: calc(100svh - 300px);
+  object-fit: contain; /* never cropped: the whole work, at its own proportions */
+}
+
+/* A wall label under the work: title left, artist and year right. */
+.plate {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-block-start: var(--space-xs);
   font-family: var(--font-sans);
   font-size: var(--type-caption);
-  line-height: var(--leading-caption);
   letter-spacing: var(--tracking-caption);
   color: var(--color-muted);
 }
 
-.about > div > h2::before {
-  content: "";
-  display: inline-block;
-  width: 24px;
-  height: 2px;
-  margin-inline-end: var(--space-sm);
-  vertical-align: middle;
-  background: var(--color-pink);
+.plate span:first-child {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--type-body);
+  color: var(--color-bordeaux);
 }
 
-.about > div > p {
+.label {
+  grid-column: 9 / -1;
+  align-self: center;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-md);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  margin-block-start: calc(-1 * var(--space-xs));
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4.4vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--color-bordeaux);
+}
+
+.summary {
+  max-width: 36ch;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-style: italic;
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+/* The facts as a small table: label left, value right, hairlines between. */
+.facts {
+  width: 100%;
+  margin: var(--space-xs) 0 0;
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: var(--space-md);
+  padding-block: 10px;
+  border-top: var(--border-hairline);
+}
+
+.fact:last-child {
+  border-bottom: var(--border-hairline);
+}
+
+.fact dt {
+  color: var(--color-muted);
+}
+
+.fact dd {
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.pending {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.fact dd.pending {
+  color: var(--color-muted);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 48px;
+  margin-block-start: var(--space-xs);
+  padding-inline: 26px;
+  border: 1px solid var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+/* Not for sale: the same shape, quiet and inert. */
+.ctaDisabled,
+.ctaDisabled:hover {
+  border-color: var(--color-rule);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: default;
+}
+
+.cta:not(.ctaDisabled):hover,
+.cta:not(.ctaDisabled):focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+/* ---------- 2. three short texts: numbered, side by side, hairline above each ---------- */
+
+.texts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg) var(--space-xl);
+  padding-block: var(--title-gap);
+}
+
+.textBlock {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+  padding-block-start: var(--space-sm);
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.textNumber {
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: 0.2em;
+  color: var(--color-bordeaux);
+  font-variant-numeric: tabular-nums;
+}
+
+.textHeading {
+  font-family: var(--font-serif);
+  font-size: var(--type-heading-md);
+  font-weight: 400;
+  line-height: var(--leading-heading-md);
+  color: var(--color-bordeaux);
+}
+
+.prose {
+  max-width: 44ch;
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+}
+
+.prose p + p {
+  margin-block-start: var(--space-sm);
+}
+
+/* ---------- 3. supporting photos ---------- */
+
+/* Three photos side by side, all the same size: each sits whole (never cropped) in an equal,
+   lightly toned frame. */
+.supporting {
+  padding-block: var(--title-gap);
+}
+
+.supportingList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+.figure {
   margin: 0;
 }
 
-.story .images {
-  grid-column: 3 / 11;
-  margin-block-start: var(--space-2xl);
+.frame {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  background: var(--color-image-bg);
 }
 
+.supportingImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* whole photo, own proportions */
+}
+
+.caption {
+  display: flex;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-muted);
+}
+
+.figNumber {
+  color: var(--color-bordeaux);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 4. see other works (the shared component; spacing for this page) ---------- */
+
+.page .others {
+  margin-block-start: 0;
+  padding-block-start: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+/* ---------- (unused) related work ---------- */
+
+.related {
+  padding-block-start: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+.relatedHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+  margin-block-end: var(--space-md);
+}
+
+.relatedTitle {
+  font-family: var(--font-serif);
+  font-size: var(--type-heading-md);
+  font-weight: 400;
+  line-height: var(--leading-heading-md);
+  color: var(--color-bordeaux);
+}
+
+.allWorks {
+  font-family: var(--font-sans);
+  font-size: var(--type-nav);
+  letter-spacing: var(--tracking-nav);
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  white-space: nowrap;
+}
+
+.allWorks:hover {
+  color: var(--color-turquoise);
+}
+
+.relatedList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+/* ---------- smaller screens ---------- */
+
 @media (max-width: 900px) {
-  /* Phones: sections sit close together. */
-  .story {
-    row-gap: var(--space-md);
+  .hero {
+    row-gap: var(--title-gap);
   }
 
-  .details,
-  .images,
-  .about,
-  .story .images {
+  .artwork,
+  .label {
     grid-column: 1 / -1;
-    position: static;
   }
 
-  .about > div {
-    grid-auto-flow: row;
-    grid-template-rows: none;
+  .artworkImage {
+    max-height: none;
   }
 
-  .about > div > h2:not(:first-child) {
-    margin-block-start: var(--space-md);
+  .texts {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media (max-width: 700px) {
+  .topnav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .wall {
+    padding: var(--space-md);
+  }
+
+  .relatedList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .relatedList > li:nth-child(3) {
+    display: none; /* two in a row on phones */
+  }
+
+  .relatedHead {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .fact {
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .supportingList {
+    gap: var(--space-xs);
+  }
+
+  .caption {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+/* Desktop: the top of the page fits one screen. The header (~76px), the breadcrumb row and the
+   spacing take ~290px; the slideshow (stage + controls) gets the rest. */
+@media (min-width: 901px) {
+  .hero {
+    min-height: 0;
+  }
+
+  .wall :global([aria-roledescription="carousel"]) > div:first-child {
+    height: calc(100svh - 350px);
+    max-height: none;
+    width: auto;
+    max-width: 100%;
   }
 }
