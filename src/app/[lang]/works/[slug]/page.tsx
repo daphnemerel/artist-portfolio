@@ -27,29 +27,57 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const alt = alternates(locale, `/works/${slug}`);
   return {
     title: work.year ? `${work.title}, ${work.year}` : work.title,
-    description: work.summary ?? [work.medium, work.dimensions].filter(Boolean).join(", "),
+    description:
+      work.summary ?? [work.medium, work.dimensions].filter(Boolean).join(", "),
     ...alt,
-    openGraph: { ...alt.openGraph, images: [{ url: image.url, width: image.width, height: image.height, alt: image.alt }] },
+    openGraph: {
+      ...alt.openGraph,
+      images: [
+        {
+          url: image.url,
+          width: image.width,
+          height: image.height,
+          alt: image.alt,
+        },
+      ],
+    },
   };
 }
 
-type Supporting = { url: string; width: number; height: number; alt: string; caption?: string };
+type Supporting = {
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption?: string;
+};
 
 /** Three real photos below the work: the "inside the work" photos where a work has them, otherwise its next images. */
 function supportingImages(work: Work): Supporting[] {
   const journey = work.journey?.items;
   if (journey && journey.length >= 3) {
-    const pick = ["Texture", "Studio", "Process", "Textuur", "Atelier", "Proces"];
+    const pick = [
+      "Texture",
+      "Studio",
+      "Process",
+      "Textuur",
+      "Atelier",
+      "Proces",
+    ];
     const chosen = journey.filter((item) => pick.includes(item.label));
-    return (chosen.length >= 3 ? chosen : journey).slice(0, 3).map((item) => ({ ...item, caption: item.label }));
+    return (chosen.length >= 3 ? chosen : journey)
+      .slice(0, 3)
+      .map((item) => ({ ...item, caption: item.label }));
   }
   return work.images.slice(1, 4);
 }
 
 /** Placeholder values in the content ("Medium to be added", "Materiaal volgt nog") look like the empty ones. */
-const isPlaceholder = (value: string | number) => /to be added|volgt nog/i.test(String(value));
+const isPlaceholder = (value: string | number) =>
+  /to be added|volgt nog/i.test(String(value));
 
-const md = (text?: string) => (text ? marked.parse(text.trim(), { async: false }) : undefined);
+const md = (text?: string) =>
+  text ? marked.parse(text.trim(), { async: false }) : undefined;
 
 /**
  * A work page set like a museum catalogue entry: breadcrumb and previous / next, the whole work
@@ -71,7 +99,9 @@ export default async function WorkPage({ params }: Props) {
   const related = works.filter((w) => w.slug !== slug).slice(0, 3);
   const image = work.images[0];
   const supporting = supportingImages(work);
-  const subject = encodeURIComponent(format(t.inquireSubject, { title: work.title }));
+  const subject = encodeURIComponent(
+    format(t.inquireSubject, { title: work.title }),
+  );
 
   const facts: [string, string | number | undefined][] = [
     [t.year, work.year],
@@ -126,21 +156,19 @@ export default async function WorkPage({ params }: Props) {
         <figure className={styles.artwork}>
           <span className={styles.wall}>
             <Image
-            src={image.url}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            sizes="(max-width: 900px) 100vw, 58vw"
-            quality={90}
-            priority
-            className={styles.artworkImage}
-          />
+              src={image.url}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              sizes="(max-width: 900px) 100vw, 58vw"
+              quality={90}
+              priority
+              className={styles.artworkImage}
+            />
           </span>
           <figcaption className={styles.plate}>
             <span>{work.title}</span>
-            <span>
-              Daphne Merel{work.year ? `, ${work.year}` : ""}
-            </span>
+            <span>Daphne Merel{work.year ? `, ${work.year}` : ""}</span>
           </figcaption>
         </figure>
 
@@ -154,13 +182,20 @@ export default async function WorkPage({ params }: Props) {
             {facts.map(([label, value]) => (
               <div key={label} className={styles.fact}>
                 <dt>{label}</dt>
-                <dd className={!value || isPlaceholder(value) ? styles.pending : undefined}>
+                <dd
+                  className={
+                    !value || isPlaceholder(value) ? styles.pending : undefined
+                  }
+                >
                   {value ?? t.toBeAdded}
                 </dd>
               </div>
             ))}
           </dl>
-          <Link href={`${href("/contact")}?onderwerp=${subject}`} className={styles.cta}>
+          <Link
+            href={`${href("/contact")}?onderwerp=${subject}`}
+            className={styles.cta}
+          >
             {t.inquire} <span aria-hidden="true">→</span>
           </Link>
         </div>
@@ -170,12 +205,19 @@ export default async function WorkPage({ params }: Props) {
       <section className={styles.texts}>
         {texts.map(([heading, html], i) => (
           <div key={heading} className={styles.textBlock}>
-            <p className={styles.textNumber}>{String(i + 1).padStart(2, "0")}</p>
+            <p className={styles.textNumber}>
+              {String(i + 1).padStart(2, "0")}
+            </p>
             <h2 className={styles.textHeading}>{heading}</h2>
             {html ? (
-              <div className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
+              <div
+                className={styles.prose}
+                dangerouslySetInnerHTML={{ __html: html }}
+              />
             ) : (
-              <p className={`${styles.prose} ${styles.pending}`}>{t.textToBeAdded}</p>
+              <p className={`${styles.prose} ${styles.pending}`}>
+                {t.textToBeAdded}
+              </p>
             )}
           </div>
         ))}
@@ -188,15 +230,17 @@ export default async function WorkPage({ params }: Props) {
             {supporting.map((img, i) => (
               <li key={img.url}>
                 <figure className={styles.figure}>
-                  <Image
-                    src={img.url}
-                    alt={img.alt}
-                    width={img.width}
-                    height={img.height}
-                    sizes="(max-width: 700px) 100vw, 30vw"
-                    quality={85}
-                    className={styles.supportingImage}
-                  />
+                  <span className={styles.frame}>
+                    <Image
+                      src={img.url}
+                      alt={img.alt}
+                      width={img.width}
+                      height={img.height}
+                      sizes="(max-width: 700px) 100vw, 30vw"
+                      quality={85}
+                      className={styles.supportingImage}
+                    />
+                  </span>
                   <figcaption className={styles.caption}>
                     <span className={styles.figNumber}>Fig. {i + 1}</span>
                     {img.caption}
@@ -209,7 +253,12 @@ export default async function WorkPage({ params }: Props) {
       )}
 
       {/* 4. See other works, as on the earlier work pages */}
-      <OtherWorks works={related} t={dict} href={href} className={styles.others} />
+      <OtherWorks
+        works={related}
+        t={dict}
+        href={href}
+        className={styles.others}
+      />
     </article>
   );
 }
