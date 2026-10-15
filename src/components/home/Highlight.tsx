@@ -14,20 +14,30 @@ export function Highlight({
   work,
   locale,
   t,
+  link = highlight.link,
 }: {
   highlight: NonNullable<Site["highlight"]>;
   work: Work;
   locale: Locale;
   t: Dictionary;
+  /** The button; defaults to the one in site.yaml (used on the Exhibitions page itself). */
+  link?: { label: string; href: string };
 }) {
   const image = work.images[0];
   const venue = highlight.venue;
-  const mapsLink = venue && `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.map)}`;
+  const mapsLink =
+    venue &&
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.map)}`;
   const mapsEmbed =
-    venue && `https://maps.google.com/maps?q=${encodeURIComponent(venue.map)}&z=15&hl=${locale}&output=embed`;
+    venue &&
+    `https://maps.google.com/maps?q=${encodeURIComponent(venue.map)}&z=15&hl=${locale}&output=embed`;
 
   return (
-    <section className={styles.band} aria-labelledby="highlight-title" data-venue={venue ? "" : undefined}>
+    <section
+      className={styles.band}
+      aria-labelledby="highlight-title"
+      data-venue={venue ? "" : undefined}
+    >
       <div className={styles.inner}>
         <Link
           href={localePath(locale, `/works/${work.slug}`)}
@@ -52,8 +62,8 @@ export function Highlight({
             {highlight.title}
           </h2>
           <p className={styles.text}>{highlight.text}</p>
-          <Link href={localePath(locale, highlight.link.href)} className={styles.button}>
-            {highlight.link.label} <span aria-hidden="true">→</span>
+          <Link href={localePath(locale, link.href)} className={styles.button}>
+            {link.label} <span aria-hidden="true">→</span>
           </Link>
         </div>
 
@@ -88,7 +98,11 @@ export function Highlight({
               )}
               <p className={styles.venueLinks}>
                 {venue.website && (
-                  <a href={venue.website} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={venue.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {t.venue.website} <span aria-hidden="true">↗</span>
                   </a>
                 )}

@@ -7,5 +7,4 @@ export const navLinks: { href: string; key: keyof Dictionary["nav"] }[] = [
   { href: "/commissions", key: "commissions" },
   { href: "/about", key: "about" },
   { href: "/contact", key: "contact" },
-  { href: "/experimental", key: "experimental" },
 ];

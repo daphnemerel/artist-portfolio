@@ -10,17 +10,34 @@ story: >-
 process: Beschrijving van het proces en de materialen volgt nog.
 summary: Een speelse scène van kleine zwemmers en surfers op een zee van gelaagde, reliëfrijke verf.
 images:
+  # Zelfde volgorde als index.md.
   - alt: >-
       Dikke lichtturquoise verf in brede, geribbelde streken, met kleine zwemmers en surfers op
       kleurige planken verspreid over het oppervlak.
+  - alt: >-
+      Catching Waves boven een linnen bank met crème, gestreepte en terracotta kussens in een
+      zonnige woonkamer, naast een grote monstera bij het raam.
+    caption: Boven de bank
+  - alt: >-
+      Catching Waves aan een lichte muur van opzij gezien, met de dikke verf en de donkerblauwe
+      zijkant, en een doorkijk naar een eetkamer.
+    caption: Van opzij
+  - alt: >-
+      Close-up van Catching Waves schuin van opzij: kleine zwemmers en surfers op ruggen van dikke
+      turquoise verf, met onscherpe roze bloemen ervoor.
+    caption: Detail
+  - alt: >-
+      Catching Waves aan de muur van een eetkamer, boven een houten tafel met een glazen vaas roze
+      veldbloemen, naast een boekenkast en een openstaande deur.
+    caption: In de eetkamer
   - alt: Detail van een kleine surfer op een groene plank die over een gebogen rug van turquoise verf glijdt.
     caption: Detail, surfer op een groene plank
-  - alt: Detail van een kleine zwemster in bikini met één arm omhoog, op een klein roze plankje.
-    caption: Detail, zwemster op een roze plank
   - alt: Detail van een klein figuurtje in een zwart wetsuit op een oranje plank, met een wit kielzog erachter.
     caption: Detail, figuur op een oranje plank
-  - alt: Detail van een kleine surfer op een paarse plank, gehurkt terwijl hij een bocht maakt in de verf.
   - alt: Detail van twee kleine surfers zittend op een roze en een groene plank tussen ruggen van verf.
+  - alt: Detail van een kleine zwemster in bikini met één arm omhoog, op een klein roze plankje.
+    caption: Detail, zwemster op een roze plank
+  - alt: Detail van een kleine surfer op een paarse plank, gehurkt terwijl hij een bocht maakt in de verf.
   - alt: Catching Waves aan een warm getinte muur.
   - alt: >-
       Catching Waves van bovenaf: dikke turquoise verf in brede streken met kleine zwemmers en

@@ -1,66 +1,258 @@
-.section {
+/*
+ * Exhibitions page, after Daphne's mockup: a serif title above a hairline, the current
+ * exhibition in the pale pink band (the homepage Highlight), then "Upcoming" and "Past" as
+ * CV-like rows: year | title, venue, text | small image | link. Hairlines between rows; the
+ * upcoming rows sit on the same pale pink.
+ */
+.page {
+  --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
+}
+
+/* ---------- title ---------- */
+
+.header {
   display: grid;
-  gap: var(--space-md);
-  margin-block-end: var(--space-2xl);
-}
-
-.years {
-  border-top: var(--border-hairline);
-}
-
-.year {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  column-gap: var(--gutter);
-  padding-block: var(--space-sm);
-  border-bottom: var(--border-hairline);
-  font-size: var(--type-nav);
-  letter-spacing: var(--tracking-nav);
-}
-
-.yearLabel {
-  grid-column: 1 / 3;
-  color: var(--color-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.year > ul {
-  grid-column: 3 / -1;
-  display: grid;
-  gap: var(--space-xs);
-}
-
-.entry {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  column-gap: var(--gutter);
+  justify-items: start;
+  gap: var(--space-sm);
+  margin-block: var(--title-gap) calc(var(--space-md) + var(--space-xs));
 }
 
 .title {
-  grid-column: 1 / 6;
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4.4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--color-bordeaux);
 }
 
-.title a,
-.venue a {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  text-decoration-color: var(--color-rule);
+/* Only a little space between the title, the hairline and the pink band below. */
+.page > section[aria-labelledby="highlight-title"] {
+  --title-gap: var(--space-sm);
 }
 
-.venue {
-  grid-column: 6 / -1;
+/* …and the same hairline below the band. */
+.page > section[aria-labelledby="highlight-title"]::after {
+  content: "";
+  position: absolute;
+  bottom: calc(-1 * var(--title-gap) - 1px);
+  left: var(--margin);
+  right: var(--margin);
+  border-top: var(--border-hairline);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 24px;
+  border-top: 1px solid var(--color-pink);
+}
+
+/* ---------- sections ---------- */
+
+.section {
+  padding-block: var(--space-md) var(--space-lg);
+}
+
+.section + .section {
+  border-top: var(--border-hairline);
+}
+
+/* The last list closes with a hairline, 24px above the footer. */
+.section:last-child {
+  padding-block-end: var(--space-md);
+  border-bottom: var(--border-hairline);
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux);
+  opacity: 0.8;
+}
+
+.heading {
+  margin-block: var(--space-xs) 4px;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-bordeaux);
+}
+
+.list {
+  margin-block-start: var(--space-md);
+}
+
+
+
+/* year | title, venue, text | image | link */
+.row {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr) 96px 11rem;
+  align-items: center;
+  column-gap: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
+  border-bottom: var(--border-hairline);
+}
+
+.row[data-highlighted] {
+  border-bottom: 0;
+  background: var(--band);
+}
+
+.row[data-highlighted] + .row[data-highlighted] {
+  margin-block-start: var(--space-sm);
+}
+
+.when {
+  display: grid;
+  gap: 2px;
+  align-self: stretch;
+  align-content: center;
+  border-right: var(--border-hairline);
+}
+
+.year {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--color-ink);
+  font-variant-numeric: lining-nums;
+}
+
+.period {
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
   color: var(--color-muted);
 }
 
-@media (max-width: 640px) {
-  .yearLabel,
-  .year > ul {
-    grid-column: 1 / -1;
+.body {
+  display: grid;
+  gap: 4px;
+}
+
+.rowTitle {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-bordeaux);
+}
+
+.venue {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+.text {
+  max-width: 62ch;
+  margin-block-start: 4px;
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+/* The work, whole, in a small square. */
+.thumb {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+}
+
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.more {
+  justify-self: end;
+  display: inline-flex;
+  gap: var(--space-sm);
+  font-size: var(--type-nav);
+  color: var(--color-bordeaux);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--duration) var(--ease);
+}
+
+.more > span:first-child {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+.more:hover,
+.more:focus-visible {
+  color: var(--color-turquoise);
+}
+
+/* No exhibitions in this list (yet). */
+.empty {
+  margin-block-start: var(--space-md);
+  padding-block: 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--type-body);
+  color: var(--color-muted);
+}
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: 6.5rem minmax(0, 1fr) 80px;
+    column-gap: var(--space-md);
+    row-gap: var(--space-sm);
   }
 
-  .title,
-  .venue {
+  .thumb {
+    width: 80px;
+    height: 80px;
+  }
+
+  .more {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding-block: var(--space-lg);
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) 72px;
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .when {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+    border-right: 0;
+  }
+
+  .thumb {
+    width: 72px;
+    height: 72px;
+    align-self: start;
+  }
+
+  .more {
     grid-column: 1 / -1;
   }
 }

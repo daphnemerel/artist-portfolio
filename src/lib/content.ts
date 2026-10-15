@@ -134,6 +134,8 @@ const workSchema = z.object({
   edition: z.string().optional(),
   series: z.string().optional(),
   featured: z.boolean().default(false),
+  /** painting (default) or drawing: drawings get their own group on the Works page. */
+  category: z.enum(["painting", "drawing"]).default("painting"),
   /** Position in the sequence of works (1 = oldest). Higher numbers are shown first. */
   number: z.number().int().positive().optional(),
   order: z.number().default(0),
@@ -156,12 +158,29 @@ const workSchema = z.object({
 });
 
 const exhibitionSchema = z.object({
+  /** "upcoming": under Komende exposities; "past": under Eerdere exposities. */
+  status: z.enum(["upcoming", "past"]),
   year: z.number().int().optional(),
+  /** Shown under the year, e.g. "sept – okt" or "Binnenkort". */
+  period: localized.optional(),
   title: localized,
   venue: localized,
   city: localized,
-  type: z.enum(["solo", "group", "fair", "screening"]),
+  type: z.enum(["solo", "group", "fair", "screening"]).optional(),
+  /** One or two sentences about the exhibition. */
+  text: localized.optional(),
+  /** Work folder names; the first one gives the "more information" link (and the image, if none below). */
   works: z.array(z.string()).default([]),
+  /** Optional image for the row, e.g. the exhibition poster (a file in public/). */
+  image: z
+    .object({
+      src: z.string().startsWith("/"),
+      width: z.number().int(),
+      height: z.number().int(),
+      alt: localized,
+    })
+    .optional(),
+  /** Used for the link when there is no work, e.g. the venue's page about the exhibition. */
   url: z.url().optional(),
 });
 
@@ -174,12 +193,6 @@ const textSchema = z.object({
   order: z.number().default(0),
 });
 
-const experimentSchema = z.object({
-  title: localized,
-  href: z.string().startsWith("/", "Experiment href must be a path on the site, e.g. /catching-waves-preview"),
-  date: z.coerce.date().optional(),
-  summary: localized.optional(),
-});
 
 /** index.nl.md next to a work's index.md: Dutch versions of its written content (all optional). */
 const workTranslationSchema = z.object({
@@ -210,7 +223,6 @@ const workTranslationSchema = z.object({
 
 export type Site = Resolved<z.infer<typeof siteSchema>>;
 export type Exhibition = Resolved<z.infer<typeof exhibitionSchema>>;
-export type Experiment = Resolved<z.infer<typeof experimentSchema>> & { number: string };
 
 export type WorkImage = z.infer<typeof imageEntrySchema> & {
   url: string;
@@ -349,10 +361,10 @@ export function getWorks(locale: Locale): Work[] {
     .filter((entry) => entry.isDirectory())
     .map((entry) => loadWork(entry.name, locale))
     .filter((work) => !work.draft)
-    .sort((a, b) =>
-      a.number !== undefined && b.number !== undefined
-        ? b.number - a.number // newest first
-        : byYearDesc(a, b) || a.order - b.order,
+    .sort(
+      (a, b) =>
+        // numbered works first, newest (highest number) first; then the rest by year and order
+        (b.number ?? -Infinity) - (a.number ?? -Infinity) || byYearDesc(a, b) || a.order - b.order,
     );
   return worksCache[locale];
 }
@@ -370,17 +382,6 @@ export function getFeaturedWorks(locale: Locale): Work[] {
 export function getExhibitions(locale: Locale): Exhibition[] {
   const data = readYaml("exhibitions.yaml");
   return pick(parse(z.array(exhibitionSchema), data, "content/exhibitions.yaml"), locale).sort(byYearDesc);
-}
-
-/* ---------- experiments ---------- */
-
-/** Experiments in the order of content/experiments.yaml, numbered 01, 02, … */
-export function getExperiments(locale: Locale): Experiment[] {
-  const data = readYaml("experiments.yaml") ?? [];
-  return pick(parse(z.array(experimentSchema), data, "content/experiments.yaml"), locale).map((e, i) => ({
-    ...e,
-    number: String(i + 1).padStart(2, "0"),
-  }));
 }
 
 /* ---------- texts ---------- */

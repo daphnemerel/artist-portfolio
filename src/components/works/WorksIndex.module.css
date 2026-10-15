@@ -93,3 +93,19 @@
     width: auto;
   }
 }
+
+/* Paintings and drawings, each in their own group; a hairline and a small heading between. */
+.group + .group {
+  margin-block-start: var(--space-xl);
+  padding-block-start: var(--title-gap);
+  border-top: var(--border-hairline);
+}
+
+.groupTitle {
+  margin-block-end: var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--type-heading-md);
+  font-weight: 400;
+  line-height: var(--leading-heading-md);
+  color: var(--color-bordeaux);
+}

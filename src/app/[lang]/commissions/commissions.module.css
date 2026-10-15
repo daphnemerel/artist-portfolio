@@ -1,12 +1,220 @@
-.commissions {
+/*
+ * Commissions — design B ("Atelier"), chosen by Daphne. One screen:
+ *   left (46 % of the window, from the window edge, header to footer): the studio photo;
+ *   right: title, lead, the three steps as rows between hairlines, four earlier works as
+ *   whole squares, and the button with a quiet link beside it.
+ * Sizes are in em and the page's font size follows the window height (1em = 16px on a
+ * 900px-high window), so it always fits one screen. Artworks are never cropped.
+ * Below 900px wide it becomes a simple column (to be refined later).
+ */
+.page {
   display: grid;
-  justify-items: start;
-  gap: var(--space-lg);
-  max-width: var(--measure);
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
+  grid-template-columns: calc(46vw - var(--margin)) minmax(0, 1fr);
+  /* header (76px) and the 24px gap above the footer: the page ends exactly at the screen edge */
+  min-height: calc(100svh - 100px);
+  font-size: clamp(11px, calc((100svh - 76px) / 51.5), 17px);
 }
 
-.muted {
+/* ---------- left: the photo ---------- */
+
+.photo {
+  position: relative;
+  margin-inline-start: calc(-1 * var(--margin));
+  margin-block-end: -24px; /* runs on to the footer */
+  overflow: hidden;
+}
+
+.photoImage {
+  object-fit: cover;
+  object-position: 62% 40%;
+}
+
+.caption {
+  position: absolute;
+  left: 1.5em;
+  bottom: 1.25em;
+  font-family: var(--font-sans);
+  font-size: 0.8125em;
+  letter-spacing: 0.02em;
+  color: var(--color-off-white);
+  text-shadow: 0 1px 6px rgba(28, 23, 24, 0.35);
+}
+
+/* ---------- right: the text ---------- */
+
+.text {
+  align-self: center;
+  padding: 2.5em 0 2em 4.5em;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 4.5em;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--color-bordeaux);
+}
+
+.lead {
+  max-width: 40ch;
+  margin-block: 1.1em 1.6em;
+  font-family: var(--font-serif);
+  font-size: 1.1875em;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+/* number | title | text, one row per step, between hairlines */
+.steps {
+  border-top: var(--border-hairline);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 3.25em 7.5em minmax(0, 1fr);
+  align-items: baseline;
+  padding-block: 0.875em;
+  border-bottom: var(--border-hairline);
+}
+
+.stepNumber {
+  font-family: var(--font-serif);
+  font-size: 1.75em;
+  line-height: 1;
+  color: var(--color-pink);
+  font-variant-numeric: lining-nums;
+}
+
+.stepTitle {
+  font-family: var(--font-serif);
+  font-size: 1.3125em;
+  font-weight: 400;
+  color: var(--color-bordeaux);
+}
+
+.stepText {
+  font-family: var(--font-serif);
+  font-size: 0.9375em;
+  line-height: 1.45;
   color: var(--color-muted);
+}
+
+/* Four works, whole, in squares. */
+.works {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1em;
+  max-width: 40em;
+  margin-block: 1.9em;
+}
+
+.work {
+  display: grid;
+  gap: 0.4em;
+  text-decoration: none;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+}
+
+.workImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 240ms var(--ease);
+}
+
+.work:hover .workImage {
+  transform: scale(1.01);
+}
+
+.workTitle {
+  font-family: var(--font-serif);
+  font-size: 0.875em;
+  color: var(--color-ink);
+  transition: color var(--duration) var(--ease);
+}
+
+.work:hover .workTitle,
+.work:focus-visible .workTitle {
+  color: var(--color-turquoise);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1em 1.75em;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875em;
+  min-height: 3em;
+  padding-inline: 1.5em;
+  border: 1px solid var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font-family: var(--font-serif);
+  font-size: 1.0625em;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button:hover,
+.button:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+.link {
+  font-family: var(--font-serif);
+  font-size: 1.0625em;
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: color var(--duration) var(--ease);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--color-turquoise);
+}
+
+/* ---------- smaller screens: a simple column for now ---------- */
+
+@media (max-width: 900px) {
+  .page {
+    display: block;
+    min-height: 0;
+    font-size: 16px;
+  }
+
+  .photo {
+    margin-inline: calc(-1 * var(--margin));
+    margin-block-end: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .text {
+    padding: 2em 0 2.5em;
+  }
+
+  .step {
+    grid-template-columns: 2.5em minmax(0, 1fr);
+  }
+
+  .stepText {
+    grid-column: 2;
+  }
 }

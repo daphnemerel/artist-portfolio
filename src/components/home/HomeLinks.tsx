@@ -18,12 +18,12 @@ export async function HomeLinks() {
     {
       ...t.home.commissions,
       href: href("/commissions"),
-      image: { src: "/images/commissions-floral-glass.jpg", width: 1254, height: 1254, alt: t.home.commissions.alt },
+      image: { src: "/images/commissions-window.jpg", width: 1254, height: 1254, alt: t.home.commissions.alt },
     },
     {
       ...t.home.exhibitions,
       href: href("/exhibitions"),
-      image: { src: "/images/exhibitions/gigalerie-acec-2026.jpg", width: 1254, height: 1254, alt: t.home.exhibitions.alt },
+      image: { src: "/images/exhibitions/coda-open-call-055.jpg", width: 1254, height: 1254, alt: t.home.exhibitions.alt },
     },
   ];
   return (
