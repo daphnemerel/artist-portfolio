@@ -63,9 +63,10 @@
   border-top: var(--border-hairline);
 }
 
-/* The last list ends 24px above the footer, as on the other pages. */
+/* The last list closes with a hairline, 24px above the footer. */
 .section:last-child {
-  padding-block-end: 0;
+  padding-block-end: var(--space-md);
+  border-bottom: var(--border-hairline);
 }
 
 .eyebrow {
