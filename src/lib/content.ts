@@ -91,6 +91,8 @@ const imageEntrySchema = z.object({
   alt: z.string().min(1, "Every image needs alt text"),
   caption: z.string().optional(),
   credit: z.string().optional(),
+  /** false: kept for other uses (e.g. an experiment), but not shown in the work's slideshow. */
+  slideshow: z.boolean().default(true),
 });
 
 /**

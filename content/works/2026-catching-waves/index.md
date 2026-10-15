@@ -42,6 +42,8 @@ images:
   - src: ./images/02.jpg
     alt: The artist at her easel in a sunlit studio, painting Catching Waves.
     caption: Studio view
+    # Only for the experiment; not in the slideshow on the work page.
+    slideshow: false
 # Opening strip on the work page: from close up out to the studio.
 layers:
   - src: ./images/layer-01.jpg

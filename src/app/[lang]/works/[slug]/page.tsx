@@ -116,7 +116,7 @@ export default async function WorkPage({ params }: Props) {
         <figure className={styles.artwork}>
           <span className={styles.wall}>
             <WorkSlideshow
-              images={work.images.map(({ url, width, height, alt }) => ({
+              images={work.images.filter((i) => i.slideshow).map(({ url, width, height, alt }) => ({
                 url,
                 width,
                 height,
