@@ -1,6 +1,6 @@
 ---
 # Details confirmed by Daphne, 15 Oct 2026.
-title: "Flying Goose"
+title: "Flying Swan"
 year: 2026
 medium: Acrylic
 dimensions: 15 × 15 cm
