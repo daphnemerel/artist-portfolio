@@ -103,46 +103,48 @@ export default async function CommissionsPage() {
 
   return (
     <div className={`${styles.page} container`} data-tight-footer="">
-      {/* 1. Opening: text on the pink band, the studio photo fading in from the right */}
-      <section className={styles.hero}>
-        <div className={styles.heroText}>
-          <h1 className={styles.title}>{t.title}</h1>
-          <p className={styles.lead}>{t.lead}</p>
-          <Link href={contact} className={styles.button}>
-            {t.ask} <span aria-hidden="true">→</span>
-          </Link>
-        </div>
+      {/* 1–2. Opening and "made to measure", with the studio photo top right, fading out */}
+      <div className={styles.top}>
+        <section className={styles.hero}>
         <div className={styles.heroPhoto}>
           <Image
             src="/images/studio-landscape.jpg"
             alt={t.photoAlt}
             fill
-            sizes="(max-width: 900px) 100vw, 62vw"
+            sizes="(max-width: 900px) 100vw, 64vw"
             quality={90}
             priority
             className={styles.heroImage}
           />
         </div>
-      </section>
+          <div className={styles.heroText}>
+            <h1 className={styles.title}>{t.title}</h1>
+            <p className={styles.lead}>{t.lead}</p>
+            <Link href={contact} className={styles.button}>
+              {t.ask} <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </section>
 
-      {/* 2. Made to measure: text left, three points right */}
-      <section className={styles.intro}>
-        <div className={styles.introText}>
-          <h2 className={styles.heading}>{t.introTitle}</h2>
-          <p className={styles.text}>{t.introText}</p>
-        </div>
-        <ul className={styles.features}>
-          {t.features.map((f, i) => (
-            <li key={f.title} className={styles.feature}>
-              <Icon>{icons[i]}</Icon>
-              <div>
-                <h3 className={styles.featureTitle}>{f.title}</h3>
-                <p className={styles.featureText}>{f.text}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+        {/* 2. Made to measure: text left, three points right */}
+        <section className={styles.intro}>
+          <div className={styles.introText}>
+            <h2 className={styles.heading}>{t.introTitle}</h2>
+            <p className={styles.text}>{t.introText}</p>
+          </div>
+          <ul className={styles.features}>
+            {t.features.map((f, i) => (
+              <li key={f.title} className={styles.feature}>
+                <Icon>{icons[i]}</Icon>
+                <div>
+                  <h3 className={styles.featureTitle}>{f.title}</h3>
+                  <p className={styles.featureText}>{f.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
 
       {/* 3. How it works: three steps joined by a hairline */}
       <section className={styles.steps} aria-label={t.stepsLabel}>
@@ -172,7 +174,10 @@ export default async function CommissionsPage() {
         <ul className={styles.optionsList}>
           {examples.map(({ work, image, focus }) => (
             <li key={work.slug}>
-              <Link href={href(`/works/${work.slug}`)} className={styles.option}>
+              <Link
+                href={href(`/works/${work.slug}`)}
+                className={styles.option}
+              >
                 <span className={styles.optionPhoto}>
                   <Image
                     src={image.url}
