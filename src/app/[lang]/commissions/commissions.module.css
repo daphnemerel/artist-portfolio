@@ -1,83 +1,89 @@
 /*
- * Commissions page — calm, editorial, aligned to the 12-column grid.
- *   1. Opening: title, lead and button (cols 1–5) | one studio photo (cols 7–12), no overlaps.
- *   2. Made to measure: text (cols 1–6) | three points between hairlines (cols 8–12).
- *   3. How it works: a pale pink band, three steps with large numbers joined by a hairline.
- *   4. Possibilities: heading and lead, then three generous cards with Daphne's own works.
- *   5. Invitation: a pale pink band, text left, button right.
- * Serif headings in bordeaux; small sans labels; the site's square bordeaux buttons.
+ * Commissions page — a precise copy of Daphne's reference layout (one desktop screen).
+ *
+ * Measured from the reference (1672 × 941, content 1354 px wide, 890 px tall below the header):
+ * horizontal positions are fractions of the content width; vertical sizes are in em, where
+ * 1em = 16 px of the reference. The page's font size follows the window height, so the whole
+ * page always fits one screen. Below 900 px wide it becomes a simple column (to be refined).
+ *
+ * Deliberate deviations from the codebook, asked for by Daphne: tighter spacing than the
+ * spacing scale, and the studio photo fades out (a mask on that photo, never on an artwork).
  */
 .page {
-  --band: color-mix(in srgb, var(--color-pink) 18%, var(--color-off-white));
+  --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
   --band-line: color-mix(in srgb, var(--color-pink) 55%, var(--color-off-white));
+  font-size: clamp(10px, calc((100svh - 76px) * 0.0175), 18px);
 }
 
-/* The 12-column page grid. */
-.hero,
-.intro,
-.stepList,
-.optionsHead,
-.optionsList {
+/* ---------- 1. opening (header bottom → 279 px) ---------- */
+
+.top {
+  position: relative;
+}
+
+/* From 29.2 % of the content to the right edge of the window; fades out left and bottom. */
+.heroPhoto {
+  position: absolute;
+  top: 0;
+  left: calc(396 / 1354 * 100%);
+  right: calc(-1 * var(--margin));
+  height: 33em;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 20%),
+    linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 20%),
+    linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: 55% 0%;
+}
+
+.hero {
+  position: relative;
+  padding-block: 1.75em 1.6em;
+}
+
+.heroText {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
+  justify-items: start;
+  gap: 1.25em;
+  width: calc(345 / 1354 * 100%);
+  min-width: 18em;
 }
 
-/* Full-width pale bands; content stays on the page margin. */
-.steps,
-.cta {
-  margin-inline: calc(-1 * var(--margin));
-  padding-inline: var(--margin);
-  background: var(--band);
-}
-
-/* ---------- shared type ---------- */
-
-.label {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  font-size: var(--type-caption);
+.title {
+  font-family: var(--font-serif);
+  font-size: 4em;
   font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.01em;
   color: var(--color-bordeaux);
 }
 
-.label::before {
-  content: "";
-  width: 24px;
-  border-top: 1px solid var(--color-pink);
-}
-
-.heading {
+.lead {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3vw, 2.625rem);
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--color-bordeaux);
-  text-wrap: balance;
-}
-
-.text {
-  max-width: 54ch;
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
-  line-height: var(--leading-body);
+  font-size: 1.0625em;
+  line-height: 1.41;
   color: var(--color-muted);
 }
 
 .button {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  min-height: 48px;
-  padding-inline: 24px;
+  gap: 0.75em;
+  min-height: 2.45em;
+  padding-inline: 1.3em;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
   font-family: var(--font-serif);
-  font-size: 1.0625rem;
+  font-size: 0.97em;
   white-space: nowrap;
   transition:
     background-color var(--duration) var(--ease),
@@ -90,213 +96,195 @@
   color: var(--color-bordeaux);
 }
 
-/* ---------- 1. opening ---------- */
-
-.hero {
-  align-items: center;
-  padding-block: var(--space-xl) var(--space-2xl);
-}
-
-.heroText {
-  grid-column: 1 / 6;
-  display: grid;
-  justify-items: start;
-  gap: var(--space-md);
-}
-
-.title {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 5.6vw, 5rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--color-bordeaux);
-}
-
-.lead {
-  max-width: 34ch;
-  margin-block-end: var(--space-sm);
-  font-family: var(--font-serif);
-  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
-  line-height: 1.5;
-  color: var(--color-muted);
-}
-
-/* One photo in a calm 5 : 4 frame; only a whisper of a fade on its left edge. */
-.heroPhoto {
-  position: relative;
-  grid-column: 7 / -1;
-  aspect-ratio: 5 / 4;
-  max-height: 72svh;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 10%);
-}
-
-.heroImage {
-  object-fit: cover;
-  object-position: 66% 40%;
-}
-
-/* ---------- 2. made to measure ---------- */
+/* ---------- 2. made to measure, on a light panel (279 → 494 px) ---------- */
 
 .intro {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(455 / 1354 * 100%) calc(104 / 1354 * 100%) calc(404 / 1354 * 100%);
   align-items: start;
-  padding-block: var(--space-xl) var(--space-2xl);
-  border-top: var(--border-hairline);
+  padding-block: 1em 0.75em;
+}
+
+/* The panel: from the left edge of the window to 71 % of the content. */
+.intro::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: calc(-1 * var(--margin));
+  width: calc(var(--margin) + 963 / 1354 * 100%);
+  background: var(--color-off-white);
+}
+
+.introText,
+.features {
+  position: relative;
 }
 
 .introText {
-  grid-column: 1 / 7;
+  grid-column: 1;
   display: grid;
-  gap: var(--space-md);
+  gap: 0.625em;
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: 2.125em;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-bordeaux);
+}
+
+.text {
+  font-family: var(--font-serif);
+  font-size: 1em;
+  line-height: 1.33;
+  color: var(--color-ink);
 }
 
 .features {
-  grid-column: 8 / -1;
-  border-top: var(--border-hairline);
+  grid-column: 3;
+  display: grid;
+  gap: 0.95em;
+  padding-block-start: 0.4em;
 }
 
 .feature {
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr);
-  gap: var(--space-md);
+  grid-template-columns: 3em minmax(0, 1fr);
+  column-gap: 1.5em;
   align-items: start;
-  padding-block: var(--space-md);
-  border-bottom: var(--border-hairline);
 }
 
-/* A very small line drawing, no disc. */
+/* A pink disc with a line drawing. */
 .icon {
-  display: block;
-  width: 22px;
-  height: 22px;
-  margin-block-start: 3px;
-  color: var(--color-pink);
+  display: grid;
+  place-items: center;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  background: var(--band);
+  color: var(--color-bordeaux);
 }
 
 .icon svg {
-  width: 100%;
-  height: 100%;
+  width: 1.625em;
+  height: 1.625em;
 }
 
 .featureTitle {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 0.9375em;
   font-weight: 400;
   line-height: 1.3;
   color: var(--color-bordeaux);
 }
 
 .featureText {
-  margin-block-start: 4px;
+  max-width: 17em;
   font-family: var(--font-serif);
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 0.8125em;
+  line-height: 1.27;
   color: var(--color-muted);
 }
 
-/* ---------- 3. how it works ---------- */
+/* ---------- 3. how it works (494 → 591 px) ---------- */
 
 .steps {
-  display: grid;
-  gap: var(--space-xl);
-  padding-block: var(--space-xl) var(--space-2xl);
+  padding-block: 1.25em 1em;
 }
 
 .stepList {
-  row-gap: var(--space-xl);
+  display: grid;
+  grid-template-columns: calc(455 / 1354 * 100%) calc(505 / 1354 * 100%) minmax(0, 1fr);
 }
 
-/* Each step spans four columns: number, then a hairline to the next step; title and text below. */
+/* number | title and text | a hairline running on to the next step */
 .step {
-  grid-column: span 4;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--space-md);
-  row-gap: var(--space-sm);
-  align-items: center;
+  grid-template-columns: 4.3em auto minmax(1em, 1fr);
+  align-items: start;
 }
 
 .step::after {
   content: "";
-  grid-row: 1;
-  grid-column: 2;
-  margin-inline-end: calc(-1 * var(--gutter));
+  align-self: center;
+  margin-inline: 1.5em;
   border-top: 1px solid var(--band-line);
 }
 
 .step:last-child::after {
-  margin-inline-end: 0;
+  visibility: hidden;
 }
 
 .stepNumber {
   font-family: var(--font-serif);
-  font-size: clamp(3.5rem, 5vw, 4.5rem);
-  line-height: 1;
+  font-size: 2.6em;
+  line-height: 0.9;
   color: var(--color-pink);
   font-variant-numeric: lining-nums;
 }
 
+.stepBody {
+  max-width: 16em;
+}
+
 .stepTitle {
-  grid-column: 1 / -1;
-  margin-block-start: var(--space-xs);
   font-family: var(--font-serif);
-  font-size: 1.625rem;
+  font-size: 1.125em;
   font-weight: 400;
   line-height: 1.2;
   color: var(--color-bordeaux);
 }
 
-.stepText {
-  grid-column: 1 / -1;
-  max-width: 32ch;
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  line-height: 1.5;
+.stepBody .featureText {
+  max-width: none;
+  font-size: 0.875em;
+  line-height: 1.3;
+}
+
+/* ---------- 4. possibilities, on the pink band (591 → 797 px) ---------- */
+
+.options {
+  display: grid;
+  grid-template-columns: calc(392 / 1354 * 100%) minmax(0, 1fr);
+  align-items: start;
+  margin-inline: calc(-1 * var(--margin));
+  padding: 0.75em var(--margin) 0.625em;
+  background: var(--band);
+}
+
+.optionsText {
+  display: grid;
+  gap: 0.75em;
+  padding-block-start: 0.8em;
+  padding-inline-end: calc(56 / 392 * 100%);
+}
+
+.optionsText .text {
+  font-size: 0.9375em;
+  line-height: 1.33;
   color: var(--color-muted);
 }
 
-/* ---------- 4. possibilities ---------- */
-
-.options {
-  padding-block: var(--space-2xl);
-}
-
-.optionsHead {
-  align-items: end;
-  row-gap: var(--space-md);
-  margin-block-end: var(--space-xl);
-}
-
-.optionsHead .heading {
-  grid-column: 1 / 6;
-}
-
-.optionsHead .text {
-  grid-column: 7 / -1;
-}
-
 .optionsList {
-  row-gap: var(--space-xl);
-}
-
-.optionsList > li {
-  grid-column: span 4;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: calc(25 / 962 * 100%);
 }
 
 .option {
   display: grid;
-  gap: var(--space-md);
+  gap: 0.6em;
   color: var(--color-ink);
   text-decoration: none;
 }
 
-/* A 4 : 3 frame around the canvas on the wall: the painting stays whole, only wall is left out. */
+/* A wide frame around the canvas on the wall: the painting stays whole, only wall is left out. */
 .optionPhoto {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 2.05;
   overflow: hidden;
 }
 
@@ -312,122 +300,152 @@
 .optionLabel {
   display: flex;
   justify-content: space-between;
-  align-items: start;
-  gap: var(--space-md);
-  padding-block-start: var(--space-sm);
-  border-top: var(--border-hairline);
-}
-
-.optionText {
-  display: grid;
-  gap: 2px;
-}
-
-.optionKind {
+  gap: 1em;
   font-family: var(--font-serif);
-  font-size: 1.375rem;
-  line-height: 1.25;
-  color: var(--color-bordeaux);
+  font-size: 0.9375em;
+  line-height: 1.2;
+  color: var(--color-ink);
   transition: color var(--duration) var(--ease);
 }
 
-.optionWork {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1rem;
-  color: var(--color-muted);
-}
-
-.optionArrow {
-  font-size: 1.125rem;
-  color: var(--color-bordeaux);
-  transition: transform var(--duration) var(--ease);
-}
-
-.option:hover .optionKind,
-.option:focus-visible .optionKind {
+.option:hover .optionLabel,
+.option:focus-visible .optionLabel {
   color: var(--color-turquoise);
 }
 
-.option:hover .optionArrow {
-  transform: translateX(4px);
-}
-
-/* ---------- 5. invitation ---------- */
+/* ---------- 5. invitation (797 → 890 px) ---------- */
 
 .cta {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(294 / 1354 * 100%) minmax(0, 1fr) auto;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-md) var(--space-xl);
-  padding-block: var(--space-xl);
+  padding-block: 1.4em;
+}
+
+/* The drawn branch, bottom left, reaching a little into the pink band above. */
+.sprig {
+  position: absolute;
+  left: calc(-1 * var(--margin) + 1.5em);
+  bottom: 0;
+  width: 15em;
+  height: auto;
+  color: var(--color-bordeaux);
+  opacity: 0.45;
+  transform: scaleX(-1);
+  pointer-events: none;
 }
 
 .ctaText {
+  grid-column: 2;
   display: grid;
-  gap: var(--space-xs);
+  gap: 0.2em;
 }
 
 .ctaTitle {
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+  font-size: 1.625em;
   font-weight: 400;
   line-height: 1.15;
   color: var(--color-bordeaux);
 }
 
-.ctaLine {
-  font-family: var(--font-serif);
-  font-size: var(--type-body);
-  color: var(--color-muted);
+.ctaText .featureText {
+  max-width: none;
+  font-size: 0.875em;
 }
 
-/* ---------- smaller screens (to be refined later) ---------- */
-
-@media (max-width: 1100px) {
-  .introText {
-    grid-column: 1 / -1;
-  }
-
-  .features {
-    grid-column: 1 / -1;
-    margin-block-start: var(--space-lg);
-  }
+.cta .button {
+  grid-column: 3;
+  min-height: 2.7em;
 }
+
+/* ---------- smaller screens: a simple column for now ---------- */
 
 @media (max-width: 900px) {
-  .heroText,
-  .heroPhoto,
-  .optionsHead .heading,
-  .optionsHead .text {
-    grid-column: 1 / -1;
+  .page {
+    font-size: 16px;
+  }
+
+  .top {
+    display: flex;
+    flex-direction: column;
   }
 
   .hero {
-    row-gap: var(--space-lg);
-    padding-block: var(--space-lg) var(--space-xl);
+    order: 1;
+    padding-block: 2em 1.5em;
+  }
+
+  .heroText {
+    width: auto;
   }
 
   .heroPhoto {
-    -webkit-mask-image: none;
-    mask-image: none;
+    order: 2;
+    position: relative;
+    left: auto;
+    right: auto;
+    height: auto;
+    margin-inline: calc(-1 * var(--margin));
+    aspect-ratio: 3 / 2;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%);
   }
 
-  .step,
-  .optionsList > li {
-    grid-column: 1 / -1;
+  .intro {
+    order: 3;
+    grid-template-columns: 1fr;
+    row-gap: 2em;
+    padding-block: 1em 2em;
+  }
+
+  .intro::before {
+    display: none;
+  }
+
+  .introText,
+  .features {
+    grid-column: 1;
+  }
+
+  .stepList,
+  .options,
+  .optionsList,
+  .cta {
+    grid-template-columns: 1fr;
+  }
+
+  .stepList,
+  .optionsList {
+    row-gap: 1.5em;
   }
 
   .step::after {
-    margin-inline-end: 0;
+    display: none;
   }
-}
 
-@media (max-width: 700px) {
-  .intro,
-  .options,
-  .steps {
-    padding-block: var(--space-xl);
+  .options {
+    row-gap: 1.5em;
+    padding-block: 2em;
+  }
+
+  .optionsText {
+    padding-inline-end: 0;
+  }
+
+  .cta {
+    justify-items: start;
+    row-gap: 1.25em;
+    padding-block: 2em;
+  }
+
+  .ctaText,
+  .cta .button {
+    grid-column: 1;
+  }
+
+  .sprig {
+    display: none;
   }
 }
