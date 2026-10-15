@@ -139,9 +139,17 @@
     font-size: 0.8125rem;
   }
 
+  /* Phones: a little room between the links, each one underlined so it reads as a link. */
   .nav {
-    gap: 2px;
+    gap: 10px;
     font-size: 0.75rem;
+  }
+
+  .nav a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: rgba(246, 241, 236, 0.45);
   }
 
   .contact {
@@ -160,15 +168,17 @@
     font-size: 0.6875rem;
   }
 
+  /* All five icons on one line (LinkedIn beside YouTube), so the footer stays a slim band. */
   .social {
+    flex-wrap: nowrap;
     gap: 0;
-    margin-inline-start: -12px;
+    margin-inline-start: -6px;
   }
 
   .social a,
   .pending {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
   }
 
   .social svg {
