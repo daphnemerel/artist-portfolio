@@ -9,7 +9,10 @@ export function OtherWorks({
   works,
   t,
   href,
+  className,
 }: {
+  /** Extra class, e.g. for the spacing on a plain work page. */
+  className?: string;
   works: WorkSummary[];
   t: Dictionary;
   /** Keeps links in the current language. */
@@ -18,7 +21,10 @@ export function OtherWorks({
   if (works.length === 0) return null;
 
   return (
-    <section className={styles.other} aria-labelledby="other-title">
+    <section
+      className={`${styles.other} ${className ?? ""}`}
+      aria-labelledby="other-title"
+    >
       <p className={styles.eyebrow}>{t.works.explore}</p>
       <div className={styles.head}>
         <div>
@@ -27,7 +33,11 @@ export function OtherWorks({
           </h2>
           <p className={styles.intro}>{t.works.otherIntro}</p>
         </div>
-        <Link href={href("/works")} className={styles.all} aria-label={t.works.allWorks}>
+        <Link
+          href={href("/works")}
+          className={styles.all}
+          aria-label={t.works.allWorks}
+        >
           →
         </Link>
       </div>

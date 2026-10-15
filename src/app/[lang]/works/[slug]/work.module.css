@@ -138,3 +138,11 @@
     margin-block-start: var(--space-md);
   }
 }
+
+/* "See other works" at the bottom of a plain work page, after the pager. */
+.work .others {
+  grid-column: 1 / -1;
+  margin-block-start: var(--space-xl);
+  padding-block-start: var(--title-gap);
+  border-top: var(--border-hairline);
+}

@@ -32,7 +32,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: work.year ? `${work.title}, ${work.year}` : work.title,
     description: [work.medium, work.dimensions].filter(Boolean).join(", "),
     ...alt,
-    openGraph: { ...alt.openGraph, images: [{ url: image.url, width: image.width, height: image.height, alt: image.alt }] },
+    openGraph: {
+      ...alt.openGraph,
+      images: [
+        {
+          url: image.url,
+          width: image.width,
+          height: image.height,
+          alt: image.alt,
+        },
+      ],
+    },
   };
 }
 
@@ -50,9 +60,16 @@ export default async function WorkPage({ params }: Props) {
   const story = Boolean(work.layers?.length);
 
   return (
-    <article className={`${styles.work} ${story ? styles.story : ""} container`}>
+    <article
+      className={`${styles.work} ${story ? styles.story : ""} container`}
+    >
       {story && (
-        <WorkLayers title={work.title} layers={work.layers!} isPageTitle={Boolean(work.journey)} t={t} />
+        <WorkLayers
+          title={work.title}
+          layers={work.layers!}
+          isPageTitle={Boolean(work.journey)}
+          t={t}
+        />
       )}
 
       {/* With a journey section, that section replaces the text-and-images layout below. */}
@@ -60,7 +77,11 @@ export default async function WorkPage({ params }: Props) {
         <>
           <WorkJourney journey={work.journey} />
           <WorkPurchase work={work} email={getSite(locale).email} t={t} />
-          <OtherWorks works={works.filter((w) => w.slug !== work.slug).slice(0, 3)} t={t} href={href} />
+          <OtherWorks
+            works={works.filter((w) => w.slug !== work.slug).slice(0, 3)}
+            t={t}
+            href={href}
+          />
         </>
       )}
 
@@ -117,8 +138,20 @@ export default async function WorkPage({ params }: Props) {
               <span />
             )}
             <Link href={href("/works")}>{t.works.index}</Link>
-            {next ? <Link href={href(`/works/${next.slug}`)}>{next.title} →</Link> : <span />}
+            {next ? (
+              <Link href={href(`/works/${next.slug}`)}>{next.title} →</Link>
+            ) : (
+              <span />
+            )}
           </nav>
+
+          {/* At the very bottom of every work page: three other works. */}
+          <OtherWorks
+            works={works.filter((w) => w.slug !== work.slug).slice(0, 3)}
+            t={t}
+            href={href}
+            className={styles.others}
+          />
         </>
       )}
     </article>
