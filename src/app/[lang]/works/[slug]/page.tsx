@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
-import { WorkCard } from "@/components/works/WorkCard";
+import { OtherWorks } from "@/components/works/OtherWorks";
 import { format } from "@/i18n/config";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
@@ -53,7 +53,8 @@ const md = (text?: string) => (text ? marked.parse(text.trim(), { async: false }
 
 /**
  * A work page set like a museum catalogue entry: breadcrumb and previous / next, the whole work
- * beside its label and facts, three short texts, three supporting photos, and related works.
+ * hung on a quiet wall beside its label and facts, three numbered texts, supporting photos as
+ * numbered figures, and "See other works" at the bottom.
  * Images are always shown whole, at their own proportions.
  */
 export default async function WorkPage({ params }: Props) {
@@ -122,8 +123,9 @@ export default async function WorkPage({ params }: Props) {
 
       {/* 1. The work, whole, beside its label */}
       <section className={styles.hero} aria-labelledby="work-title">
-        <div className={styles.artwork}>
-          <Image
+        <figure className={styles.artwork}>
+          <span className={styles.wall}>
+            <Image
             src={image.url}
             alt={image.alt}
             width={image.width}
@@ -133,7 +135,14 @@ export default async function WorkPage({ params }: Props) {
             priority
             className={styles.artworkImage}
           />
-        </div>
+          </span>
+          <figcaption className={styles.plate}>
+            <span>{work.title}</span>
+            <span>
+              Daphne Merel{work.year ? `, ${work.year}` : ""}
+            </span>
+          </figcaption>
+        </figure>
 
         <div className={styles.label}>
           <p className={styles.eyebrow}>{t.label}</p>
@@ -159,8 +168,9 @@ export default async function WorkPage({ params }: Props) {
 
       {/* 2. Three short texts */}
       <section className={styles.texts}>
-        {texts.map(([heading, html]) => (
+        {texts.map(([heading, html], i) => (
           <div key={heading} className={styles.textBlock}>
+            <p className={styles.textNumber}>{String(i + 1).padStart(2, "0")}</p>
             <h2 className={styles.textHeading}>{heading}</h2>
             {html ? (
               <div className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
@@ -175,7 +185,7 @@ export default async function WorkPage({ params }: Props) {
       {supporting.length > 0 && (
         <section className={styles.supporting} aria-label={t.images}>
           <ul className={styles.supportingList}>
-            {supporting.map((img) => (
+            {supporting.map((img, i) => (
               <li key={img.url}>
                 <figure className={styles.figure}>
                   <Image
@@ -187,7 +197,10 @@ export default async function WorkPage({ params }: Props) {
                     quality={85}
                     className={styles.supportingImage}
                   />
-                  {img.caption && <figcaption className={styles.caption}>{img.caption}</figcaption>}
+                  <figcaption className={styles.caption}>
+                    <span className={styles.figNumber}>Fig. {i + 1}</span>
+                    {img.caption}
+                  </figcaption>
                 </figure>
               </li>
             ))}
@@ -195,26 +208,8 @@ export default async function WorkPage({ params }: Props) {
         </section>
       )}
 
-      {/* 4. Related work */}
-      {related.length > 0 && (
-        <section className={styles.related} aria-labelledby="related-title">
-          <div className={styles.relatedHead}>
-            <h2 id="related-title" className={styles.relatedTitle}>
-              {t.related}
-            </h2>
-            <Link href={href("/works")} className={styles.allWorks}>
-              {t.allWorks} <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-          <ul className={styles.relatedList}>
-            {related.map((w) => (
-              <li key={w.slug}>
-                <WorkCard work={w} locale={locale} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {/* 4. See other works, as on the earlier work pages */}
+      <OtherWorks works={related} t={dict} href={href} className={styles.others} />
     </article>
   );
 }
