@@ -7,22 +7,11 @@ import styles from "./WorkSlideshow.module.css";
 
 type Img = { url: string; width: number; height: number; alt: string };
 
-const INTERVAL = 4500; // ms per photo
-
-/** Fisher–Yates shuffle; never starts a new round with the photo that was just shown. */
-function shuffled(count: number, avoidFirst?: number): number[] {
-  const order = [...Array(count).keys()];
-  for (let i = order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  if (count > 1 && order[0] === avoidFirst) [order[0], order[1]] = [order[1], order[0]];
-  return order;
-}
+const INTERVAL = 2000; // ms per photo
 
 /**
- * All photos of one work, one at a time, softly cross-fading in a shuffled order (reshuffled
- * after every round). Starts with the main photo. Every photo is shown whole, never cropped.
+ * All photos of one work, one at a time, softly cross-fading in their own order: 1, 2, 3 … and
+ * back to 1, every two seconds. Every photo is shown whole, never cropped.
  * Pauses on hover/focus and when off screen; with reduced motion it only moves on request.
  */
 export function WorkSlideshow({ images, sizes }: { images: Img[]; sizes: string }) {
@@ -32,7 +21,6 @@ export function WorkSlideshow({ images, sizes }: { images: Img[]; sizes: string 
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(true);
   const [reduced, setReduced] = useState(false);
-  const queue = useRef<number[]>([]);
   const root = useRef<HTMLDivElement>(null);
   const count = images.length;
 
@@ -42,15 +30,10 @@ export function WorkSlideshow({ images, sizes }: { images: Img[]; sizes: string 
     setCurrent(i);
   }, []);
 
-  // The next photo comes from a shuffled queue; a new shuffled round starts when it runs out.
-  const next = useCallback(() => {
-    const cur = currentRef.current;
-    if (queue.current.length === 0) queue.current = shuffled(count, cur).filter((i) => i !== cur);
-    show(queue.current.shift() ?? cur);
-  }, [count, show]);
+  // In order, and round again: 1 → 2 → … → last → 1.
+  const next = useCallback(() => show((currentRef.current + 1) % count), [count, show]);
 
   const prev = useCallback(() => {
-    queue.current = [];
     show((currentRef.current - 1 + count) % count);
   }, [count, show]);
 
