@@ -1,29 +1,50 @@
 /*
- * Commissions: one screen, laid out as a catalogue spread.
- *   Left (cols 1–5), on off-white: title, lead, a label with the practical facts, the three
- *   steps between hairlines, and the button.
- *   Right (cols 7–12 to the window edge), a pale pink band from header to footer: the studio
- *   photo, whole, with a caption, and three earlier works, whole, as small squares.
- * Sizes are in em and the page's font size follows the window height, so the spread always
- * fits one screen. No fades, no overlaps, no icons; artworks are never cropped.
+ * Commissions — design B ("Atelier"), chosen by Daphne. One screen:
+ *   left (46 % of the window, from the window edge, header to footer): the studio photo;
+ *   right: title, lead, the three steps as rows between hairlines, four earlier works as
+ *   whole squares, and the button with a quiet link beside it.
+ * Sizes are in em and the page's font size follows the window height (1em = 16px on a
+ * 900px-high window), so it always fits one screen. Artworks are never cropped.
  * Below 900px wide it becomes a simple column (to be refined later).
  */
 .page {
-  --band: color-mix(in srgb, var(--color-pink) 22%, var(--color-off-white));
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  /* header (76px) and the 24px gap above the footer: the spread ends exactly at the screen edge */
+  grid-template-columns: calc(46vw - var(--margin)) minmax(0, 1fr);
+  /* header (76px) and the 24px gap above the footer: the page ends exactly at the screen edge */
   min-height: calc(100svh - 100px);
-  font-size: clamp(11px, calc((100svh - 76px) / 55), 17px);
+  font-size: clamp(11px, calc((100svh - 76px) / 51.5), 17px);
 }
 
-/* ---------- left: the text ---------- */
+/* ---------- left: the photo ---------- */
+
+.photo {
+  position: relative;
+  margin-inline-start: calc(-1 * var(--margin));
+  margin-block-end: -24px; /* runs on to the footer */
+  overflow: hidden;
+}
+
+.photoImage {
+  object-fit: cover;
+  object-position: 62% 40%;
+}
+
+.caption {
+  position: absolute;
+  left: 1.5em;
+  bottom: 1.25em;
+  font-family: var(--font-sans);
+  font-size: 0.8125em;
+  letter-spacing: 0.02em;
+  color: var(--color-off-white);
+  text-shadow: 0 1px 6px rgba(28, 23, 24, 0.35);
+}
+
+/* ---------- right: the text ---------- */
 
 .text {
-  grid-column: 1 / 6;
   align-self: center;
-  padding-block: 2em;
+  padding: 2.5em 0 2em 4.5em;
 }
 
 .title {
@@ -37,65 +58,27 @@
 
 .lead {
   max-width: 40ch;
-  margin-block: 0.9em 1.6em;
+  margin-block: 1.1em 1.6em;
   font-family: var(--font-serif);
   font-size: 1.1875em;
   line-height: 1.5;
   color: var(--color-ink);
 }
 
-/* Facts, set like the label on a work page: hairlines, a small sans term, a serif value. */
-.facts {
-  border-bottom: var(--border-hairline);
-}
-
-.fact {
-  display: grid;
-  grid-template-columns: 9em minmax(0, 1fr);
-  gap: 1em;
-  align-items: baseline;
-  padding-block: 0.7em;
-  border-top: var(--border-hairline);
-}
-
-.fact dt {
-  font-size: 0.8125em;
-  letter-spacing: 0.02em;
-  color: var(--color-muted);
-}
-
-.fact dd {
-  font-family: var(--font-serif);
-  font-size: 1em;
-  color: var(--color-ink);
-}
-
-.stepsLabel {
-  margin-block: 1.75em 0.4em;
-  font-family: var(--font-serif);
-  font-size: 1.375em;
-  font-weight: 400;
-  color: var(--color-bordeaux);
-}
-
-/* number | title, with the text under the title */
+/* number | title | text, one row per step, between hairlines */
 .steps {
-  display: grid;
+  border-top: var(--border-hairline);
 }
 
 .step {
   display: grid;
-  grid-template-columns: 2.25em minmax(0, 1fr);
-  column-gap: 0.75em;
-  padding-block: 0.55em;
-}
-
-.step + .step {
-  border-top: var(--border-hairline);
+  grid-template-columns: 3.25em 7.5em minmax(0, 1fr);
+  align-items: baseline;
+  padding-block: 0.875em;
+  border-bottom: var(--border-hairline);
 }
 
 .stepNumber {
-  grid-row: span 2;
   font-family: var(--font-serif);
   font-size: 1.75em;
   line-height: 1;
@@ -105,9 +88,8 @@
 
 .stepTitle {
   font-family: var(--font-serif);
-  font-size: 1.0625em;
+  font-size: 1.3125em;
   font-weight: 400;
-  line-height: 1.3;
   color: var(--color-bordeaux);
 }
 
@@ -118,24 +100,70 @@
   color: var(--color-muted);
 }
 
+/* Four works, whole, in squares. */
+.works {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1em;
+  max-width: 40em;
+  margin-block: 1.9em;
+}
+
+.work {
+  display: grid;
+  gap: 0.4em;
+  text-decoration: none;
+}
+
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+}
+
+.workImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 240ms var(--ease);
+}
+
+.work:hover .workImage {
+  transform: scale(1.01);
+}
+
+.workTitle {
+  font-family: var(--font-serif);
+  font-size: 0.875em;
+  color: var(--color-ink);
+  transition: color var(--duration) var(--ease);
+}
+
+.work:hover .workTitle,
+.work:focus-visible .workTitle {
+  color: var(--color-turquoise);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1em 1.75em;
-  margin-block-start: 1.6em;
 }
 
 .button {
   display: inline-flex;
   align-items: center;
-  min-height: 2.9em;
+  gap: 0.875em;
+  min-height: 3em;
   padding-inline: 1.5em;
   border: 1px solid var(--color-bordeaux);
   background: var(--color-bordeaux);
   color: var(--color-off-white);
   font-family: var(--font-serif);
-  font-size: 1em;
+  font-size: 1.0625em;
   white-space: nowrap;
   transition:
     background-color var(--duration) var(--ease),
@@ -150,99 +178,16 @@
 
 .link {
   font-family: var(--font-serif);
-  font-size: 1em;
+  font-size: 1.0625em;
   color: var(--color-bordeaux);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.25em;
+  text-underline-offset: 0.3em;
   transition: color var(--duration) var(--ease);
 }
 
 .link:hover,
 .link:focus-visible {
-  color: var(--color-turquoise);
-}
-
-/* ---------- right: the pink band ---------- */
-
-.band {
-  grid-column: 7 / -1;
-  margin-inline-end: calc(-1 * var(--margin));
-  margin-block-end: -24px; /* runs on through the gap above the footer */
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 2.25em;
-  padding: 2.5em 3em;
-  background: var(--band);
-}
-
-/* The photo and the works share one column width, as wide as fits. */
-.studio,
-.examples {
-  width: min(100%, 36em);
-}
-
-.studioImage {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.caption {
-  margin-block-start: 0.6em;
-  font-size: 0.8125em;
-  letter-spacing: 0.02em;
-  color: var(--color-muted);
-}
-
-.examplesTitle {
-  margin-block-end: 0.75em;
-  font-family: var(--font-serif);
-  font-size: 1.375em;
-  font-weight: 400;
-  color: var(--color-bordeaux);
-}
-
-.exampleList {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5em;
-}
-
-.example {
-  display: grid;
-  gap: 0.5em;
-  text-decoration: none;
-}
-
-/* A square in which the work sits whole. */
-.exampleFrame {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-}
-
-.exampleImage {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: transform 240ms var(--ease);
-}
-
-.example:hover .exampleImage {
-  transform: scale(1.01);
-}
-
-.exampleTitle {
-  font-family: var(--font-serif);
-  font-size: 0.9375em;
-  color: var(--color-ink);
-  transition: color var(--duration) var(--ease);
-}
-
-.example:hover .exampleTitle,
-.example:focus-visible .exampleTitle {
   color: var(--color-turquoise);
 }
 
@@ -255,18 +200,21 @@
     font-size: 16px;
   }
 
-  .text {
-    padding-block: 2em 3em;
-  }
-
-  .band {
-    margin-block-end: 0;
+  .photo {
     margin-inline: calc(-1 * var(--margin));
-    padding: 2em var(--margin);
+    margin-block-end: 0;
+    aspect-ratio: 4 / 3;
   }
 
-  .studio,
-  .examples {
-    width: 100%;
+  .text {
+    padding: 2em 0 2.5em;
+  }
+
+  .step {
+    grid-template-columns: 2.5em minmax(0, 1fr);
+  }
+
+  .stepText {
+    grid-column: 2;
   }
 }

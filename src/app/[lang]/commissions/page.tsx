@@ -15,14 +15,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-/** Works shown under "Made before" (Catching Waves is already in the studio photo). */
-const EXAMPLES = ["work-1", "work-2", "work-5"];
+/** Works shown as small squares (Catching Waves is already in the studio photo). */
+const EXAMPLES = ["work-1", "work-2", "work-4", "work-5"];
 
 /**
- * Commissions: one screen, laid out as a catalogue spread.
- * Left: title, lead, a label with the practical facts, the three steps and the button.
- * Right, on a pale pink band to the edge of the window: the studio photo, whole, with a
- * caption, and three earlier works, whole, as small squares. Texts in src/i18n/dictionaries.
+ * Commissions — design B ("Atelier"), chosen by Daphne. One screen:
+ * left, the studio photo from header to footer; right, title, lead, the three steps as rows
+ * between hairlines, four earlier works as whole squares, and the button.
+ * Texts in src/i18n/dictionaries.
  */
 export default async function CommissionsPage() {
   const { locale, t: dict, href } = await getI18n();
@@ -35,23 +35,26 @@ export default async function CommissionsPage() {
 
   return (
     <div className={`${styles.page} container`} data-tight-footer="">
+      <figure className={styles.photo}>
+        <Image
+          src="/images/commissions-studio.jpg"
+          alt={t.photoAlt}
+          fill
+          sizes="(max-width: 900px) 100vw, 46vw"
+          quality={90}
+          priority
+          className={styles.photoImage}
+        />
+        <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
+      </figure>
+
       <section className={styles.text} aria-labelledby="commissions-title">
         <h1 id="commissions-title" className={styles.title}>
           {t.title}
         </h1>
         <p className={styles.lead}>{t.lead}</p>
 
-        {/* The practical facts, set like the label on a work page. */}
-        <dl className={styles.facts} aria-label={t.factsLabel}>
-          {t.facts.map((f) => (
-            <div key={f.label} className={styles.fact}>
-              <dt>{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <h2 className={styles.stepsLabel}>{t.stepsLabel}</h2>
+        <h2 className="visually-hidden">{t.stepsLabel}</h2>
         <ol className={styles.steps}>
           {t.steps.map((s, i) => (
             <li key={s.title} className={styles.step}>
@@ -64,61 +67,43 @@ export default async function CommissionsPage() {
           ))}
         </ol>
 
+        <h2 className="visually-hidden">{t.examplesTitle}</h2>
+        <ul className={styles.works}>
+          {examples.map((work) => {
+            const image = work.images[0];
+            return (
+              <li key={work.slug}>
+                <Link
+                  href={href(`/works/${work.slug}`)}
+                  className={styles.work}
+                >
+                  <span className={styles.frame}>
+                    <Image
+                      src={image.url}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      sizes="10vw"
+                      quality={85}
+                      className={styles.workImage}
+                    />
+                  </span>
+                  <span className={styles.workTitle}>{work.title}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
         <p className={styles.actions}>
           <Link href={contact} className={styles.button}>
-            {t.ask}
+            {t.ask} <span aria-hidden="true">→</span>
           </Link>
-          <Link href={href("/works")} className={styles.link}>
-            {t.allWorks}
+          <Link href={contact} className={styles.link}>
+            {t.priceNote}
           </Link>
         </p>
       </section>
-
-      <aside className={styles.band} aria-label={t.examplesTitle}>
-        <figure className={styles.studio}>
-          <Image
-            src="/images/commissions-studio.jpg"
-            alt={t.photoAlt}
-            width={1536}
-            height={1024}
-            sizes="(max-width: 900px) 100vw, 45vw"
-            quality={90}
-            priority
-            className={styles.studioImage}
-          />
-          <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
-        </figure>
-
-        <div className={styles.examples}>
-          <h2 className={styles.examplesTitle}>{t.examplesTitle}</h2>
-          <ul className={styles.exampleList}>
-            {examples.map((work) => {
-              const image = work.images[0];
-              return (
-                <li key={work.slug}>
-                  <Link
-                    href={href(`/works/${work.slug}`)}
-                    className={styles.example}
-                  >
-                    <span className={styles.exampleFrame}>
-                      <Image
-                        src={image.url}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        sizes="12vw"
-                        quality={85}
-                        className={styles.exampleImage}
-                      />
-                    </span>
-                    <span className={styles.exampleTitle}>{work.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </aside>
     </div>
   );
 }
