@@ -143,6 +143,10 @@
   line-height: var(--leading-body);
 }
 
+.leadShort {
+  display: none;
+}
+
 .form {
   display: grid;
   gap: var(--space-md);
@@ -272,13 +276,40 @@
 /* ---------- phone: one column ---------- */
 
 @media (max-width: 700px) {
-  .intro,
-  .photo {
-    grid-column: 1 / -1;
+  /* Phones: title and text, then the form, then e-mail and Instagram at the bottom. */
+  .contact {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
   }
 
   .intro {
-    padding-block-start: 0;
+    display: contents;
+  }
+
+  .eyebrow,
+  .title {
+    align-self: flex-start;
+  }
+
+  .rule {
+    display: none;
+  }
+
+  .details {
+    order: 2;
+    margin-block-start: var(--space-lg);
+    padding-block-start: var(--title-gap);
+    border-top: 1px solid var(--color-pink);
+  }
+
+  .leadFull {
+    display: none;
+  }
+
+  .leadShort {
+    display: inline;
   }
 
   /* Phones: no studio photo; the details lead straight to the form. */
@@ -287,7 +318,8 @@
   }
 
   .message {
-    margin-block-start: var(--space-lg);
+    order: 1;
+    margin-block-start: var(--space-md);
   }
 }
 

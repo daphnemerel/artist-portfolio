@@ -189,6 +189,8 @@ export const en = {
     photoAlt: "The artist at her easel in a sunlit studio, painting Catching Waves.",
     messageEyebrow: "Send a message",
     lead: "Prefer to send a direct message? Use the form below and I’ll get back to you as soon as possible.",
+    /** The same, shorter, on phones. */
+    leadShort: "Use the form below and I’ll get back to you as soon as possible.",
     form: {
       name: "Name",
       namePlaceholder: "Your name",

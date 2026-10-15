@@ -109,7 +109,10 @@ export default async function ContactPage() {
             <p id="message-title" className={styles.eyebrow}>
               {t.contact.messageEyebrow}
             </p>
-            <p className={styles.lead}>{t.contact.lead}</p>
+            <p className={styles.lead}>
+              <span className={styles.leadFull}>{t.contact.lead}</span>
+              <span className={styles.leadShort}>{t.contact.leadShort}</span>
+            </p>
             <ContactForm email={site.email} />
           </section>
         )}
