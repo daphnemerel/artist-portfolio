@@ -7,7 +7,8 @@
 #   title, venue, city                                                          — required
 #   type     solo | group | fair | screening                                    — optional
 #   text     one or two sentences                                               — optional
-#   works    work folder names; the first gives the small image and the link    — optional
+#   works    work folder names; the first gives the link (and the image)       — optional
+#   image    { src, width, height, alt } — e.g. the poster, a file in public/  — optional
 #   url      link when there is no work (e.g. the venue's page)                 — optional
 # Any text may be one value, or { nl: …, en: … } when it differs per language.
 #
@@ -26,4 +27,11 @@
     en: One of my mixed media works has been selected for exhibition at CODA Museum as part of 055 Apeldoorn Art.
   works:
     - work-4
+  image:
+    src: /images/exhibitions/coda-open-call-055.jpg
+    width: 1254
+    height: 1254
+    alt:
+      nl: "Open call 055: Apeldoorn Art in CODA: een gele balk met de titel boven een expositiezaal met donkerblauwe wanden en schilderijen."
+      en: "Open call 055: Apeldoorn Art at CODA: a yellow band with the title above an exhibition room with dark blue walls and paintings."
   url: https://www.coda-apeldoorn.nl

@@ -169,8 +169,17 @@ const exhibitionSchema = z.object({
   type: z.enum(["solo", "group", "fair", "screening"]).optional(),
   /** One or two sentences about the exhibition. */
   text: localized.optional(),
-  /** Work folder names; the first one gives the small image and the "more information" link. */
+  /** Work folder names; the first one gives the "more information" link (and the image, if none below). */
   works: z.array(z.string()).default([]),
+  /** Optional image for the row, e.g. the exhibition poster (a file in public/). */
+  image: z
+    .object({
+      src: z.string().startsWith("/"),
+      width: z.number().int(),
+      height: z.number().int(),
+      alt: localized,
+    })
+    .optional(),
   /** Used for the link when there is no work, e.g. the venue's page about the exhibition. */
   url: z.url().optional(),
 });

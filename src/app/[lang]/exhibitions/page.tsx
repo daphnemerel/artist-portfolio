@@ -118,7 +118,15 @@ function Section({
                 `content/exhibitions.yaml: "${e.works[0]}" is not a folder in content/works`,
               );
             }
-            const image = work?.images[0];
+            // The row's own image (e.g. the poster), otherwise the first photo of the work.
+            const image = e.image
+              ? {
+                  url: e.image.src,
+                  width: e.image.width,
+                  height: e.image.height,
+                  alt: e.image.alt,
+                }
+              : work?.images[0];
             return (
               <li
                 key={`${e.title}-${e.venue}-${e.year ?? ""}`}
@@ -140,11 +148,10 @@ function Section({
                   </p>
                   {e.text && <p className={styles.text}>{e.text}</p>}
                 </div>
-                {work && image ? (
-                  <Link
-                    href={href(`/works/${work.slug}`)}
+                {image && (work || e.url) ? (
+                  <a
+                    href={work ? href(`/works/${work.slug}`) : e.url}
                     className={styles.thumb}
-                    aria-label={work.title}
                   >
                     <Image
                       src={image.url}
@@ -154,7 +161,7 @@ function Section({
                       sizes="96px"
                       className={styles.thumbImage}
                     />
-                  </Link>
+                  </a>
                 ) : (
                   <span className={styles.thumb} aria-hidden="true" />
                 )}
