@@ -41,7 +41,6 @@ export default async function ExhibitionsPage() {
     <div className={`${styles.page} container`} data-tight-footer="">
       <header className={styles.header}>
         <h1 className={styles.title}>{t.exhibitions.title}</h1>
-        <p className={styles.lead}>{t.exhibitions.lead}</p>
       </header>
 
       {highlight && highlightWork && (

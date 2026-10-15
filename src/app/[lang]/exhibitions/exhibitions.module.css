@@ -1,5 +1,5 @@
 /*
- * Exhibitions page, after Daphne's mockup: a serif title with a short lead, the current
+ * Exhibitions page, after Daphne's mockup: a serif title above a hairline, the current
  * exhibition in the pale pink band (the homepage Highlight), then "Upcoming" and "Past" as
  * CV-like rows: year | title, venue, text | small image | link. Hairlines between rows; the
  * upcoming rows sit on the same pale pink.
@@ -12,8 +12,9 @@
 
 .header {
   display: grid;
+  justify-items: start;
   gap: var(--space-sm);
-  margin-block: var(--title-gap) 0;
+  margin-block: var(--title-gap) calc(var(--space-md) + var(--space-xs));
 }
 
 .title {
@@ -24,26 +25,22 @@
   color: var(--color-bordeaux);
 }
 
-/* A short pink rule before the lead, as before the eyebrows below. */
-.lead,
+/* Only a little space between the title, the hairline and the pink band below. */
+.page > section[aria-labelledby="highlight-title"] {
+  --title-gap: var(--space-sm);
+}
+
 .eyebrow {
   display: flex;
   align-items: center;
   gap: var(--space-md);
 }
 
-.lead::before,
 .eyebrow::before {
   content: "";
   flex: none;
   width: 24px;
   border-top: 1px solid var(--color-pink);
-}
-
-.lead {
-  font-size: var(--type-nav);
-  line-height: 1.4;
-  color: var(--color-muted);
 }
 
 /* ---------- sections ---------- */
