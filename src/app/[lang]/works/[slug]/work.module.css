@@ -4,7 +4,7 @@
  */
 /* As little white as elsewhere on the site: --title-gap between the parts. */
 .page {
-  padding-block: var(--title-gap);
+  padding-block: var(--title-gap) 0; /* the footer's own small gap closes the page */
 }
 
 /* ---------- 5. breadcrumb and previous / next ---------- */

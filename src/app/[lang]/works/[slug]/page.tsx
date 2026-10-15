@@ -77,7 +77,7 @@ export default async function WorkPage({ params }: Props) {
   ];
 
   return (
-    <article className={`${styles.page} container`}>
+    <article className={`${styles.page} container`} data-tight-footer="">
       {/* 5. Navigation: breadcrumb left, previous / next right */}
       <nav className={styles.topnav} aria-label={t.breadcrumb}>
         <ol className={styles.crumbs}>
