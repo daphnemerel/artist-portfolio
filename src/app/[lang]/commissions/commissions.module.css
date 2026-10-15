@@ -1,6 +1,7 @@
 /*
  * Commissions page, after Daphne's mockup: on desktop the whole page fits one screen.
- * Off-white opening with the studio photo top right, fading out to the left and downward;
+ * Off-white opening with a large studio photo top right, running on behind "made to measure"
+ * (which sits on a light panel) and fading out to the left and downward;
  * three steps on one line; a pale pink band with her works; a slim invitation strip.
  * Serif headings in bordeaux; the site's square bordeaux buttons.
  *
@@ -17,7 +18,11 @@
   font-size: clamp(11px, calc((100svh - 100px) / 54.5), 17px);
 }
 
-/* ---------- 1. opening ---------- */
+/* ---------- 1–2. opening and made to measure ---------- */
+
+.top {
+  position: relative;
+}
 
 .hero,
 .intro {
@@ -34,23 +39,23 @@
 .heroPhoto {
   position: absolute;
   top: 0;
-  bottom: -3.5em;
+  bottom: 0;
   right: calc(-1 * var(--margin));
-  width: 56vw;
+  width: 66vw;
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, #000 32%),
-    linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 30%),
+    linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(to right, transparent 0%, #000 32%),
-    linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+    linear-gradient(to right, transparent 0%, #000 30%),
+    linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   mask-composite: intersect;
   pointer-events: none;
 }
 
 .heroImage {
   object-fit: cover;
-  object-position: 70% 38%;
+  object-position: 60% 4%;
 }
 
 .heroText {
@@ -103,9 +108,24 @@
 
 /* ---------- 2. made to measure ---------- */
 
+/* The light panel: from the left edge of the window to just past the three points. */
 .intro {
-  align-items: start;
-  padding-block: 1.5em 1.25em;
+  align-items: center;
+  padding-block: 1.5em 1.5em;
+}
+
+.intro::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: calc(-1 * var(--margin));
+  width: calc(var(--margin) + (100% + var(--gutter)) * 10 / 12);
+  background: color-mix(in srgb, var(--color-off-white) 94%, transparent);
+}
+
+.introText,
+.features {
+  position: relative;
 }
 
 .introText {
@@ -124,15 +144,15 @@
 }
 
 .text {
-  max-width: 60ch;
+  max-width: 56ch;
   font-family: var(--font-serif);
-  font-size: 1em;
+  font-size: 1.0625em;
   line-height: 1.45;
-  color: var(--color-muted);
+  color: var(--color-ink);
 }
 
 .features {
-  grid-column: 8 / -1;
+  grid-column: 7 / 11;
   display: grid;
   gap: 0.75em;
   padding-block-start: 0.25em;
@@ -157,8 +177,8 @@
 }
 
 .icon svg {
-  width: 1.375em;
-  height: 1.375em;
+  width: 1.625em;
+  height: 1.625em;
 }
 
 .featureTitle {
@@ -247,7 +267,7 @@
 }
 
 .optionsText .text {
-  max-width: 46ch;
+  max-width: 54ch;
   font-size: 0.9375em;
 }
 
@@ -285,11 +305,20 @@
 .optionLabel {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 1em;
   font-family: var(--font-serif);
   font-size: 0.9375em;
   color: var(--color-ink);
   transition: color var(--duration) var(--ease);
+}
+
+/* The work's title, quietly after the kind of commission. */
+.optionWork {
+  display: block;
+  font-style: italic;
+  font-size: 0.875em;
+  color: var(--color-muted);
 }
 
 .option:hover .optionLabel,
@@ -300,6 +329,7 @@
 /* ---------- 5. invitation: a slim strip ---------- */
 
 .cta {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
@@ -307,16 +337,20 @@
   padding-block: 0.875em;
 }
 
+/* The drawn branch, bottom left, reaching up into the pink band above. */
 .sprig {
-  grid-column: 1 / 4;
-  width: 100%;
-  max-width: 18em;
+  position: absolute;
+  left: calc(-1 * var(--margin) + 1.5em);
+  bottom: 0;
+  width: 13em;
   height: auto;
   color: var(--color-bordeaux);
-  opacity: 0.55;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .ctaText {
+  position: relative;
   grid-column: 4 / 10;
   display: grid;
   gap: 0.25em;
@@ -372,14 +406,19 @@
     font-size: 16px;
   }
 
+  /* Photo under the opening text, full width. */
+  .top {
+    display: flex;
+    flex-direction: column;
+  }
+
   .hero {
-    row-gap: 1.5em;
-    padding-block: 2em 0;
+    order: 1;
+    padding-block: 2em 1.5em;
   }
 
   .heroPhoto {
-    grid-row: 2;
-    grid-column: 1 / -1;
+    order: 2;
     position: relative;
     right: auto;
     bottom: auto;
@@ -391,14 +430,23 @@
   }
 
   .intro {
+    order: 3;
     row-gap: 2em;
     padding-block: 1em 2em;
+  }
+
+  .intro::before {
+    display: none;
   }
 
   .heroText,
   .introText,
   .features {
     grid-column: 1 / -1;
+  }
+
+  .features {
+    padding-inline-start: 0;
   }
 
   .options {
@@ -419,7 +467,8 @@
   }
 
   .sprig {
-    max-width: 14em;
+    position: static;
+    width: 14em;
   }
 }
 
