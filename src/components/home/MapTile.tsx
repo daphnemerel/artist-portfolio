@@ -85,7 +85,7 @@ export function MapTile({
     <button
       type="button"
       onClick={() => setLoaded(true)}
-      className={`${styles.map} ${styles.mapButton}`}
+      className={`${styles.map} ${styles.mapTrigger}`}
       aria-label={`${label}: ${venueName}`}
     >
       {plan}

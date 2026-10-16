@@ -208,6 +208,7 @@ export const en = {
       sent: "Thank you — your message has been sent.",
       error: "Sorry, something went wrong. Please try again, or email me at",
       code: "code",
+      errorBusy: "A few messages were just sent. Please try again in an hour, or email me at",
     },
   },
   texts: {

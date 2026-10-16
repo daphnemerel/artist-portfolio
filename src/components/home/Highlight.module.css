@@ -255,7 +255,7 @@
 }
 
 /* Before the click: a quiet drawn plan in the site's colours, nothing loaded from Google. */
-.mapButton {
+.mapTrigger {
   grid-template-columns: 100%;
   align-content: start;
   width: 100%;
@@ -416,5 +416,22 @@
 
   .address {
     margin-block-start: var(--space-sm);
+  }
+}
+
+/* Very narrow phones (≈320px): the title and button stay inside the band. */
+@media (max-width: 380px) {
+  .info {
+    min-width: 0;
+  }
+
+  .title {
+    font-size: 1.125rem;
+    overflow-wrap: anywhere;
+  }
+
+  .button {
+    padding-inline: 12px;
+    white-space: normal;
   }
 }

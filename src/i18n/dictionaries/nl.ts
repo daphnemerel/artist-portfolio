@@ -208,6 +208,7 @@ export const nl: Dictionary = {
       sent: "Dank je wel — je bericht is verstuurd.",
       error: "Sorry, er ging iets mis. Probeer het opnieuw, of mail me op",
       code: "code",
+      errorBusy: "Er zijn net al een paar berichten verstuurd. Probeer het over een uur opnieuw, of mail me op",
     },
   },
   texts: {

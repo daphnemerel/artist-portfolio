@@ -10,6 +10,8 @@ import styles from "./contact.module.css";
  * Gmail. No keys in the browser; the visitor stays on the page and no mail app opens.
  */
 const ENDPOINT = "/api/contact";
+/** The same maximum lengths as the server (src/app/api/contact/route.ts), so nothing is cut off. */
+const LIMITS = { name: 120, email: 200, subject: 200, message: 5000 };
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -97,6 +99,7 @@ export function ContactForm({ email }: { email: string }) {
         </span>
         <input
           name="name"
+          maxLength={LIMITS.name}
           type="text"
           autoComplete="name"
           placeholder={t.namePlaceholder}
@@ -112,6 +115,7 @@ export function ContactForm({ email }: { email: string }) {
         </span>
         <input
           name="email"
+          maxLength={LIMITS.email}
           type="email"
           autoComplete="email"
           placeholder={t.emailPlaceholder}
@@ -123,6 +127,7 @@ export function ContactForm({ email }: { email: string }) {
         <input
           ref={subjectRef}
           name="subject"
+          maxLength={LIMITS.subject}
           type="text"
           placeholder={t.subjectPlaceholder}
         />
@@ -137,6 +142,7 @@ export function ContactForm({ email }: { email: string }) {
         <textarea
           name="message"
           rows={5}
+          maxLength={LIMITS.message}
           placeholder={t.messagePlaceholder}
           required
         />
@@ -160,17 +166,14 @@ export function ContactForm({ email }: { email: string }) {
         role="status"
         aria-live="polite"
         data-status={status}
+        data-reason={reason || undefined}
       >
         {status === "sent" && t.sent}
         {status === "error" && (
           <>
-            {t.error} <a href={`mailto:${email}`}>{email}</a>.
-            {reason && (
-              <span className={styles.reason}>
-                {" "}
-                ({t.code}: {reason})
-              </span>
-            )}
+            {/* A plain message for visitors; the technical reason stays out of sight. */}
+            {reason === "rate-limited" ? t.errorBusy : t.error}{" "}
+            <a href={`mailto:${email}`}>{email}</a>.
           </>
         )}
       </p>
