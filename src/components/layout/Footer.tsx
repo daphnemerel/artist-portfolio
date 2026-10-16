@@ -11,7 +11,9 @@ export async function Footer() {
   const { locale, t, href: localize } = await getI18n();
   const site = getSite(locale);
   // Facebook only appears once an account is filled in; the others are always shown.
-  const social = socialAccounts(site).filter((a) => a.href || a.platform !== "facebook");
+  const social = socialAccounts(site).filter(
+    (a) => a.href || a.platform !== "facebook",
+  );
 
   return (
     <footer className={styles.footer}>
@@ -50,7 +52,10 @@ export async function Footer() {
                       <SocialIcon size={26}>{icon}</SocialIcon>
                     </a>
                   ) : (
-                    <span className={styles.pending} title={format(t.footer.pending, { label })}>
+                    <span
+                      className={styles.pending}
+                      title={format(t.footer.pending, { label })}
+                    >
                       <SocialIcon size={26}>{icon}</SocialIcon>
                     </span>
                   )}
@@ -65,6 +70,7 @@ export async function Footer() {
         <p>
           © {new Date().getFullYear()} {site.name}
         </p>
+        <Link href={localize("/privacy")}>{t.privacy.link}</Link>
       </div>
     </footer>
   );

@@ -3,7 +3,10 @@ node_modules/
 out/
 next-env.d.ts
 *.tsbuildinfo
-.env*.local
+# Environment files (secrets such as the Gmail app password live only in Vercel)
+.env
+.env*
+!.env.example
 .vercel
 # generated from content/ by scripts/sync-images.mjs
 public/media/

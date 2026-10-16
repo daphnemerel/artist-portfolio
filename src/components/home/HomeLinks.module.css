@@ -69,6 +69,21 @@
   text-underline-offset: 0.3em;
 }
 
+/* Tablets: a smaller image and less side space, so the text keeps room beside it. */
+@media (min-width: 701px) and (max-width: 1100px) {
+  .item {
+    gap: var(--space-md);
+  }
+
+  .image {
+    width: 140px;
+  }
+
+  .item + .item {
+    padding-inline-start: var(--space-lg);
+  }
+}
+
 /* Phones: one under the other, the hairline turns horizontal. */
 @media (max-width: 700px) {
   .links {
@@ -85,5 +100,24 @@
     padding-block-start: var(--title-gap);
     border-left: 0;
     border-top: var(--border-hairline);
+  }
+}
+
+/* Phones: a larger tap area (at least 24px, WCAG 2.5.8) without moving anything visibly. */
+@media (max-width: 700px) {
+  .more {
+    padding-block: 8px;
+    margin-block: -8px;
+  }
+}
+
+/* Very narrow phones (≈320px): a smaller image, so longer words keep their room. */
+@media (max-width: 380px) {
+  .item {
+    gap: var(--space-md);
+  }
+
+  .image {
+    width: 104px;
   }
 }
