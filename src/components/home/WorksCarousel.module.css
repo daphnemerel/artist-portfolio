@@ -262,3 +262,36 @@
     padding-block-end: var(--space-sm);
   }
 }
+
+/* Very narrow phones (≈320px): title and button fit on one line, the hint may wrap. */
+@media (max-width: 380px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .more {
+    height: 34px;
+    margin-inline-start: 0;
+    padding-inline: 12px;
+  }
+
+  .hint {
+    flex-wrap: wrap;
+    white-space: normal;
+    letter-spacing: 0.12em;
+  }
+
+  /* No room for the arrows: on these small touch screens the strip is swiped. */
+  .arrow {
+    display: none;
+  }
+}

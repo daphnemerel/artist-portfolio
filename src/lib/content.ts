@@ -391,6 +391,7 @@ const textsCache: Partial<Record<Locale, Text[]>> = {};
 /** Texts in content/texts/*.md; for Dutch, name.nl.md (title and body) replaces name.md where present. */
 export function getTexts(locale: Locale): Text[] {
   const dir = path.join(CONTENT_DIR, "texts");
+  if (!existsSync(dir)) return (textsCache[locale] = []);
   textsCache[locale] ??= readdirSync(dir)
     .filter((file) => file.endsWith(".md") && !/\.(nl|en)\.md$/.test(file))
     .map((file) => {
@@ -427,4 +428,18 @@ export function groupByYear<T extends { year?: number }>(items: T[]): [number | 
     groups.set(item.year, [...(groups.get(item.year) ?? []), item]);
   }
   return [...groups.entries()].sort(([a], [b]) => byYearDesc({ year: a }, { year: b }));
+}
+
+/* ---------- privacy ---------- */
+
+/** content/privacy.md (English) and content/privacy.nl.md (Dutch): title, updated date and text. */
+export function getPrivacy(locale: Locale): { title: string; updated: string; html: string } {
+  const file = path.join(CONTENT_DIR, locale === "nl" ? "privacy.nl.md" : "privacy.md");
+  const { data, content } = matter(readFileSync(file, "utf8"));
+  const meta = parse(
+    z.object({ title: z.string().min(1), updated: z.string().min(1) }),
+    data,
+    path.relative(process.cwd(), file),
+  );
+  return { ...meta, html: renderMarkdown(content) };
 }

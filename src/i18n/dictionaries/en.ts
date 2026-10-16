@@ -73,6 +73,7 @@ export const en = {
     website: "Visit website",
     location: "View location",
     map: "Map: {name}",
+    mapNote: "The Google map only loads after a click.",
   },
   works: {
     paintings: "Paintings",
@@ -207,11 +208,18 @@ export const en = {
       sent: "Thank you — your message has been sent.",
       error: "Sorry, something went wrong. Please try again, or email me at",
       code: "code",
+      errorBusy: "A few messages were just sent. Please try again in an hour, or email me at",
     },
   },
   texts: {
     title: "Texts",
     kinds: { statement: "Statement", essay: "Essay", press: "Press", interview: "Interview" },
+  },
+  privacy: {
+    link: "Privacy",
+    updated: "Updated:",
+    description: "How Daphne Merel handles your details on this website and in the contact form.",
+    formNote: "I only use your details to reply to your message.",
   },
   notFound: {
     title: "Page not found",

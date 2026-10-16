@@ -9,10 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/works",
     "/exhibitions",
-    "/texts",
+    // The Texts section only exists once there is a text.
+    ...(getTexts("en").length > 0 ? ["/texts"] : []),
     "/commissions",
     "/about",
     "/contact",
+    "/privacy",
     ...getWorks("en").map((work) => `/works/${work.slug}`),
     ...getTexts("en").map((text) => `/texts/${text.slug}`),
   ];

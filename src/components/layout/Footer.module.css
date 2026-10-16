@@ -194,3 +194,29 @@
     font-size: 0.625rem;
   }
 }
+
+/* Very narrow phones (≈320px): the e-mail address may break instead of pushing the page wider. */
+@media (max-width: 380px) {
+  .footer .email {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+
+  .social {
+    margin-inline-start: -4px;
+  }
+
+  .social a,
+  .pending {
+    width: 24px;
+    height: 28px;
+  }
+}
+
+/* Phones: a larger tap area (at least 24px, WCAG 2.5.8) without moving anything visibly. */
+@media (max-width: 700px) {
+  .meta a {
+    padding-block: 8px;
+    margin-block: -8px;
+  }
+}

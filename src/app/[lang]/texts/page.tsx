@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { PageTitle } from "@/components/type/PageTitle";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
@@ -14,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function TextsPage() {
   const { locale, t, href } = await getI18n();
   const texts = getTexts(locale);
+  if (texts.length === 0) notFound(); // no section until there is a real text
   return (
     <div className="container">
       <PageTitle>{t.texts.title}</PageTitle>

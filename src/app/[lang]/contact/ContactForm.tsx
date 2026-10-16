@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { useI18n } from "@/i18n/client";
 import styles from "./contact.module.css";
 
@@ -9,21 +10,31 @@ import styles from "./contact.module.css";
  * Gmail. No keys in the browser; the visitor stays on the page and no mail app opens.
  */
 const ENDPOINT = "/api/contact";
+/** The same maximum lengths as the server (src/app/api/contact/route.ts), so nothing is cut off. */
+const LIMITS = { name: 120, email: 200, subject: 200, message: 5000 };
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function ContactForm({ email }: { email: string }) {
-  const { t: dict } = useI18n();
+  const { t: dict, href } = useI18n();
   const t = dict.contact.form;
   const [status, setStatus] = useState<Status>("idle");
   const subjectRef = useRef<HTMLInputElement>(null);
 
   // Arriving from a work page ("Informeer naar dit werk"): the subject is filled in already.
   useEffect(() => {
-    const subject = new URLSearchParams(window.location.search).get("onderwerp");
-    if (subject && subjectRef.current && !subjectRef.current.value) subjectRef.current.value = subject;
+    const subject = new URLSearchParams(window.location.search).get(
+      "onderwerp",
+    );
+    if (subject && subjectRef.current && !subjectRef.current.value)
+      subjectRef.current.value = subject;
   }, []);
   const [reason, setReason] = useState("");
+  // When the form was shown: messages sent within a few seconds are almost always bots.
+  const shownAt = useRef(0);
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,6 +58,7 @@ export function ContactForm({ email }: { email: string }) {
           subject: get("subject"),
           message: get("message"),
           botcheck: data.get("botcheck") ? true : "",
+          elapsed: shownAt.current ? Date.now() - shownAt.current : 0,
         }),
       });
       const result = (await response.json().catch(() => null)) as {
@@ -87,6 +99,7 @@ export function ContactForm({ email }: { email: string }) {
         </span>
         <input
           name="name"
+          maxLength={LIMITS.name}
           type="text"
           autoComplete="name"
           placeholder={t.namePlaceholder}
@@ -102,6 +115,7 @@ export function ContactForm({ email }: { email: string }) {
         </span>
         <input
           name="email"
+          maxLength={LIMITS.email}
           type="email"
           autoComplete="email"
           placeholder={t.emailPlaceholder}
@@ -110,7 +124,13 @@ export function ContactForm({ email }: { email: string }) {
       </label>
       <label className={styles.field}>
         <span className={styles.fieldLabel}>{t.subject}</span>
-        <input ref={subjectRef} name="subject" type="text" placeholder={t.subjectPlaceholder} />
+        <input
+          ref={subjectRef}
+          name="subject"
+          maxLength={LIMITS.subject}
+          type="text"
+          placeholder={t.subjectPlaceholder}
+        />
       </label>
       <label className={styles.field}>
         <span className={styles.fieldLabel}>
@@ -122,6 +142,7 @@ export function ContactForm({ email }: { email: string }) {
         <textarea
           name="message"
           rows={5}
+          maxLength={LIMITS.message}
           placeholder={t.messagePlaceholder}
           required
         />
@@ -145,18 +166,21 @@ export function ContactForm({ email }: { email: string }) {
         role="status"
         aria-live="polite"
         data-status={status}
+        data-reason={reason || undefined}
       >
         {status === "sent" && t.sent}
         {status === "error" && (
           <>
-            {t.error}{" "}
+            {/* A plain message for visitors; the technical reason stays out of sight. */}
+            {reason === "rate-limited" ? t.errorBusy : t.error}{" "}
             <a href={`mailto:${email}`}>{email}</a>.
-            {reason && <span className={styles.reason}>
-                {" "}
-                ({t.code}: {reason})
-              </span>}
           </>
         )}
+      </p>
+      {/* What happens with the visitor's details (AVG): a short line and the privacy page. */}
+      <p className={styles.formNote}>
+        {dict.privacy.formNote}{" "}
+        <Link href={href("/privacy")}>{dict.privacy.link}</Link>
       </p>
     </form>
   );

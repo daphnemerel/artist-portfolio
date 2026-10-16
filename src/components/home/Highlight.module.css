@@ -254,6 +254,61 @@
   pointer-events: none;
 }
 
+/* Before the click: a quiet drawn plan in the site's colours, nothing loaded from Google. */
+.mapTrigger {
+  grid-template-columns: 100%;
+  align-content: start;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.mapPreview {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: end;
+  background: var(--color-off-white);
+}
+
+.mapDrawing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-bordeaux) 22%, var(--color-off-white));
+  stroke-width: 1.2;
+}
+
+.mapRoad {
+  stroke: color-mix(in srgb, var(--color-pink) 70%, var(--color-off-white));
+  stroke-width: 3;
+}
+
+.mapPin {
+  fill: var(--color-bordeaux);
+  stroke: none;
+}
+
+.mapPinDot {
+  fill: var(--color-off-white);
+  stroke: none;
+}
+
+.mapNote {
+  position: relative;
+  padding: 8px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
 /* The map in its own colours (at the artist's request); kept as an empty hook. */
 .mapTint {
   display: none;
@@ -361,5 +416,22 @@
 
   .address {
     margin-block-start: var(--space-sm);
+  }
+}
+
+/* Very narrow phones (≈320px): the title and button stay inside the band. */
+@media (max-width: 380px) {
+  .info {
+    min-width: 0;
+  }
+
+  .title {
+    font-size: 1.125rem;
+    overflow-wrap: anywhere;
+  }
+
+  .button {
+    padding-inline: 12px;
+    white-space: normal;
   }
 }

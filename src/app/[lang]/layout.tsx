@@ -7,6 +7,7 @@ import { I18nProvider } from "@/i18n/client";
 import { isLocale, localeTag, locales } from "@/i18n/config";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getSite } from "@/lib/content";
+import { defaultShareImage } from "@/i18n/metadata";
 import { siteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
@@ -28,7 +29,9 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
-export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const site = getSite(lang);
@@ -36,11 +39,20 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     metadataBase: new URL(siteUrl),
     title: { default: site.name, template: `%s — ${site.name}` },
     description: site.description,
-    openGraph: { siteName: site.name, type: "website", locale: localeTag[lang].replace("-", "_") },
+    openGraph: {
+      siteName: site.name,
+      type: "website",
+      locale: localeTag[lang].replace("-", "_"),
+      images: [defaultShareImage(lang)],
+    },
+    twitter: { card: "summary_large_image" },
   };
 }
 
-export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
+export default async function RootLayout({
+  children,
+  params,
+}: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = dictionaries[lang];
@@ -49,7 +61,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     <html lang={lang} className={`${sans.variable} ${serif.variable}`}>
       <body>
         <I18nProvider locale={lang} t={t}>
-          <a href="#main" className="visually-hidden">
+          <a href="#main" className="visually-hidden skip-link">
             {t.meta.skip}
           </a>
           <Header />
