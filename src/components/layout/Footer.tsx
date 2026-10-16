@@ -11,8 +11,9 @@ export async function Footer() {
   const { locale, t, href: localize } = await getI18n();
   const site = getSite(locale);
   // Facebook only appears once an account is filled in; the others are always shown.
-  // Only accounts that exist; empty ones in content/site.yaml are not shown.
-  const social = socialAccounts(site).filter((a) => a.href);
+  const social = socialAccounts(site).filter(
+    (a) => a.href || a.platform !== "facebook",
+  );
 
   return (
     <footer className={styles.footer}>

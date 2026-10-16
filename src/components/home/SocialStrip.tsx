@@ -7,23 +7,15 @@ import styles from "./SocialStrip.module.css";
 
 /** Thin band on the homepage: "SOCIALS" and the accounts filled in content/site.yaml, plus email. */
 export function SocialStrip({ site, t }: { site: Site; t: Dictionary }) {
-  type Link = {
-    key: string;
-    label: string;
-    href?: string;
-    icon: ReactNode;
-    external: boolean;
-  };
-  // Only accounts that exist; empty ones in content/site.yaml are not shown.
-  const links: Link[] = socialAccounts(site)
-    .filter((a) => a.href)
-    .map(({ platform, label, href, icon }) => ({
-      key: platform,
-      label,
-      href,
-      icon,
-      external: true,
-    }));
+  type Link = { key: string; label: string; href?: string; icon: ReactNode; external: boolean };
+  // every platform, in the order of content/site.yaml; those without an account yet are shown faded
+  const links: Link[] = socialAccounts(site).map(({ platform, label, href, icon }) => ({
+    key: platform,
+    label,
+    href,
+    icon,
+    external: true,
+  }));
   if (site.email) {
     links.push({
       key: "email",
@@ -52,9 +44,7 @@ export function SocialStrip({ site, t }: { site: Site; t: Dictionary }) {
                 href={l.href}
                 className={styles.link}
                 aria-label={l.label}
-                {...(l.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
+                {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               >
                 <span className={styles.disc} aria-hidden="true" />
                 <span className={styles.icon}>
@@ -62,16 +52,11 @@ export function SocialStrip({ site, t }: { site: Site; t: Dictionary }) {
                 </span>
               </a>
             ) : (
-              <span
-                className={`${styles.link} ${styles.pending}`}
-                title={format(t.home.comingSoon, { label: l.label })}
-              >
+              <span className={`${styles.link} ${styles.pending}`} title={format(t.home.comingSoon, { label: l.label })}>
                 <span className={styles.icon}>
                   <SocialIcon size={24}>{l.icon}</SocialIcon>
                 </span>
-                <span className="visually-hidden">
-                  {format(t.home.comingSoon, { label: l.label })}
-                </span>
+                <span className="visually-hidden">{format(t.home.comingSoon, { label: l.label })}</span>
               </span>
             )}
           </li>

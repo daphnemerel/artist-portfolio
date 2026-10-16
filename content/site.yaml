@@ -10,7 +10,7 @@ location: ""
 email: daphnemerelinfo@gmail.com
 # The contact form emails this address via Gmail. Set GMAIL_APP_PASSWORD (a Google app password)
 # in Vercel → Settings → Environment Variables; it is never stored in the code.
-# Social accounts: fill in the account name only (no URL). Empty ones are not shown on the site.
+# Social accounts: fill in the account name only (no URL). Empty ones show as "to be added" in the footer.
 # Shown in this order on the site (email always last).
 instagram: daphne_merel
 tiktok: ""
