@@ -3,6 +3,7 @@ import Link from "next/link";
 import { format, localePath, type Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Site, Work } from "@/lib/content";
+import { MapTile } from "./MapTile";
 import styles from "./Highlight.module.css";
 
 /**
@@ -112,30 +113,15 @@ export function Highlight({
               </p>
             </div>
 
-            {/* A small map in its own colours, in a bordeaux frame; the whole tile opens the route. */}
-            <a
-              href={mapsLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.map}
-              aria-label={`${t.venue.location}: ${venue.name}`}
-            >
-              <span className={styles.mapPlan}>
-                <iframe
-                  src={mapsEmbed}
-                  title={format(t.venue.map, { name: venue.name })}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  tabIndex={-1}
-                  className={styles.mapFrame}
-                />
-                <span className={styles.mapTint} aria-hidden="true" />
-              </span>
-              <span className={styles.mapCaption} aria-hidden="true">
-                <span>{t.venue.location}</span>
-                <span>→</span>
-              </span>
-            </a>
+            {/* A small map; Google loads only after a click (privacy-friendly). */}
+            <MapTile
+              embedUrl={mapsEmbed!}
+              routeUrl={mapsLink!}
+              label={t.venue.location}
+              mapTitle={format(t.venue.map, { name: venue.name })}
+              note={t.venue.mapNote}
+              venueName={venue.name}
+            />
           </>
         )}
       </div>

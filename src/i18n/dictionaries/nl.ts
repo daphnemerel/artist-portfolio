@@ -73,6 +73,7 @@ export const nl: Dictionary = {
     website: "Bekijk website",
     location: "Bekijk locatie",
     map: "Kaart: {name}",
+    mapNote: "De kaart van Google laadt pas na een klik.",
   },
   works: {
     paintings: "Schilderijen",
@@ -212,6 +213,12 @@ export const nl: Dictionary = {
   texts: {
     title: "Teksten",
     kinds: { statement: "Statement", essay: "Essay", press: "Pers", interview: "Interview" },
+  },
+  privacy: {
+    link: "Privacy",
+    updated: "Bijgewerkt:",
+    description: "Hoe Daphne Merel omgaat met je gegevens via deze website en het contactformulier.",
+    formNote: "Je gegevens gebruik ik alleen om je bericht te beantwoorden.",
   },
   notFound: {
     title: "Pagina niet gevonden",
