@@ -174,7 +174,7 @@ export const nl: Dictionary = {
     title: "Over mij",
     heading: "Over Daphne",
     photoAlt:
-      "Daphne Merel, lachend, aan een tafel in haar atelier, met kwasten in een pot en kleurrijke schilderijen achter haar.",
+      "Daphne Merel in een zwarte jurk, leunend tegen een rode oldtimer op een zonnig plein met kinderkopjes, een stenen balustrade en een palmboom.",
     getInTouch: "Neem contact op",
     representedBy: "Vertegenwoordigd door",
     cv: "Download cv (pdf)",

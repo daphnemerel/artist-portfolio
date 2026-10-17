@@ -26,10 +26,10 @@ export default async function AboutPage() {
     <div className="container">
       <section className={styles.about} aria-labelledby="about-title" data-tight-footer="">
         <Image
-          src="/images/about-daphne.jpg"
+          src="/images/about-daphne-car.jpg"
           alt={t.about.photoAlt}
-          width={537}
-          height={791}
+          width={700}
+          height={1031}
           sizes="(max-width: 700px) 100vw, 440px"
           quality={92}
           priority
