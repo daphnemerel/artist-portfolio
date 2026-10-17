@@ -25,7 +25,7 @@ export const en = {
     switchLabel: "View this page in Dutch",
   },
   footer: {
-    role: "Dutch Mixed Media Artist",
+    role: "Dutch Artist",
     nav: "Footer",
     email: "Email",
     follow: "Follow",
@@ -174,7 +174,7 @@ export const en = {
     title: "About",
     heading: "About Daphne",
     photoAlt:
-      "Daphne Merel, smiling, at a table in her studio, with brushes in a jar and colourful paintings behind her.",
+      "Daphne Merel in a black dress, leaning against a red vintage car on a sunny cobbled square with a stone balustrade and a palm tree.",
     getInTouch: "Get in touch",
     representedBy: "Represented by",
     cv: "Download CV (PDF)",

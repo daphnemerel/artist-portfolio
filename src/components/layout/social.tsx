@@ -22,7 +22,7 @@ const platforms: {
   {
     platform: "instagram",
     label: "Instagram",
-    url: (h) => `https://instagram.com/${h}`,
+    url: (h) => `https://www.instagram.com/${h}/`,
     display: (h) => h,
     icon: (
       <>
@@ -35,7 +35,7 @@ const platforms: {
   {
     platform: "tiktok",
     label: "TikTok",
-    url: (h) => `https://tiktok.com/@${h}`,
+    url: (h) => `https://www.tiktok.com/@${h}`,
     display: (h) => `@${h}`,
     icon: (
       <>
@@ -47,7 +47,7 @@ const platforms: {
   {
     platform: "pinterest",
     label: "Pinterest",
-    url: (h) => `https://pinterest.com/${h}`,
+    url: (h) => `https://www.pinterest.com/${h}/`,
     display: (h) => h,
     icon: (
       <>
@@ -103,7 +103,6 @@ export function socialAccounts(site: Pick<Site, SocialPlatform>): SocialAccount[
     };
   });
 }
-
 export function SocialIcon({ children, size = 18 }: { children: ReactNode; size?: number }) {
   return (
     <svg

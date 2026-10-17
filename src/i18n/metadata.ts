@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { localeTag, locales, defaultLocale, type Locale } from "./config";
 
-/** The share image for pages without their own: the name and three works, per language. */
+/** The share image for pages without their own: Daphne with the red car (her portrait from the homepage). */
 export function defaultShareImage(locale: Locale) {
   return {
-    url: `/images/og-default-${locale}.jpg`,
-    width: 1200,
-    height: 630,
+    url: "/images/og-daphne.jpg",
+    width: 1000,
+    height: 525,
     alt:
       locale === "nl"
-        ? "Daphne Merel, mixed media kunstenaar"
-        : "Daphne Merel, mixed media artist",
+        ? "Daphne Merel, lachend, in de open deur van een rode oldtimer"
+        : "Daphne Merel, smiling, in the open door of a red vintage car",
   };
 }
 

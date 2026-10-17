@@ -16,7 +16,7 @@
   flex: none;
   width: auto;
   height: min(calc(100svh - 76px - 4 * var(--title-gap)), 620px);
-  aspect-ratio: 537 / 791;
+  aspect-ratio: 560 / 825;
   border-radius: 16px;
   object-fit: cover;
 }
