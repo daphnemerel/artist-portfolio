@@ -25,7 +25,7 @@ export const nl: Dictionary = {
     switchLabel: "Bekijk deze pagina in het Engels",
   },
   footer: {
-    role: "Nederlandse mixed media kunstenaar",
+    role: "Nederlandse kunstenares",
     nav: "Footer",
     email: "E-mail",
     follow: "Volg mij",

@@ -25,7 +25,7 @@ export const en = {
     switchLabel: "View this page in Dutch",
   },
   footer: {
-    role: "Dutch Mixed Media Artist",
+    role: "Dutch Artist",
     nav: "Footer",
     email: "Email",
     follow: "Follow",

@@ -38,13 +38,16 @@ bio:
 # Short introduction on the homepage, beside the portrait (Daphne's own text, first person).
 intro:
   nl: >-
-    Ik ben Daphne Merel, een mixed media kunstenaar met een voorliefde voor textuur, contrast en
-    kleine momenten van aandacht. In mijn werk combineer ik gelaagde, tastbare oppervlakken met fijne
-    figuratieve details: stille verhalen in uitgesproken, materiële werelden.
+    Mijn naam is Daphne Merel, Nederlandse kunstenares in opdracht en vrij werk, en mijn passie ligt
+    in alles wat creatief is. Ik ben altijd al een rustig persoon geweest en merk dat ik hierdoor heel
+    bewust kijk naar de wereld om mij heen. De kleine dingen die mij opvallen, leg ik graag vast in
+    mijn schilderijen en tekeningen.
+  # DRAFT translation by Claude of Daphne's Dutch text, to be reviewed by Daphne.
   en: >-
-    I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
-    My work combines layered, tactile surfaces with delicate figurative details, creating quiet
-    stories within bold material worlds.
+    My name is Daphne Merel, a Dutch artist working on commissions and independent work, and my
+    passion lies in everything creative. I have always been a quiet person, and I notice that this
+    makes me look at the world around me very consciously. I like to capture the small things that
+    catch my eye in my paintings and drawings.
 
 # Highlighted on the homepage between Socials and Recent works. Remove to hide it.
 highlight:
