@@ -36,14 +36,15 @@ bio:
     Commissions are very welcome. I'd love to create a unique piece together that tells your story.
 # Short introduction on the homepage, beside the portrait (Daphne's own text, first person).
 intro:
-  nl: >-
-    Ik ben Daphne Merel, een mixed media kunstenaar met een voorliefde voor textuur, contrast en
-    kleine momenten van aandacht. In mijn werk combineer ik gelaagde, tastbare oppervlakken met fijne
-    figuratieve details: stille verhalen in uitgesproken, materiële werelden.
-  en: >-
-    I'm Daphne Merel, a mixed media artist drawn to texture, contrast and small moments of focus.
-    My work combines layered, tactile surfaces with delicate figurative details, creating quiet
-    stories within bold material worlds.
+  nl: |-
+    Mijn naam is Daphne Merel en mijn passie ligt in alles wat creatief is. Ik ben altijd al een rustig persoon geweest en ik heb gemerkt dat ik hierdoor heel bewust ben van de wereld om mij heen. Ik neem de tijd om stil te staan bij de dingen die me opvallen door ze te schilderen of tekenen.
+
+    Door ze op een doek te vertalen, geef ik ze de ruimte om gezien en ervaren te worden. Met mijn werk wil ik anderen uitnodigen om ook even stil te staan, hun blik te vertragen en met meer aandacht naar de wereld te kijken. Ik hoop dat mijn schilderijen mensen laten voelen hoe bijzonder het kan zijn om in te zoomen op het leven en schoonheid te ontdekken in de wereld om ons heen.
+  # DRAFT translation by Claude of Daphne's Dutch text, to be reviewed by Daphne.
+  en: |-
+    My name is Daphne Merel and my passion lies in everything creative. I have always been a quiet person, and I have noticed that this makes me very aware of the world around me. I take the time to pause at the things that catch my eye by painting or drawing them.
+
+    By translating them onto canvas, I give them room to be seen and experienced. With my work I want to invite others to pause as well, to slow down their gaze and to look at the world with more attention. I hope my paintings let people feel how special it can be to zoom in on life and find beauty in the world around us.
 
 # Highlighted on the homepage between Socials and Recent works. Remove to hide it.
 highlight:

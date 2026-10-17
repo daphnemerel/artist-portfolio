@@ -106,7 +106,11 @@ export async function HomeView({ hero }: { hero: HomeHero }) {
             <h2 id="intro-title" className={styles.introLabel}>
               {site.name}
             </h2>
-            <p className={styles.introText}>{site.intro}</p>
+            {site.intro.split(/\n\s*\n/).map((paragraph, i) => (
+              <p key={i} className={styles.introText}>
+                {paragraph}
+              </p>
+            ))}
             <Link href={href("/about")} className={styles.more}>
               {t.home.aboutMe} <span aria-hidden="true">→</span>
             </Link>
