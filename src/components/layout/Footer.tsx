@@ -10,10 +10,7 @@ import styles from "./Footer.module.css";
 export async function Footer() {
   const { locale, t, href: localize } = await getI18n();
   const site = getSite(locale);
-  // Facebook only appears once an account is filled in; the others are always shown.
-  const social = socialAccounts(site).filter(
-    (a) => a.href || a.platform !== "facebook",
-  );
+  const social = socialAccounts(site);
 
   return (
     <footer className={styles.footer}>

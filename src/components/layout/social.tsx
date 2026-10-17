@@ -22,7 +22,7 @@ const platforms: {
   {
     platform: "instagram",
     label: "Instagram",
-    url: (h) => `https://instagram.com/${h}`,
+    url: (h) => `https://www.instagram.com/${h}/`,
     display: (h) => h,
     icon: (
       <>
@@ -35,7 +35,7 @@ const platforms: {
   {
     platform: "tiktok",
     label: "TikTok",
-    url: (h) => `https://tiktok.com/@${h}`,
+    url: (h) => `https://www.tiktok.com/@${h}`,
     display: (h) => `@${h}`,
     icon: (
       <>
@@ -47,7 +47,7 @@ const platforms: {
   {
     platform: "pinterest",
     label: "Pinterest",
-    url: (h) => `https://pinterest.com/${h}`,
+    url: (h) => `https://www.pinterest.com/${h}/`,
     display: (h) => h,
     icon: (
       <>
@@ -90,17 +90,11 @@ const platforms: {
   },
 ];
 
-/** Every supported platform, with link details where content/site.yaml has an account name. */
+/** The platforms that have an account name in content/site.yaml; the others are not shown. */
 export function socialAccounts(site: Pick<Site, SocialPlatform>): SocialAccount[] {
-  return platforms.map(({ platform, label, url, display, icon }) => {
-    const handle = site[platform] || undefined;
-    return {
-      platform,
-      label,
-      icon,
-      handle: handle && display(handle),
-      href: handle && url(handle),
-    };
+  return platforms.flatMap(({ platform, label, url, display, icon }) => {
+    const handle = site[platform];
+    return handle ? [{ platform, label, icon, handle: display(handle), href: url(handle) }] : [];
   });
 }
 
