@@ -90,14 +90,19 @@ const platforms: {
   },
 ];
 
-/** The platforms that have an account name in content/site.yaml; the others are not shown. */
+/** Every supported platform, with link details where content/site.yaml has an account name. */
 export function socialAccounts(site: Pick<Site, SocialPlatform>): SocialAccount[] {
-  return platforms.flatMap(({ platform, label, url, display, icon }) => {
-    const handle = site[platform];
-    return handle ? [{ platform, label, icon, handle: display(handle), href: url(handle) }] : [];
+  return platforms.map(({ platform, label, url, display, icon }) => {
+    const handle = site[platform] || undefined;
+    return {
+      platform,
+      label,
+      icon,
+      handle: handle && display(handle),
+      href: handle && url(handle),
+    };
   });
 }
-
 export function SocialIcon({ children, size = 18 }: { children: ReactNode; size?: number }) {
   return (
     <svg

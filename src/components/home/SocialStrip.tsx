@@ -8,7 +8,7 @@ import styles from "./SocialStrip.module.css";
 /** Thin band on the homepage: "SOCIALS" and the accounts filled in content/site.yaml, plus email. */
 export function SocialStrip({ site, t }: { site: Site; t: Dictionary }) {
   type Link = { key: string; label: string; href?: string; icon: ReactNode; external: boolean };
-  // the platforms with an account, in the order of content/site.yaml
+  // every platform, in the order of content/site.yaml; those without an account yet are shown faded
   const links: Link[] = socialAccounts(site).map(({ platform, label, href, icon }) => ({
     key: platform,
     label,
