@@ -18,7 +18,7 @@ export async function HomeLinks() {
     {
       ...t.home.commissions,
       href: href("/commissions"),
-      image: { src: "/images/commissions-window.jpg", width: 1254, height: 1254, alt: t.home.commissions.alt },
+      image: { src: "/images/commissions-house.jpg", width: 1352, height: 1352, alt: t.home.commissions.alt },
     },
     {
       ...t.home.exhibitions,

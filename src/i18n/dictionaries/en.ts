@@ -56,7 +56,7 @@ export const en = {
       title: "Commissions",
       text: "Interested in a custom work or collaboration?",
       label: "View commissions",
-      alt: "A café window painted with wildflowers along its edges — purple, pink, yellow and white — and a pink oval with a deep pink border in the middle.",
+      alt: "Ink and watercolour drawing of a pink corner house with tall windows, a lantern and potted plants along an old street.",
     },
     exhibitions: {
       title: "Exhibitions",
