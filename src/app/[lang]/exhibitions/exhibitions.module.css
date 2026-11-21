@@ -233,9 +233,11 @@
     padding-block: var(--space-lg);
   }
 
+  /* Phones: one tidy column, without the small image. */
   .row {
-    grid-template-columns: minmax(0, 1fr) 72px;
-    padding: var(--space-md) var(--space-sm);
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-sm);
+    padding: var(--space-md);
   }
 
   .when {
@@ -247,13 +249,12 @@
   }
 
   .thumb {
-    width: 72px;
-    height: 72px;
-    align-self: start;
+    display: none;
   }
 
   .more {
     grid-column: 1 / -1;
+    margin-block-start: var(--space-xs);
   }
 }
 

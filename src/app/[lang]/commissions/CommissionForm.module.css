@@ -475,6 +475,7 @@
 
   .aside {
     order: 2;
+    align-self: stretch; /* full width on phones, not pushed to the right */
     padding-block: 0 var(--space-lg);
   }
 

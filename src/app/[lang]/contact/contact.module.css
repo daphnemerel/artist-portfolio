@@ -124,6 +124,16 @@
   object-position: 50% 40%;
 }
 
+/* Wide screens: the photo runs exactly from the top to the bottom of the form beside it. */
+@media (min-width: 1101px) {
+  .photo {
+    align-self: stretch;
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+}
+
 /* ---------- message form ---------- */
 
 .message {
