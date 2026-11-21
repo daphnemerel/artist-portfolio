@@ -1,6 +1,6 @@
 ---
 # Nederlandse teksten bij index.md (CONCEPT, door Claude vertaald). images: in dezelfde volgorde als index.md.
-medium: Acryl op doek
+medium: Mixed media op doek
 price: N.T.B.
 images:
   - alt: >-

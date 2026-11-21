@@ -2,7 +2,7 @@
 # Details from Daphne's Instagram post (12 Nov 2026) and chat. Availability and price still to be confirmed.
 title: "Colours of the Wind"
 year: 2026
-medium: Acrylic on canvas
+medium: Mixed media on canvas
 dimensions: 70 × 35 cm
 price: TBC
 number: 6
