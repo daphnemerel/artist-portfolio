@@ -165,7 +165,7 @@ export default async function WorkPage({ params }: Props) {
               className={`${styles.cta} ${styles.ctaDisabled}`}
               aria-disabled="true"
             >
-              {t.unavailable}
+              {work.availability ?? t.unavailable}
             </span>
           )}
         </div>

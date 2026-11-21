@@ -4,7 +4,7 @@ title: "Gewichtloze Vleugels"
 year: 2026
 medium: Acrylic
 dimensions: 30 × 30 cm
-availability: Unavailable
+availability: Available from 5 April
 available: false
 price: TBC
 number: 4

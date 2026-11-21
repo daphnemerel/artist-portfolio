@@ -1,0 +1,508 @@
+/*
+ * Commission request below the studio photo: four numbered steps between hairlines,
+ * in the serif, bordeaux on off-white. No radius, no shadows (codebook §7, §8).
+ */
+.request {
+  padding-block: var(--space-lg) 0; /* the footer follows straight after */
+  border-top: var(--border-hairline);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.6875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  border-top: 1px solid var(--color-bordeaux);
+}
+
+.title {
+  margin-block: var(--space-xs) var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--type-heading-lg);
+  font-weight: 400;
+  line-height: var(--leading-heading-lg);
+  color: var(--color-bordeaux);
+}
+
+.form {
+  display: grid;
+  gap: 0;
+}
+
+/* Each step: a numbered heading, a short hint, then the choices. */
+.step {
+  display: grid;
+  gap: var(--space-sm);
+  min-width: 0; /* let the strip scroll inside the fieldset */
+  margin: 0;
+  padding: var(--space-md) 0;
+  border: 0;
+  border-top: var(--border-hairline);
+}
+
+.legend {
+  float: left; /* lets the legend sit inside the grid like a normal heading */
+  width: 100%;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--color-bordeaux);
+}
+
+.number {
+  display: inline-block;
+  min-width: 1.4em;
+  color: var(--color-pink);
+  font-variant-numeric: lining-nums;
+}
+
+.hint {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+  color: var(--color-muted);
+}
+
+/* ---------- step 1: the works, as a strip to swipe or drag ---------- */
+
+.strip {
+  position: relative;
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.stripControls {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-block-start: calc(-1 * var(--space-2xl));
+}
+
+.arrow {
+  width: 40px;
+  height: 40px;
+  border: var(--border-hairline);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-ink);
+  font: 400 1rem / 1 var(--font-sans);
+  cursor: pointer;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.arrow:hover:not(:disabled) {
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+
+@media (pointer: fine) {
+  .viewport {
+    cursor: grab;
+  }
+}
+
+.viewport[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.item {
+  flex: 0 0 calc((100% - 4 * var(--space-sm)) / 5);
+  scroll-snap-align: start;
+}
+
+.card {
+  position: relative; /* keeps the hidden radio inside the strip, so the page never widens */
+  display: grid;
+  gap: var(--space-xs);
+  cursor: pointer;
+}
+
+.viewport[data-dragging] .card {
+  cursor: grabbing;
+}
+
+/* The work, whole, in a square; a bordeaux frame when chosen. */
+.frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  background: var(--color-image-bg);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  transition: outline-color var(--duration) var(--ease);
+}
+
+.card:hover .frame {
+  outline-color: var(--color-pink);
+}
+
+.card[data-on] .frame {
+  outline-color: var(--color-bordeaux);
+}
+
+.card:has(:focus-visible) .frame {
+  outline-color: var(--color-turquoise);
+}
+
+/* The whole work, never cropped, fitted inside the square with air around it. */
+.image {
+  position: absolute;
+  inset: 10%;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  color: var(--color-ink);
+}
+
+.chosen {
+  color: var(--color-bordeaux);
+}
+
+/* ---------- step 2: colour swatches ---------- */
+
+/* Colours across the full width in three rows of seven; three columns on phones. */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.swatch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  padding: 6px 14px 6px 8px;
+  border: 1px solid var(--color-rule);
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    border-color var(--duration) var(--ease),
+    background-color var(--duration) var(--ease);
+}
+
+.swatch:hover {
+  border-color: var(--color-pink);
+}
+
+.swatch[data-on] {
+  border-color: var(--color-bordeaux);
+  background: rgba(106, 46, 59, 0.06);
+}
+
+.swatch:has(:focus-visible) {
+  outline: 2px solid var(--color-turquoise);
+  outline-offset: 2px;
+}
+
+.chip {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(28, 23, 24, 0.15);
+}
+
+/* ---------- step 4: sizes ---------- */
+
+.sizes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-sm);
+}
+
+.size {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: var(--space-sm);
+  min-height: 150px;
+  padding: var(--space-md) var(--space-sm);
+  border: 1px solid var(--color-rule);
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    border-color var(--duration) var(--ease),
+    background-color var(--duration) var(--ease);
+}
+
+.size:hover {
+  border-color: var(--color-pink);
+}
+
+.size[data-on] {
+  border-color: var(--color-bordeaux);
+  background: rgba(106, 46, 59, 0.06);
+  color: var(--color-bordeaux);
+}
+
+.size:has(:focus-visible) {
+  outline: 2px solid var(--color-turquoise);
+  outline-offset: 2px;
+}
+
+/* A small canvas in proportion: 90 × 70 landscape, 60 × 80 portrait, custom dashed. */
+.sizeShape {
+  display: block;
+  border: 1px solid currentColor;
+}
+
+.sizeShape[data-size="s9070"] {
+  width: 72px;
+  height: 56px;
+}
+
+.sizeShape[data-size="s6080"] {
+  width: 48px;
+  height: 64px;
+}
+
+.sizeShape[data-size="custom"] {
+  width: 60px;
+  height: 60px;
+  border-style: dashed;
+}
+
+/* ---------- fields ---------- */
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.fieldLabel {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+}
+
+.required {
+  color: var(--color-pink);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px var(--space-sm);
+  border: 1px solid var(--color-pink);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-ink);
+  font: 400 var(--type-body) / 1.4 var(--font-serif);
+  transition: border-color var(--duration) var(--ease);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.8;
+}
+
+.field input:hover,
+.field textarea:hover,
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--color-bordeaux);
+}
+
+/* ---------- send ---------- */
+
+.send {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-height: 56px;
+  margin-block-start: var(--space-sm);
+  padding-inline: var(--space-xl);
+  border: 1px solid var(--color-bordeaux);
+  border-radius: var(--radius-none);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+  font: 400 1.25rem / 1 var(--font-serif);
+  cursor: pointer;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.send:hover:not(:disabled) {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+.send:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.note {
+  margin-block-start: var(--space-sm);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  line-height: var(--leading-caption);
+  color: var(--color-muted);
+}
+
+.note:empty {
+  display: none;
+}
+
+.note a {
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+}
+
+.note[data-status="sent"] {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  color: var(--color-bordeaux);
+}
+
+.botcheck,
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  opacity: 0;
+}
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 1100px) {
+  .item {
+    flex-basis: calc((100% - 2 * var(--space-sm)) / 3);
+  }
+}
+
+@media (max-width: 700px) {
+  .request {
+    padding-block: var(--space-md) 0;
+  }
+
+  .stripControls {
+    display: none; /* swiping is the natural way on a phone */
+  }
+
+  .viewport {
+    margin-inline-end: calc(-1 * var(--margin));
+    touch-action: pan-x pan-y;
+  }
+
+  .item {
+    flex-basis: 62%;
+  }
+
+  .legend {
+    font-size: 1.25rem;
+  }
+
+  /* Phones: three rows of colours that scroll sideways, the next column peeking in. */
+  .swatches {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    margin-inline-end: calc(-1 * var(--margin));
+    padding-inline-end: var(--margin);
+    padding-block-end: 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: 0;
+    scrollbar-width: none;
+  }
+
+  .swatches::-webkit-scrollbar {
+    display: none;
+  }
+
+  .swatches > li {
+    scroll-snap-align: start;
+  }
+
+  .swatch {
+    gap: 8px;
+    padding: 8px;
+    font-size: 0.9375rem;
+  }
+
+  .chip {
+    width: 22px;
+    height: 22px;
+  }
+
+  .size {
+    min-height: 120px;
+    padding-inline: var(--space-xs);
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .pair {
+    grid-template-columns: 1fr;
+  }
+
+  .send {
+    justify-self: stretch;
+    justify-content: center;
+  }
+}

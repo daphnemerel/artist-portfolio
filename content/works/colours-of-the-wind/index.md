@@ -3,7 +3,7 @@
 title: "Colours of the Wind"
 year: 2026
 medium: Acrylic on canvas
-dimensions: 35 × 70 cm
+dimensions: 70 × 35 cm
 price: TBC
 number: 6
 featured: true
@@ -13,9 +13,6 @@ images:
       A wide canvas full of wildflowers in the wind: short sweeping strokes of green, mauve, rose
       and violet with touches of orange and white, and a few patches of raised horizontal stripes
       and cross-hatched texture.
-  - src: ./images/02.jpg
-    alt: Colours of the Wind leaning against a light wall, standing on a grey sofa.
-    caption: Against the wall
   - src: ./images/03.jpg
     alt: >-
       Close-up of the brushwork: green leaves, mauve and rose petals, small violet-blue flowers,

@@ -2,7 +2,7 @@
 # Nederlandse teksten bij index.md (CONCEPT, door Claude vertaald). De titel, het werk en de
 # beelden blijven gelijk; hier staan alleen de vertalingen. images: in dezelfde volgorde als index.md.
 medium: Acryl
-availability: Niet beschikbaar
+availability: Beschikbaar vanaf 5 april
 price: N.T.B.
 images:
   - alt: >-
