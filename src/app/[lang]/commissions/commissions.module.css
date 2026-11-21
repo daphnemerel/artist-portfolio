@@ -1,5 +1,5 @@
 /*
- * Commissions: title, lead and the three steps, then the request form below.
+ * Commissions: title, lead and a button, then the request form below.
  * (The studio photo on the left has been left out for now, at Daphne's request.)
  */
 .page {
@@ -9,8 +9,11 @@
 /* ---------- the text ---------- */
 
 .text {
-  max-width: 52rem;
   padding: var(--title-gap) 0 var(--space-lg);
+}
+
+.actions {
+  max-width: 52rem;
 }
 
 .title {
@@ -20,6 +23,9 @@
   line-height: 1;
   letter-spacing: -0.015em;
   color: var(--color-bordeaux);
+  /* A hairline under the title, as on Exhibitions. */
+  padding-block-end: var(--space-sm);
+  border-bottom: var(--border-hairline);
 }
 
 .lead {
@@ -29,41 +35,6 @@
   font-size: 1.1875em;
   line-height: 1.5;
   color: var(--color-ink);
-}
-
-/* number | title | text, one row per step, between hairlines */
-.steps {
-  border-top: var(--border-hairline);
-}
-
-.step {
-  display: grid;
-  grid-template-columns: 3.25em 7.5em minmax(0, 1fr);
-  align-items: baseline;
-  padding-block: 0.875em;
-  border-bottom: var(--border-hairline);
-}
-
-.stepNumber {
-  font-family: var(--font-serif);
-  font-size: 1.75em;
-  line-height: 1;
-  color: var(--color-pink);
-  font-variant-numeric: lining-nums;
-}
-
-.stepTitle {
-  font-family: var(--font-serif);
-  font-size: 1.3125em;
-  font-weight: 400;
-  color: var(--color-bordeaux);
-}
-
-.stepText {
-  font-family: var(--font-serif);
-  font-size: 0.9375em;
-  line-height: 1.45;
-  color: var(--color-muted);
 }
 
 /* Four works, whole, in squares. */
@@ -174,13 +145,5 @@
   /* Keep the title on one line on phones: it scales with the screen width. */
   .title {
     font-size: min(4.5em, 14vw);
-  }
-
-  .step {
-    grid-template-columns: 2.5em minmax(0, 1fr);
-  }
-
-  .stepText {
-    grid-column: 2;
   }
 }

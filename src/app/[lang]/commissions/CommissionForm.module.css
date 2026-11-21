@@ -3,7 +3,7 @@
  * in the serif, bordeaux on off-white. No radius, no shadows (codebook §7, §8).
  */
 .request {
-  padding-block: var(--space-lg) var(--space-lg);
+  padding-block: var(--space-lg) 0; /* the footer follows straight after */
   border-top: var(--border-hairline);
 }
 
@@ -435,7 +435,7 @@
 
 @media (max-width: 700px) {
   .request {
-    padding-block: var(--space-md);
+    padding-block: var(--space-md) 0;
   }
 
   .stripControls {

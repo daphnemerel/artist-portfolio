@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Commissions — design B ("Atelier"), chosen by Daphne. One screen:
- * title, lead, the three steps as rows between hairlines, and a
+ * title, lead and a
  * button down to the request form below (choose a work, colours, a description and a size).
  * Texts in src/i18n/dictionaries.
  */
@@ -46,19 +46,6 @@ export default async function CommissionsPage() {
             {t.title}
           </h1>
           <p className={styles.lead}>{t.lead}</p>
-
-          <h2 className="visually-hidden">{t.stepsLabel}</h2>
-          <ol className={styles.steps}>
-            {t.steps.map((s, i) => (
-              <li key={s.title} className={styles.step}>
-                <span className={styles.stepNumber} aria-hidden="true">
-                  {i + 1}
-                </span>
-                <h3 className={styles.stepTitle}>{s.title}</h3>
-                <p className={styles.stepText}>{s.text}</p>
-              </li>
-            ))}
-          </ol>
 
           <p className={styles.actions}>
             <a href="#aanvraag" className={styles.button}>
