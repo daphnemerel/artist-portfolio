@@ -1,7 +1,7 @@
 /*
  * Consent notice for Google Analytics: a small, quiet panel in the bottom-left corner. Off-white with
- * a hairline and the one overlay shadow the codebook allows (§8); no radius. Both choices look the
- * same, so declining is as easy as accepting.
+ * a hairline and the one overlay shadow the codebook allows (§8); no radius. "Accept" is the filled
+ * bordeaux button; "Decline" stays right beside it, just as visible and as easy to click.
  */
 .banner {
   position: fixed;
@@ -60,6 +60,23 @@
   background: var(--color-bordeaux);
   border-color: var(--color-bordeaux);
   color: var(--color-off-white);
+}
+
+/* Accept: filled bordeaux, like the site's main buttons; it turns light on hover. */
+.accept {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  border-color: var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.accept:hover,
+.accept:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
 }
 
 /* Footer link: looks like the Privacy link next to it. */

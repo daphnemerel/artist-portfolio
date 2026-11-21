@@ -128,8 +128,12 @@ export function ConsentBanner() {
         <button type="button" className={styles.button} onClick={() => choose("denied")}>
           {t.consent.decline}
         </button>
-        <button type="button" className={styles.button} onClick={() => choose("granted")}>
-          {t.consent.accept}
+        <button
+          type="button"
+          className={`${styles.button} ${styles.accept}`}
+          onClick={() => choose("granted")}
+        >
+          {t.consent.accept} <span aria-hidden="true">→</span>
         </button>
       </div>
     </div>
