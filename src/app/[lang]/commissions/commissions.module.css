@@ -20,7 +20,6 @@
 .photo {
   position: relative;
   margin-inline-start: calc(-1 * var(--margin));
-  margin-block-end: -24px; /* runs on to the footer */
   overflow: hidden;
 }
 
@@ -174,6 +173,12 @@
 .button:focus-visible {
   background: transparent;
   color: var(--color-bordeaux);
+}
+
+.note {
+  font-family: var(--font-serif);
+  font-size: 1.0625em;
+  color: var(--color-muted);
 }
 
 .link {
