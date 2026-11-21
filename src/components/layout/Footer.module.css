@@ -113,6 +113,12 @@
   opacity: 0.45;
 }
 
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;

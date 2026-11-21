@@ -275,6 +275,14 @@ export const nl: Dictionary = {
     description: "Hoe Daphne Merel omgaat met je gegevens via deze website en het contactformulier.",
     formNote: "Je gegevens gebruik ik alleen om je bericht te beantwoorden.",
   },
+  consent: {
+    label: "Cookies",
+    text: "Mag ik met Google Analytics bijhouden hoe deze website wordt bezocht? Daarvoor worden cookies geplaatst.",
+    more: "Privacyverklaring",
+    accept: "Accepteren",
+    decline: "Weigeren",
+    settings: "Cookie-instellingen",
+  },
   notFound: {
     title: "Pagina niet gevonden",
     back: "Terug naar het overzicht van werken",
