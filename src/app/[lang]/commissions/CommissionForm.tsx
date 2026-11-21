@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useI18n } from "@/i18n/client";
 import styles from "./CommissionForm.module.css";
 
@@ -51,9 +51,15 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function CommissionForm({
   works,
   email,
+  intro,
+  aside,
 }: {
   works: CommissionWork[];
   email: string;
+  /** The page intro, set above the form title in the left column. */
+  intro?: ReactNode;
+  /** A photo in the right column, its bottom on the hairline under the form title. */
+  aside?: ReactNode;
 }) {
   const { t: dict, href } = useI18n();
   const t = dict.commissions.form;
@@ -136,15 +142,17 @@ export function CommissionForm({
   const sending = status === "sending";
 
   return (
-    <section
-      className={styles.request}
-      id="aanvraag"
-      aria-labelledby="request-title"
-    >
-      <p className={styles.eyebrow}>{t.eyebrow}</p>
-      <h2 id="request-title" className={styles.title}>
-        {t.title}
-      </h2>
+    <section className={styles.request} aria-labelledby="request-title">
+      <div className={styles.head} data-aside={aside ? "" : undefined}>
+        {intro && <div className={styles.intro}>{intro}</div>}
+        <div className={styles.heading} id="aanvraag">
+          <p className={styles.eyebrow}>{t.eyebrow}</p>
+          <h2 id="request-title" className={styles.title}>
+            {t.title}
+          </h2>
+        </div>
+        {aside && <div className={styles.aside}>{aside}</div>}
+      </div>
 
       <form className={styles.form} onSubmit={onSubmit}>
         {/* Spam trap: hidden from people, bots tend to tick it. */}

@@ -1,29 +1,16 @@
 /*
- * Commissions: title, lead and a button, then the request form below.
- * (The studio photo on the left has been left out for now, at Daphne's request.)
+ * Commissions: title, lead and a button on the left, the studio photo on the right, then the
+ * request form. The two-column head is laid out in CommissionForm.module.css (.head).
  */
 .page {
   font-size: 16px;
 }
 
-/* ---------- the text ---------- */
-
-/* Text on the left, the studio photo on the right: a square as tall as the title, lead and button. */
 .text {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 17.5rem;
-  column-gap: var(--space-xl);
-  align-items: start;
   padding: var(--title-gap) 0 var(--space-lg);
 }
 
-.text > :not(.photo) {
-  grid-column: 1;
-}
-
 .photo {
-  grid-column: 2;
-  grid-row: 1 / span 3;
   margin: 0;
 }
 
@@ -173,12 +160,7 @@
 
 @media (max-width: 900px) {
   .text {
-    display: block;
     padding-block-end: var(--space-lg);
-  }
-
-  .photo {
-    margin-block-start: var(--space-lg);
   }
 
   /* Keep the title on one line on phones: it scales with the screen width. */

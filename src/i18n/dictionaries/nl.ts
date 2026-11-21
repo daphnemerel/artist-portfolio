@@ -56,7 +56,7 @@ export const nl: Dictionary = {
       title: "Opdrachten",
       text: "Interesse in een werk op maat of een samenwerking?",
       label: "Bekijk opdrachten",
-      alt: "Tekening in inkt en aquarel van een roze hoekhuis met hoge ramen, een lantaarn en planten in potten langs een oude straat.",
+      alt: "Daphnes hand met een fijn penseel die de grote zilverreiger in Bronze Serenity schildert, op een zachtroze en bronzen ondergrond.",
     },
     exhibitions: {
       title: "Exposities",
@@ -177,7 +177,7 @@ export const nl: Dictionary = {
       workHint: "Welk werk komt het dichtst bij wat je voor ogen hebt?",
       selected: "Gekozen",
       colours: "Kies je kleuren",
-      coloursHint: "Kies de kleuren die je terug wilt zien. Meerdere kan.",
+      coloursHint: "Kies de kleuren die je terug wilt zien.",
       otherColours: "Andere kleuren of opmerkingen",
       otherColoursPlaceholder: "Bijv. warme bronstinten met een vleugje goud",
       palette: {
