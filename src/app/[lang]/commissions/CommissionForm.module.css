@@ -199,12 +199,11 @@
 
 /* ---------- step 2: colour swatches ---------- */
 
-/* Colours in three columns. */
+/* Colours across the full width in three rows of seven; three columns on phones. */
 .swatches {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: var(--space-xs);
-  max-width: 44rem;
 }
 
 .swatch {
@@ -456,18 +455,38 @@
     font-size: 1.25rem;
   }
 
-  /* Phones: the colour above its name, so even long names fit in three columns. */
+  /* Phones: three rows of colours that scroll sideways, the next column peeking in. */
+  .swatches {
+    grid-template-columns: none;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    grid-auto-columns: 42%;
+    margin-inline-end: calc(-1 * var(--margin));
+    padding-inline-end: var(--margin);
+    padding-block-end: 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: 0;
+    scrollbar-width: none;
+  }
+
+  .swatches::-webkit-scrollbar {
+    display: none;
+  }
+
+  .swatches > li {
+    scroll-snap-align: start;
+  }
+
   .swatch {
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 4px;
-    font-size: 0.875rem;
-    text-align: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 0.9375rem;
   }
 
   .chip {
-    width: 100%;
+    width: 22px;
     height: 22px;
   }
 
