@@ -1,0 +1,117 @@
+/*
+ * Consent notice for Google Analytics: a small, quiet panel in the bottom-left corner. Off-white with
+ * a hairline and the one overlay shadow the codebook allows (§8); no radius. "Accept" is the filled
+ * bordeaux button; "Decline" stays right beside it, just as visible and as easy to click.
+ */
+.banner {
+  position: fixed;
+  z-index: 50;
+  left: var(--margin);
+  bottom: var(--space-md);
+  width: min(26rem, calc(100vw - 2 * var(--margin)));
+  padding: var(--space-md);
+  background: var(--color-off-white);
+  border: var(--border-hairline);
+  box-shadow: var(--shadow-overlay);
+  color: var(--color-ink);
+}
+
+.text {
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.more {
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.more:hover,
+.more:focus-visible {
+  color: var(--color-turquoise);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-sm);
+}
+
+.button {
+  flex: 1;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--color-ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: 400 var(--type-nav) / 1.2 var(--font-sans);
+  cursor: pointer;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--color-bordeaux);
+  border-color: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+/* Accept: filled bordeaux, like the site's main buttons; it turns light on hover. */
+.accept {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  border-color: var(--color-bordeaux);
+  background: var(--color-bordeaux);
+  color: var(--color-off-white);
+}
+
+.accept:hover,
+.accept:focus-visible {
+  background: transparent;
+  color: var(--color-bordeaux);
+}
+
+/* Footer link: looks like the Privacy link next to it. */
+.settings {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.settings {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color var(--duration) var(--ease);
+}
+
+.settings:hover {
+  text-decoration-color: var(--color-turquoise);
+}
+
+.settings:focus-visible {
+  outline-color: var(--color-off-white);
+}
+
+@media (max-width: 700px) {
+  .banner {
+    left: var(--space-sm);
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+    width: auto;
+    padding: var(--space-sm);
+  }
+}

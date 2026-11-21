@@ -275,6 +275,14 @@ export const en = {
     description: "How Daphne Merel handles your details on this website and in the contact form.",
     formNote: "I only use your details to reply to your message.",
   },
+  consent: {
+    label: "Cookies",
+    text: "May I use Google Analytics to see how this website is visited? This places cookies.",
+    more: "Privacy statement",
+    accept: "Accept",
+    decline: "Decline",
+    settings: "Cookie settings",
+  },
   notFound: {
     title: "Page not found",
     back: "Return to the works index",

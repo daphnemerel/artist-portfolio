@@ -3,6 +3,7 @@ import { Manrope, Newsreader } from "next/font/google";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ConsentBanner } from "@/components/analytics/Consent";
 import { I18nProvider } from "@/i18n/client";
 import { isLocale, localeTag, locales } from "@/i18n/config";
 import { dictionaries } from "@/i18n/dictionaries";
@@ -67,6 +68,7 @@ export default async function RootLayout({
           <Header />
           <main id="main">{children}</main>
           <Footer />
+          <ConsentBanner />
         </I18nProvider>
       </body>
     </html>

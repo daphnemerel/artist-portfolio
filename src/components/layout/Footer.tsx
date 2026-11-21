@@ -2,6 +2,7 @@ import Link from "next/link";
 import { format } from "@/i18n/config";
 import { getI18n } from "@/i18n/server";
 import { getSite } from "@/lib/content";
+import { ConsentSettingsLink } from "@/components/analytics/Consent";
 import { navLinks } from "./navigation";
 import { SocialIcon, socialAccounts } from "./social";
 import styles from "./Footer.module.css";
@@ -70,7 +71,10 @@ export async function Footer() {
         <p>
           © {new Date().getFullYear()} {site.name}
         </p>
-        <Link href={localize("/privacy")}>{t.privacy.link}</Link>
+        <p className={styles.legal}>
+          <ConsentSettingsLink label={t.consent.settings} />
+          <Link href={localize("/privacy")}>{t.privacy.link}</Link>
+        </p>
       </div>
     </footer>
   );

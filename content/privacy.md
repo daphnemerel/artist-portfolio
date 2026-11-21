@@ -1,6 +1,6 @@
 ---
 title: Privacy statement
-updated: October 2026
+updated: November 2026
 ---
 
 This website belongs to Daphne Merel, artist. I handle your details with care and collect no more than necessary.
@@ -15,7 +15,9 @@ The website is hosted by Vercel. As with any website, technical details such as 
 
 ## Cookies and statistics
 
-This website uses no tracking or advertising cookies and no visitor statistics. The fonts are served from the website itself.
+Only if you give your consent do I use **Google Analytics** (by Google) to see how this website is visited, for example which pages are viewed. This places cookies. Without your consent Google Analytics is not loaded. Advertising features and Google signals are switched off, and I do not share this data with anyone. You can change or withdraw your choice at any time via **Cookie settings** at the bottom of every page; the Google Analytics cookies are then removed. See also Google's privacy policy.
+
+Otherwise this website uses no tracking or advertising cookies. Your choice about statistics is stored only in your own browser. The fonts are served from the website itself.
 
 ## Google Maps
 
