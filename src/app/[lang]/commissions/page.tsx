@@ -39,42 +39,41 @@ export default async function CommissionsPage() {
       },
     }));
 
+  const intro = (
+    <section className={styles.text} aria-labelledby="commissions-title">
+      <h1 id="commissions-title" className={styles.title}>
+        {t.title}
+      </h1>
+      <p className={styles.lead}>{t.lead}</p>
+      <p className={styles.actions}>
+        <a href="#aanvraag" className={styles.button}>
+          {t.ask} <span aria-hidden="true">↓</span>
+        </a>
+        <span className={styles.note}>{t.priceNote}</span>
+      </p>
+    </section>
+  );
+
+  const photo = (
+    <figure className={styles.photo}>
+      <span className={styles.photoFrame}>
+        <Image
+          src="/images/commissions-egret.jpg"
+          alt={t.photoAlt}
+          fill
+          sizes="(max-width: 900px) 100vw, 26rem"
+          quality={90}
+          priority
+          className={styles.photoImage}
+        />
+      </span>
+      <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
+    </figure>
+  );
+
   return (
-    <>
-      <div className={`${styles.page} container`}>
-        <section className={styles.text} aria-labelledby="commissions-title">
-          <h1 id="commissions-title" className={styles.title}>
-            {t.title}
-          </h1>
-          <p className={styles.lead}>{t.lead}</p>
-
-          <p className={styles.actions}>
-            <a href="#aanvraag" className={styles.button}>
-              {t.ask} <span aria-hidden="true">↓</span>
-            </a>
-            <span className={styles.note}>{t.priceNote}</span>
-          </p>
-
-          <figure className={styles.photo}>
-            <span className={styles.photoFrame}>
-              <Image
-                src="/images/commissions-egret.jpg"
-                alt={t.photoAlt}
-                fill
-                sizes="(max-width: 900px) 100vw, 23rem"
-                quality={90}
-                priority
-                className={styles.photoImage}
-              />
-            </span>
-            <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
-          </figure>
-        </section>
-      </div>
-
-      <div className="container" data-tight-footer="">
-        <CommissionForm works={works} email={site.email} />
-      </div>
-    </>
+    <div className={`${styles.page} container`} data-tight-footer="">
+      <CommissionForm works={works} email={site.email} intro={intro} aside={photo} />
+    </div>
   );
 }

@@ -56,7 +56,7 @@ export const nl: Dictionary = {
       title: "Opdrachten",
       text: "Interesse in een werk op maat of een samenwerking?",
       label: "Bekijk opdrachten",
-      alt: "Tekening in inkt en aquarel van een roze hoekhuis met hoge ramen, een lantaarn en planten in potten langs een oude straat.",
+      alt: "Daphnes hand met een fijn penseel die de grote zilverreiger in Bronze Serenity schildert, op een zachtroze en bronzen ondergrond.",
     },
     exhibitions: {
       title: "Exposities",

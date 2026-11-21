@@ -3,8 +3,38 @@
  * in the serif, bordeaux on off-white. No radius, no shadows (codebook §7, §8).
  */
 .request {
-  padding-block: var(--space-lg) 0; /* the footer follows straight after */
+  padding-block-end: 0; /* the footer follows straight after */
+}
+
+/*
+ * Intro and form title on the left, the photo on the right. The photo's bottom sits on the
+ * hairline above step 1; the hairline between intro and form title stops short of it.
+ */
+.head[data-aside] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 26rem;
+  grid-template-areas:
+    "intro aside"
+    "heading aside";
+  column-gap: var(--space-xl);
+}
+
+.intro {
+  grid-area: intro;
+}
+
+.heading {
+  grid-area: heading;
+  align-self: end;
+  padding-block-start: var(--space-lg);
   border-top: var(--border-hairline);
+  scroll-margin-top: var(--space-xl);
+}
+
+.aside {
+  grid-area: aside;
+  align-self: end;
+  padding-block: var(--title-gap) var(--space-md);
 }
 
 .eyebrow {
@@ -434,8 +464,23 @@
 }
 
 @media (max-width: 700px) {
-  .request {
-    padding-block: var(--space-md) 0;
+  .head[data-aside] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .intro {
+    order: 1;
+  }
+
+  .aside {
+    order: 2;
+    padding-block: 0 var(--space-lg);
+  }
+
+  .heading {
+    order: 3;
+    padding-block-start: var(--space-md);
   }
 
   .stripControls {

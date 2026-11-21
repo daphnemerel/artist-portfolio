@@ -56,7 +56,7 @@ export const en = {
       title: "Commissions",
       text: "Interested in a custom work or collaboration?",
       label: "View commissions",
-      alt: "Ink and watercolour drawing of a pink corner house with tall windows, a lantern and potted plants along an old street.",
+      alt: "Daphne's hand with a fine brush painting the great egret in Bronze Serenity, on a soft rose and bronze ground.",
     },
     exhibitions: {
       title: "Exhibitions",
