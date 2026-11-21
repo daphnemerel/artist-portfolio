@@ -100,8 +100,8 @@ export default async function ContactPage() {
         <Image
           src="/images/contact-studio.jpg"
           alt={t.contact.photoAlt}
-          width={850}
-          height={1560}
+          width={1024}
+          height={1536}
           sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 30vw"
           quality={90}
           priority
