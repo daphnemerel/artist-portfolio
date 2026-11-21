@@ -3,7 +3,7 @@
  * in the serif, bordeaux on off-white. No radius, no shadows (codebook §7, §8).
  */
 .request {
-  padding-block: var(--space-2xl) var(--space-xl);
+  padding-block: var(--space-lg) var(--space-lg);
   border-top: var(--border-hairline);
 }
 
@@ -24,7 +24,7 @@
 }
 
 .title {
-  margin-block: var(--space-sm) var(--space-lg);
+  margin-block: var(--space-xs) var(--space-md);
   font-family: var(--font-serif);
   font-size: var(--type-heading-lg);
   font-weight: 400;
@@ -43,7 +43,7 @@
   gap: var(--space-sm);
   min-width: 0; /* let the strip scroll inside the fieldset */
   margin: 0;
-  padding: var(--space-lg) 0;
+  padding: var(--space-md) 0;
   border: 0;
   border-top: var(--border-hairline);
 }
@@ -367,7 +367,7 @@
   align-items: center;
   gap: var(--space-sm);
   min-height: 56px;
-  margin-block-start: var(--space-md);
+  margin-block-start: var(--space-sm);
   padding-inline: var(--space-xl);
   border: 1px solid var(--color-bordeaux);
   border-radius: var(--radius-none);
@@ -435,7 +435,7 @@
 
 @media (max-width: 700px) {
   .request {
-    padding-block: var(--space-xl);
+    padding-block: var(--space-md);
   }
 
   .stripControls {

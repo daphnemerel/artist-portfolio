@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
 import { getSite, getWorks } from "@/lib/content";
@@ -17,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 /**
  * Commissions — design B ("Atelier"), chosen by Daphne. One screen:
- * left, the studio photo; right, title, lead, the three steps as rows between hairlines, and a
+ * title, lead, the three steps as rows between hairlines, and a
  * button down to the request form below (choose a work, colours, a description and a size).
  * Texts in src/i18n/dictionaries.
  */
@@ -42,19 +41,6 @@ export default async function CommissionsPage() {
   return (
     <>
       <div className={`${styles.page} container`}>
-        <figure className={styles.photo}>
-          <Image
-            src="/images/commissions-egret.jpg"
-            alt={t.photoAlt}
-            fill
-            sizes="(max-width: 900px) 100vw, 46vw"
-            quality={90}
-            priority
-            className={styles.photoImage}
-          />
-          <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
-        </figure>
-
         <section className={styles.text} aria-labelledby="commissions-title">
           <h1 id="commissions-title" className={styles.title}>
             {t.title}
