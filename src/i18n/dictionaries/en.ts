@@ -177,7 +177,7 @@ export const en = {
       workHint: "Which work comes closest to what you have in mind?",
       selected: "Chosen",
       colours: "Choose your colours",
-      coloursHint: "Choose the colours you would like to see. You can pick several.",
+      coloursHint: "Choose the colours you would like to see.",
       otherColours: "Other colours or notes",
       otherColoursPlaceholder: "E.g. warm bronze tones with a touch of gold",
       palette: {

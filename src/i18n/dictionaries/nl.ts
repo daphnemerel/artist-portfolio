@@ -177,7 +177,7 @@ export const nl: Dictionary = {
       workHint: "Welk werk komt het dichtst bij wat je voor ogen hebt?",
       selected: "Gekozen",
       colours: "Kies je kleuren",
-      coloursHint: "Kies de kleuren die je terug wilt zien. Meerdere kan.",
+      coloursHint: "Kies de kleuren die je terug wilt zien.",
       otherColours: "Andere kleuren of opmerkingen",
       otherColoursPlaceholder: "Bijv. warme bronstinten met een vleugje goud",
       palette: {
