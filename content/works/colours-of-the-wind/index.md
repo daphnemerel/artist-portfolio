@@ -3,7 +3,7 @@
 title: "Colours of the Wind"
 year: 2026
 medium: Acrylic on canvas
-dimensions: 35 × 70 cm
+dimensions: 70 × 35 cm
 price: TBC
 number: 6
 featured: true
