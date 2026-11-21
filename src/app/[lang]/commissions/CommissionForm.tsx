@@ -23,16 +23,25 @@ export type CommissionWork = {
 const PALETTE = [
   { key: "bordeaux", hex: "#6a2e3b" },
   { key: "rose", hex: "#d79a9a" },
+  { key: "dustyRose", hex: "#c08a8e" },
   { key: "coral", hex: "#e08a6e" },
+  { key: "peach", hex: "#f0bfa0" },
+  { key: "terracotta", hex: "#b5583c" },
   { key: "gold", hex: "#c9a14a" },
+  { key: "bronze", hex: "#8c5a2b" },
   { key: "ochre", hex: "#b9802f" },
   { key: "sand", hex: "#e4d3b8" },
+  { key: "cream", hex: "#f3e9d2" },
   { key: "green", hex: "#3f6b45" },
   { key: "sage", hex: "#9fb59a" },
+  { key: "olive", hex: "#76773c" },
   { key: "turquoise", hex: "#5faead" },
   { key: "blue", hex: "#4f5fa8" },
+  { key: "navy", hex: "#23314f" },
   { key: "lilac", hex: "#a88bc0" },
-  { key: "white", hex: "#f6f1ec" },
+  { key: "purple", hex: "#6b3f7a" },
+  { key: "white", hex: "#fbf9f6" },
+  { key: "black", hex: "#1c1718" },
 ] as const;
 
 const SIZES = ["s9070", "s6080", "custom"] as const;
