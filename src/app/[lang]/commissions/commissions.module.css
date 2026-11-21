@@ -8,8 +8,38 @@
 
 /* ---------- the text ---------- */
 
+/* Text on the left, the studio photo on the right (whole, not cropped). */
 .text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  grid-template-rows: auto auto 1fr;
+  column-gap: var(--space-xl);
+  align-items: start;
   padding: var(--title-gap) 0 var(--space-lg);
+}
+
+.text > :not(.photo) {
+  grid-column: 1;
+}
+
+.photo {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  margin: 0;
+}
+
+.photoImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.caption {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--type-caption);
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
 }
 
 .actions {
@@ -84,7 +114,7 @@
 }
 
 .actions {
-  margin-block-start: 1.75em;
+  margin-block-start: 0; /* the lead's bottom margin gives the space (grid margins don't collapse) */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -139,7 +169,12 @@
 
 @media (max-width: 900px) {
   .text {
+    display: block;
     padding-block-end: var(--space-lg);
+  }
+
+  .photo {
+    margin-block-start: var(--space-lg);
   }
 
   /* Keep the title on one line on phones: it scales with the screen width. */

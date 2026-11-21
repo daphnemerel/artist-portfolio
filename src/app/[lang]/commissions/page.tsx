@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { alternates } from "@/i18n/metadata";
 import { getI18n } from "@/i18n/server";
 import { getSite, getWorks } from "@/lib/content";
@@ -53,6 +54,20 @@ export default async function CommissionsPage() {
             </a>
             <span className={styles.note}>{t.priceNote}</span>
           </p>
+
+          <figure className={styles.photo}>
+            <Image
+              src="/images/commissions-egret.jpg"
+              alt={t.photoAlt}
+              width={1061}
+              height={1403}
+              sizes="(max-width: 900px) 100vw, 22rem"
+              quality={90}
+              priority
+              className={styles.photoImage}
+            />
+            <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
+          </figure>
         </section>
       </div>
 
