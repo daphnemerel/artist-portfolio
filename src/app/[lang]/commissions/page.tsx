@@ -56,16 +56,17 @@ export default async function CommissionsPage() {
           </p>
 
           <figure className={styles.photo}>
-            <Image
-              src="/images/commissions-egret.jpg"
-              alt={t.photoAlt}
-              width={1061}
-              height={1403}
-              sizes="(max-width: 900px) 100vw, 22rem"
-              quality={90}
-              priority
-              className={styles.photoImage}
-            />
+            <span className={styles.photoFrame}>
+              <Image
+                src="/images/commissions-egret.jpg"
+                alt={t.photoAlt}
+                fill
+                sizes="(max-width: 900px) 100vw, 17.5rem"
+                quality={90}
+                priority
+                className={styles.photoImage}
+              />
+            </span>
             <figcaption className={styles.caption}>{t.photoCaption}</figcaption>
           </figure>
         </section>

@@ -8,11 +8,10 @@
 
 /* ---------- the text ---------- */
 
-/* Text on the left, the studio photo on the right (whole, not cropped). */
+/* Text on the left, the studio photo on the right: a square as tall as the title, lead and button. */
 .text {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 22rem;
-  grid-template-rows: auto auto 1fr;
+  grid-template-columns: minmax(0, 1fr) 17.5rem;
   column-gap: var(--space-xl);
   align-items: start;
   padding: var(--title-gap) 0 var(--space-lg);
@@ -28,10 +27,15 @@
   margin: 0;
 }
 
-.photoImage {
+.photoFrame {
+  position: relative;
   display: block;
-  width: 100%;
-  height: auto;
+  aspect-ratio: 1;
+}
+
+.photoImage {
+  object-fit: cover;
+  object-position: 55% 45%; /* keep the egret and the brush in view */
 }
 
 .caption {
