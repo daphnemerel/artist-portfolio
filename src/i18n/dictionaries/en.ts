@@ -158,8 +158,8 @@ export const en = {
     lead: "Do you have an idea for a personal work, a gift or a collaboration? I'm happy to think along about a unique piece made for you, in my own style.",
     ask: "Request a commission",
     subject: "Commission enquiry",
-    photoAlt: "Daphne in a floral dress at her easel in a sunlit studio, painting Catching Waves: thick turquoise paint with tiny surfers.",
-    photoCaption: "In the studio, working on Catching Waves",
+    photoAlt: "Daphne's hand with a fine brush painting the great egret in Bronze Serenity, on a soft rose and bronze ground.",
+    photoCaption: "In the studio, working on Bronze Serenity",
     priceNote: "Price and size on request",
     stepsLabel: "How it works",
     steps: [
@@ -187,7 +187,7 @@ export const en = {
     instagram: "Instagram",
     instagramHint: "Also reachable by DM on Instagram",
     representation: "Representation",
-    photoAlt: "The artist at her easel in a sunlit studio, painting Catching Waves.",
+    photoAlt: "Daphne at her easel by a window with blinds, painting the egret in Bronze Serenity, a palette beside her.",
     messageEyebrow: "Send a message",
     lead: "Prefer to send a direct message? Use the form below and I’ll get back to you as soon as possible.",
     /** The same, shorter, on phones. */

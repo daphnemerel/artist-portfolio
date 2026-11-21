@@ -158,8 +158,8 @@ export const nl: Dictionary = {
     lead: "Heb je een idee voor een persoonlijk werk, een cadeau of een samenwerking? Ik denk graag mee over een uniek werk op maat, in mijn eigen stijl.",
     ask: "Vraag een opdracht aan",
     subject: "Vraag over een opdracht",
-    photoAlt: "Daphne in een gebloemde jurk aan haar ezel in een zonnig atelier, terwijl ze Catching Waves schildert: dikke turquoise verf met kleine surfers.",
-    photoCaption: "In het atelier, aan Catching Waves",
+    photoAlt: "Daphnes hand met een fijn penseel die de grote zilverreiger in Bronze Serenity schildert, op een zachtroze en bronzen ondergrond.",
+    photoCaption: "In het atelier, aan Bronze Serenity",
     priceNote: "Prijs en formaat op aanvraag",
     stepsLabel: "Zo werkt het",
     steps: [
@@ -187,7 +187,7 @@ export const nl: Dictionary = {
     instagram: "Instagram",
     instagramHint: "Ook bereikbaar via een DM op Instagram",
     representation: "Vertegenwoordiging",
-    photoAlt: "De kunstenaar aan haar ezel in een zonnig atelier, terwijl ze Catching Waves schildert.",
+    photoAlt: "Daphne aan haar ezel bij een raam met jaloezieën, terwijl ze de reiger in Bronze Serenity schildert, met een palet naast zich.",
     messageEyebrow: "Stuur een bericht",
     lead: "Liever direct een bericht sturen? Gebruik het formulier hieronder, dan reageer ik zo snel mogelijk.",
     /** The same, shorter, on phones. */

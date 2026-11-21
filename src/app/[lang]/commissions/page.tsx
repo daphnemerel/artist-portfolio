@@ -37,7 +37,7 @@ export default async function CommissionsPage() {
     <div className={`${styles.page} container`} data-tight-footer="">
       <figure className={styles.photo}>
         <Image
-          src="/images/commissions-studio.jpg"
+          src="/images/commissions-egret.jpg"
           alt={t.photoAlt}
           fill
           sizes="(max-width: 900px) 100vw, 46vw"
