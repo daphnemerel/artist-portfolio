@@ -61,7 +61,7 @@ export default async function CommissionsPage() {
                 src="/images/commissions-egret.jpg"
                 alt={t.photoAlt}
                 fill
-                sizes="(max-width: 900px) 100vw, 17.5rem"
+                sizes="(max-width: 900px) 100vw, 23rem"
                 quality={90}
                 priority
                 className={styles.photoImage}

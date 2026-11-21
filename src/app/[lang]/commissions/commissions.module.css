@@ -11,7 +11,8 @@
 /* Text on the left, the studio photo on the right: a square as tall as the title, lead and button. */
 .text {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 17.5rem;
+  grid-template-columns: minmax(0, 1fr) 23rem;
+  grid-template-rows: auto auto auto 1fr; /* extra height goes below the button, not between the lines */
   column-gap: var(--space-xl);
   align-items: start;
   padding: var(--title-gap) 0 var(--space-lg);
@@ -23,7 +24,7 @@
 
 .photo {
   grid-column: 2;
-  grid-row: 1 / span 3;
+  grid-row: 1 / span 4;
   margin: 0;
 }
 
